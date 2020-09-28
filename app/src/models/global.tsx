@@ -14,33 +14,32 @@ export default {
     state: initalState,
     reducers: {
         'start'(state: globalState, { payload }: any) {
-            console.log('asdasd')
             setTimeout(() => {
-                const { origin } = window.location
-                window.location.href = origin + '/mainGame'
+                const { origin, pathname } = window.location
+                window.location.href = origin + pathname + '#/mainGame'
             }, 0)
             return initalState
         },
         'load'(state: globalState, { payload }: any) {
             console.log(payload)
             setTimeout(() => {
-                const { origin } = window.location
-                window.location.href = origin + '/mainGame'
+                const { origin, pathname } = window.location
+                window.location.href = origin + pathname + '#/mainGame'
             }, 0)
             return { ...initalState, LoadDataFromLoadPage: payload }
         },
         'reviewScence'(state: globalState, { payload }: any) {
-            const script = payload.script.map((v:any, i: number) => {
+            const script = payload.script.map((v: any, i: number) => {
                 if (i === 0) {
                     return { ...v, isBegin: true }
                 }
                 return v
             })
             setTimeout(() => {
-                const { origin } = window.location
-                window.location.href = origin + '#/mainGame'
+                const { origin, pathname } = window.location
+                window.location.href = origin + pathname + '#/mainGame'
             }, 0)
-            const newConbine = { ...RawScript, chapters: {chapter1:script} }
+            const newConbine = { ...RawScript, chapters: { chapter1: script } }
             console.log(newConbine)
             return { ...state, RawScript: newConbine, isReview: true }
         },

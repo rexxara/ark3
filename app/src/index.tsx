@@ -2,8 +2,7 @@ import './index.css';
 import Global from './models/global'
 //import * as serviceWorker from './serviceWorker';
 import dva from 'dva';
-import createHistory from 'history/createBrowserHistory';
-
+import createHistory from 'history/createHashHistory';
 const app = dva(
   { history: createHistory() }
 );

@@ -1,7 +1,7 @@
 import React from 'react';
 import './index.css';
 import 'animate.css'
-import {  Route, BrowserRouter } from 'dva/router';
+import {  Route, HashRouter } from 'dva/router';
 import IniPage from './loadingPages/IniPage'
 import copyrightPage from './loadingPages/copyrightPage'
 import alertPage from './loadingPages/alertPage'
@@ -43,7 +43,7 @@ interface IProps {
 }
 const App: React.FC<IProps> = ({ history }) => {
   console.log(history)
-  return <BrowserRouter>
+  return <HashRouter>
     <div style={indexStyle} className='App'>
       <title>kimi no hanashi</title>
       <Route exact path="/" children={props => <WarpedIniPage  {...props} />} />
@@ -59,7 +59,8 @@ const App: React.FC<IProps> = ({ history }) => {
       <Route path="/ScenceReview" children={props => <WarpedScenceReview {...props} />} />
       <Route path="/loadPage" children={props => <WarpedLoadPage {...props} />} />
       <Route  path="/paintGame" component={PaintGame}></Route>
+      <Route></Route>
     </div>
-  </BrowserRouter>
+  </HashRouter>
 }
 export default App;
