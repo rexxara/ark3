@@ -5,7 +5,7 @@ import { connect } from 'dva'
 import { AnyAction } from 'redux'
 import { vh, vw } from '../utils/getSize'
 import TitleCache from '../components/Game/titles/TitleCache'
-import styles from './index.css'
+import './index.css'
 interface Iprops {
   dispatch: (a: AnyAction) => AnyAction
 }
@@ -16,7 +16,7 @@ const LoginPage = (props: Iprops) => {
     })
   }
   return <Scence>
-    <div style={{ width: vw(100), height: (vh(100)) }} className={styles.bodyAnimate}>
+    <div style={{ width: vw(100), height: (vh(100)) }} className='bodyAnimate'>
       <div style={{ width: '100%', height: vh(50) }}></div>
       {/* <Abutton to="/playGround" text="游乐场" /> */}
       <Abutton onClick={startGame} text="开始游戏" />
@@ -28,4 +28,4 @@ const LoginPage = (props: Iprops) => {
   </Scence>
 }
 
-export default connect((store) => store)(LoginPage)
+export default connect((store: any) => store)(LoginPage)

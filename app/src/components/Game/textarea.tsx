@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import styles from './style.css'
+import './style.css'
 interface IProps {
     text: string,
     speed?: number,

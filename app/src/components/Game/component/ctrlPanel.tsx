@@ -1,7 +1,18 @@
 import React, { useState } from 'react'
-import styles from '../style.css'
+import  '../style.css'
 import Abutton from '../../Abutton'
-import { Icon } from 'antd'
+import {
+    CloseSquareOutlined,
+    CloudDownloadOutlined,
+    CloudUploadOutlined,
+    PauseCircleOutlined,
+    PlayCircleOutlined,
+    RollbackOutlined,
+    SaveOutlined,
+    DoubleRightOutlined,
+    DoubleLeftOutlined
+} from '@ant-design/icons';
+
 import { vw } from '../../../utils/getSize'
 import Log from './Log'
 interface IProps {
@@ -25,25 +36,27 @@ export default function CtrlPanel({ clickHandle, rawLine, displayName, saveDataC
     const openHandle = () => {
         setOpen((state: boolean) => !state)
     }
-    return <div className={styles.ctrlPanle} style={{ width: open ? vw(100) : vw(10) }}>
-        {/* <p>第<Abutton onClick={(ev) => clickHandle(ev, { reset: true })}>{linePointer}</Abutton>行</p> */}
-        {/* <Abutton onClick={nextChapter}>下一章</Abutton> */}
-        {/* <p>在场人物<span></span></p>
-        <p>{displaycharactersArray.map(v => v.name)}</p> */}
-        {open && <React.Fragment>
-            <Abutton type='small' onClick={toogleAuto}>{auto ? <Icon type="pause-circle" /> : <Icon type="play-circle" />}</Abutton>
-        </React.Fragment>}
-        <span style={{ display: open ? 'inline-block' : 'none' }}>
-            <Log rawLine={rawLine} displayName={displayName} />
-        </span>
-        {open && <>
-            <Abutton type='small' onClick={quickSave}><span><Icon type="cloud-download" /></span></Abutton>
-            <Abutton type='small' onClick={quickLoad}><Icon type="cloud-upload" /></Abutton>
-            <Abutton type='small'
-                onClick={saveDataConOpen ? closeSaveCon : openSaveCon}>
-                {saveDataConOpen ? <Icon type="close-square" /> : <Icon type="save" />}</Abutton>
-            <Abutton type='small' onClick={() => window.history.back()}><Icon type="rollback" /></Abutton>
-        </>}
-        <Abutton type='small' onClick={openHandle}><Icon type={open ? "double-right" : 'double-left'} /></Abutton>
-    </div>
+    return (
+        <div className='ctrlPanle' style={{ width: open ? vw(100) : vw(10) }}>
+            {/* <p>第<Abutton onClick={(ev) => clickHandle(ev, { reset: true })}>{linePointer}</Abutton>行</p> */}
+            {/* <Abutton onClick={nextChapter}>下一章</Abutton> */}
+            {/* <p>在场人物<span></span></p>
+            <p>{displaycharactersArray.map(v => v.name)}</p> */}
+            {open && <React.Fragment>
+                <Abutton type='small' onClick={toogleAuto}>{auto ? <PauseCircleOutlined /> : <PlayCircleOutlined />}</Abutton>
+            </React.Fragment>}
+            <span style={{ display: open ? 'inline-block' : 'none' }}>
+                <Log rawLine={rawLine} displayName={displayName} />
+            </span>
+            {open && <>
+                <Abutton type='small' onClick={quickSave}><span><CloudDownloadOutlined /></span></Abutton>
+                <Abutton type='small' onClick={quickLoad}><CloudUploadOutlined /></Abutton>
+                <Abutton type='small'
+                    onClick={saveDataConOpen ? closeSaveCon : openSaveCon}>
+                    {saveDataConOpen ? <CloseSquareOutlined /> : <SaveOutlined />}</Abutton>
+                <Abutton type='small' onClick={() => window.history.back()}><RollbackOutlined /></Abutton>
+            </>}
+            <Abutton type='small' onClick={openHandle}>{open?<DoubleRightOutlined/>:<DoubleLeftOutlined/>}</Abutton>
+        </div>
+    );
 }

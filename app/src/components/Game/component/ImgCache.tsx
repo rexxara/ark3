@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import styles from '../style.css'
+import  '../style.css'
 import { ChapterCache } from '../../../utils/types'
 import { AudioCaches } from '../gameTypes'
 import { message } from 'antd'
@@ -14,7 +14,7 @@ export interface AudioBlob {
     type: 'bgm' | 'se'
 }
 const TITLE_DISPLAY_TIME = 1000
-export default function saveDataCon({ callback, caches, onProgress }: IProps) {
+export default function SaveDataCon({ callback, caches, onProgress }: IProps) {
     const [bgs, setBgs]: [Array<string>, Function] = useState([])
     const [cgs, setCgs]: [Array<string>, Function] = useState([])
     const [chs, setChs]: [Array<string>, Function] = useState([])
@@ -127,22 +127,20 @@ export default function saveDataCon({ callback, caches, onProgress }: IProps) {
         setLoadedCount(pre => pre + 1)
     }
     return <div>
-        {/* {bgms.map(audioBlob => <audio key={audioBlob.src} src={audioBlob.blob} ></audio>)}
-        {ses.map(audioBlob => <audio key={audioBlob.src} src={audioBlob.blob} ></audio>)} */}
         {bgs.map(imgsrc => <img
-            className={styles.cacheImg}
+            className='cacheImg'
             key={imgsrc}
             onLoad={updateCount}
             src={require(`../../../scripts/backgrounds/${imgsrc}`)} />
         )}
         {cgs.map(imgsrc => <img
-            className={styles.cacheImg}
+            className='cacheImg'
             key={imgsrc}
             onLoad={updateCount}
             src={require(`../../../scripts/CGs/${imgsrc}`)} />
         )}
         {chs.map(imgsrc => <img
-            className={styles.cacheImg}
+            className='cacheImg'
             key={imgsrc}
             onLoad={updateCount}
             src={require(`../../../scripts/charatersImages/${imgsrc}`)} />

@@ -43,7 +43,6 @@ function charatersPreProcess(characters: Characters): Characters {
         if (characters.hasOwnProperty(key)) {
             res[key] = JSON.parse(JSON.stringify(characters[key]))
             const sd = { ...characters[key].images, none: NO_IMG }
-            console.log(res[key])
             res[key].images = sd
         }
     }
@@ -88,7 +87,6 @@ const scencesValidator = (RawScript: RawScript) => {
     return flag
 }
 const gameLoader = (rawScript: RawScript, needDecode: boolean, IsCRLF: boolean): GameModel3 => {
-
     const { variables, backgrounds, BGMs, cgs, chapters, soundEffects } = rawScript
     const inputs = inputPreprocess(rawScript.inputs)
     const charaters = charatersPreProcess(rawScript.charaters)
@@ -112,7 +110,6 @@ const gameLoader = (rawScript: RawScript, needDecode: boolean, IsCRLF: boolean):
             arkMark: arkMark
         }
     })
-
     let caches: ChapterCaches = {}
     res = res.map(v => {
         const { preLoadCgs, preLoadBackgrounds, preLoadCharaters, preLoadBgms, preloadSoundEffects, ...rest } = v
@@ -132,7 +129,7 @@ const gameLoader = (rawScript: RawScript, needDecode: boolean, IsCRLF: boolean):
 }
 const main = (rawScript: RawScript, needDecode: boolean, IsCRLF: boolean) => {
     if (!RawScriptValidator(rawScript)) return false
-    return gameLoader(rawScript, true, true)
+    return gameLoader(rawScript, false, true)
 }
 
 
@@ -217,7 +214,7 @@ export function commandProcess(matchedRawLine: RegExpMatchArray,
     chooses: Chooses,
     inputs: Inputs, soundEffects: SoundEffects
 ): CommandLine {
-    const [command, key] = splitFromFirstKey(matchedRawLine[1].slice(1,matchedRawLine[1].length-1), ":")
+    const [command, key] = splitFromFirstKey(matchedRawLine[1].slice(1, matchedRawLine[1].length - 1), ":")
     switch (command) {
         case LINE_TYPE.COMMAND_SHOW_BACKGROUND:
             if (backgrounds[key]) {
@@ -349,7 +346,7 @@ export function commandProcess(matchedRawLine: RegExpMatchArray,
     }
 }
 // export const oldActionReg = /(?<!\/\/)\[(.*)\]/
-export const actionReg=/(\[.*?\])/
+export const actionReg = /(\[.*?\])/
 function lineTypeJudger(lineText: string[], currentSpaceLine: number[], currentSingleSpaceLine: number[]) {
     const rawLine = filterSpace(lineText.join(""))
     const commentReg = /\/\//

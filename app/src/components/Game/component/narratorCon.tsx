@@ -1,8 +1,7 @@
 import React from 'react'
-import styles from '../style.css'
-import { vw, vh } from '@/utils/getSize'
-//@ts-ignore
+import  '../style.css'
 import { CSSTransition } from 'react-transition-group'
+import { vh, vw } from '../../../utils/getSize';
 
 interface IProps {
     narratorMode: string[] | undefined,
@@ -44,11 +43,11 @@ class App extends React.Component<IProps>{
             mountOnEnter={true}
             unmountOnExit={true}
         >
-            {narratorMode ? <div className={styles.narrator} id="narrator" style={{ marginLeft: vw(10), marginTop: vh(10), maxWidth: vw(80), height: vh(80) }}>{
+            {narratorMode ? <div className={'narrator'} id="narrator" style={{ marginLeft: vw(10), marginTop: vh(10), maxWidth: vw(80), height: vh(80) }}>{
                 narratorMode.map((v, i) => {
-                    return <p className={styles.narratorLine} key={i}>{v}</p>
+                    return <p className={'narratorLine'} key={i}>{v}</p>
                 })}
-                <p className={styles.narratorLine}>{displayText}</p>
+                <p className={'narratorLine'}>{displayText}</p>
             </div> : <div ></div>}
         </CSSTransition>
     }

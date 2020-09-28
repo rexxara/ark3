@@ -1,13 +1,12 @@
 import React, { useEffect, useState, useRef } from 'react'
-import styles from '../style.css'
-//@ts-ignore
+import '../style.css'
 import classnames from 'classnames'
 import { vw, vh } from '../../../utils/getSize'
 interface IProps {
     background: string
 }
 const TRANS_TIME = 2000
-const main = (props: IProps) => {
+const Main = (props: IProps)=> {
     const { background } = props
     const [cgList, setCgList]: [string[], Function] = useState([])
     const timerRef: any = useRef()
@@ -24,11 +23,12 @@ const main = (props: IProps) => {
             }
         }
     }, [background])
+
     if (!background.length) return <div></div>
-    return <>{
-        cgList.map((v, i) => <div className={(cgList.length > 1 && i !== 0) ? classnames(styles.background, styles.hiddingCgCon) : styles.background} key={v}
+    return <div>{
+        cgList.map((v, i) => <div className={(cgList.length > 1 && i !== 0) ? classnames('background', 'hiddingCgCon') : 'background'} key={v}
             style={{zIndex: 1, width: vw(100),
                 height: vh(100), background: `url(${require(`../../../scripts/backgrounds/${v}`)})` }}></div>)
-    }</>
+    }</div>
 }
-export default main
+export default Main

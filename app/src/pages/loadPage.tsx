@@ -1,6 +1,6 @@
 import React from 'react'
 import SaveDataCon from '../components/Game/component/saveDataCon'
-import styles from './index.css'
+import './index.css'
 import { connect } from 'dva'
 import { AnyAction } from 'redux'
 import Abutton from '../components/Abutton'
@@ -16,8 +16,8 @@ const LoadPage = (props: Iprops) => {
             payload: data
         })
     }
-    return <div className={styles.scence} style={{ width: vw(100), height: vh(100) }}>
-        <div style={{ position: 'relative', overflowY: 'scroll',overflowX:'hidden', width: vw(100), height: vh(80) }}>
+    return <div className='scence' style={{ width: vw(100), height: vh(100) }}>
+        <div style={{ position: 'relative', overflowY: 'scroll', overflowX: 'hidden', width: vw(100), height: vh(80) }}>
             <SaveDataCon loadData={load} />
         </div>
         <div style={{ position: "absolute", bottom: 0 }}>
@@ -25,4 +25,4 @@ const LoadPage = (props: Iprops) => {
         </div>
     </div>
 }
-export default connect((store) => store)(LoadPage)
+export default connect((store: any) => store)(LoadPage)

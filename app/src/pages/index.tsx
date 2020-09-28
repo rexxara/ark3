@@ -1,8 +1,7 @@
 import React from 'react';
-import styles from './index.css';
+import './index.css';
 import 'animate.css'
-import { Router, Route } from 'react-router'
-import { createHashHistory } from 'history'
+import {  Route, BrowserRouter } from 'dva/router';
 import IniPage from './loadingPages/IniPage'
 import copyrightPage from './loadingPages/copyrightPage'
 import alertPage from './loadingPages/alertPage'
@@ -20,7 +19,6 @@ import detectOrient from '../utils/detectOrient'
 import { vh, vw } from '../utils/getSize'
 import PaintGame from './paintGame/index'
 detectOrient()
-const history = createHashHistory()
 const WarpedIniPage = warpedAnimation(IniPage)
 const WarpedCopyrightPage = warpedAnimation(copyrightPage)
 const WarpedLoginPage = warpedAnimation(loginPage)
@@ -40,28 +38,28 @@ const indexStyle: React.CSSProperties = {
   backgroundPosition: 'center center'
 }
 
-const App: React.FC = () => {
-  return <div >
-    <title>kimi no hanashi</title>
-    <Router history={history}>
-      <div style={indexStyle} className={styles.App}>
-        <Route exact path="/" children={props => <WarpedIniPage  {...props} />} />
-        <Route path="/copyrightPage" children={props => <WarpedCopyrightPage {...props} />} />
-        <Route path="/alertPage" component={alertPage} />
-        <Route path="/titlePage" component={titlePage} />
-        <Route path="/updatePage" component={updatePage} />
-        <Route path="/playGround" component={playGround} />
-        <Route path="/homePage" component={HomePage} />
-        <Route path="/mainGame" children={props => <WarpedMainGame {...props} />} />
-        <Route path="/loginPage" children={props => <WarpedLoginPage {...props} />} />
-        <Route path="/gallery" children={props => <WarpedGallery {...props} />} />
-        <Route path="/ScenceReview" children={props => <WarpedScenceReview {...props} />} />
-        <Route path="/loadPage" children={props => <WarpedLoadPage {...props} />} />
-        <Route path="/paintGame">
-          <PaintGame />
-        </Route>
-      </div>
-    </Router>
-  </div>
+interface IProps {
+  history: any
+}
+const App: React.FC<IProps> = ({ history }) => {
+  console.log(history)
+  return <BrowserRouter>
+    <div style={indexStyle} className='App'>
+      <title>kimi no hanashi</title>
+      <Route exact path="/" children={props => <WarpedIniPage  {...props} />} />
+      <Route path="/copyrightPage" children={props => <WarpedCopyrightPage {...props} />} />
+      <Route path="/alertPage" component={alertPage} />
+      <Route path="/titlePage" component={titlePage} />
+      <Route path="/updatePage" component={updatePage} />
+      <Route path="/playGround" component={playGround} />
+      <Route path="/homePage" component={HomePage} />
+      <Route path="/mainGame" children={props => <WarpedMainGame {...props} />} />
+      <Route path="/loginPage" children={props => <WarpedLoginPage {...props} />} />
+      <Route path="/gallery" children={props => <WarpedGallery {...props} />} />
+      <Route path="/ScenceReview" children={props => <WarpedScenceReview {...props} />} />
+      <Route path="/loadPage" children={props => <WarpedLoadPage {...props} />} />
+      <Route  path="/paintGame" component={PaintGame}></Route>
+    </div>
+  </BrowserRouter>
 }
 export default App;

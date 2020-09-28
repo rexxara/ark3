@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react'
-import styles from '../style.css'
-import { Icon, Divider } from 'antd'
+import React from 'react'
+import  '../style.css'
+import { CheckCircleOutlined, LoadingOutlined } from '@ant-design/icons';
 import { CSSTransition } from 'react-transition-group'
 import { imgMap } from './index'
 import { vh, vw } from '../../../utils/getSize'
@@ -64,31 +64,33 @@ class title extends React.Component<IProps, IState>{
         } else {
             percent = 100
         }
-        return <CSSTransition
-            in={enter}
-            classNames={{
-                enter: 'animate__animated',
-                enterActive: 'animate__fadeIn',
-                exit: 'animate__animated',
-                exitActive: 'animate__backOutDown'
-            }}
-            timeout={2000}
-            onExited={() => { this.setState(iniState) }}
-            mountOnEnter={true}
-            unmountOnExit={true}
-        >{chapterName ? <div className={styles.title} style={{ width: vw(100), height: vh(100) }}>
-            <audio src={require("./title.mp3")} autoPlay></audio>
-            <div className={styles.titleImg} style={{ background: `url(${imgMap[chapterName]}) no-repeat center 0` }}>
-                {children}
-                <div style={style}>
-                    <h3>{closeAble ?
-                        <span>加载完毕&nbsp;&nbsp;<Icon type="check-circle" /></span>
-                        : <span>少女祈祷中&nbsp;&nbsp;<Icon type="loading" /></span>}</h3>
-                    <Progress strokeColor={{ '0%': '#3e468e', '100%': '#af3d47', }} percent={percent} status="active" showInfo={false} />
+        return (
+            <CSSTransition
+                in={enter}
+                classNames={{
+                    enter: 'animate__animated',
+                    enterActive: 'animate__fadeIn',
+                    exit: 'animate__animated',
+                    exitActive: 'animate__backOutDown'
+                }}
+                timeout={2000}
+                onExited={() => { this.setState(iniState) }}
+                mountOnEnter={true}
+                unmountOnExit={true}
+            >{chapterName ? <div className="title" style={{ width: vw(100), height: vh(100) }}>
+                <audio src={require("./title.mp3")} autoPlay></audio>
+                <div className="titleImg" style={{ background: `url(${imgMap[chapterName]}) no-repeat center 0` }}>
+                    {children}
+                    <div style={style}>
+                        <h3>{closeAble ?
+                            <span>加载完毕&nbsp;&nbsp;<CheckCircleOutlined /></span>
+                            : <span>少女祈祷中&nbsp;&nbsp;<LoadingOutlined /></span>}</h3>
+                        <Progress strokeColor={{ '0%': '#3e468e', '100%': '#af3d47', }} percent={percent} status="active" showInfo={false} />
+                    </div>
                 </div>
-            </div>
-        </div> : <div></div>}
-        </CSSTransition>
+            </div> : <div></div>}
+            </CSSTransition>
+        );
 
     }
 

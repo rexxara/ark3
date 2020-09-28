@@ -8,11 +8,12 @@
     "build:render": "cd app && node scripts/build.js",
     "build:app": "tsc",
     "build": "npm run build:render && npm run build:app && copy build.json dist\\package.json ",
-    "watch": "tsc -w",
-    "lint": "tslint -c tslint.json -p tsconfig.json",
     "start": "npm run build && electron ./dist/main.js",
-    "pack": "npm run build && cd dist && electron-packager . ark2 --platform=win32 --arch=x64 --electron-version=10.1.2",
-    "pack-only": "cd dist && electron-packager . ark2 --platform=win32 --arch=x64 --electron-version=10.1.2"
+    "pack": "npm run build && npm run pack-only",
+    "pack-only": "cd dist && electron-packager . ark2 --platform=win32 --arch=x64 --electron-version=10.1.2",
+    "dev:render":"cd app && npm run start",
+    "watch": "tsc -w",
+    "lint": "tslint -c tslint.json -p tsconfig.json"
   },
   "repository": "https://github.com/electron/electron-quick-start-typescript",
   "keywords": [

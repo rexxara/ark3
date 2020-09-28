@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import styles from '../style.css'
+import  '../style.css'
 import actions from '../actions'
 import { SaveData } from '../actions'
 import Abutton from '../../Abutton'
@@ -11,7 +11,7 @@ interface IProps {
 interface saveDataFromDatabase extends SaveData {
     id: number
 }
-export default function saveDataCon({ saveData, loadData }: IProps) {
+export default function SaveDataCon({ saveData, loadData }: IProps) {
     const [datas, setDatas]: [saveDataFromDatabase[], Function] = useState([])
     useEffect(() => {
         loadDataList()
@@ -29,11 +29,11 @@ export default function saveDataCon({ saveData, loadData }: IProps) {
     const loadHandle = (savedata: SaveData) => {
         loadData(undefined, savedata)
     }
-    return <div className={styles.SaveDataCon} style={{ width: vw(100), height: vh(100), overflowY: 'scroll' }}>
+    return <div className='SaveDataCon' style={{ width: vw(100), height: vh(100), overflowY: 'scroll' }}>
         <h2>SaveDataCon</h2>
         {saveData && <Abutton type="small" onClick={() => saveHandle('new')} >新建</Abutton>}
         {datas.map(v => {
-            return <div key={v.id} className={styles.saveDataItem}>
+            return <div key={v.id} className='saveDataItem'>
                 <span style={{float:'left',marginLeft:vw(10)}}>
                     <span>id:{v.id}</span>
                     <span>ChapterName:{v.currentChapterName}</span>

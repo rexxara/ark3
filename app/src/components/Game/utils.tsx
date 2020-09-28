@@ -10,7 +10,6 @@ export  const saveDataAdapter = (newData: SaveData, props: IProps, state: IState
     const { currentChapterName, inputKey } = newData
     const loadedChapter = chapters.find(v => v.name === currentChapterName)
     if (loadedChapter) {
-        delete newData.currentChapterName
         let choose: Option[] = []
         if (newData.chooseKey) {
             choose = chooses[newData.chooseKey]

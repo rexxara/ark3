@@ -13,16 +13,11 @@ export default {
     namespace: 'global',
     state: initalState,
     reducers: {
-        // 'submitScript'(state: globalState, { payload }: any) {
-        //     setTimeout(() => {
-        //         window.reset()
-        //     }, 200)
-        //     return { ...state, script: payload.script, edited: payload.edited }
-        // },
         'start'(state: globalState, { payload }: any) {
+            console.log('asdasd')
             setTimeout(() => {
                 const { origin } = window.location
-                window.location.href = origin + '#/mainGame'
+                window.location.href = origin + '/mainGame'
             }, 0)
             return initalState
         },
@@ -30,7 +25,7 @@ export default {
             console.log(payload)
             setTimeout(() => {
                 const { origin } = window.location
-                window.location.href = origin + '#/mainGame'
+                window.location.href = origin + '/mainGame'
             }, 0)
             return { ...initalState, LoadDataFromLoadPage: payload }
         },

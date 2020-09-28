@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import RawScript from '../scripts/index'
-import styles from './index.css'
+import  './index.css'
 import { connect } from 'dva'
 import { AnyAction } from 'redux'
 import { ScencesPage } from '../utils/types'
@@ -65,7 +65,7 @@ const ScenceReview = (props: Iprops) => {
     }
     console.log(currentPageMap)
     return <div style={{ position: 'absolute', top: 0, left: 0, width: vw(100) }}>
-        <div className={styles.cardCon} style={{ height: vw(40) }}>
+        <div className='cardCon' style={{ height: vw(40) }}>
             {currentPageMap.map((v) => {
                 return v.unlocked ? <div
                     onClick={() => clickHandle(v)}
@@ -75,8 +75,8 @@ const ScenceReview = (props: Iprops) => {
                         width: vw(27.5),
                         height: vw(15.5)
                     }}
-                    className={styles.galleryCard}>{v.name}</div> : <div
-                        key={v.name} className={styles.galleryCard}></div>
+                    className='galleryCard'>{v.name}</div> : <div
+                        key={v.name} className='galleryCard'></div>
             })}
         </div>
         <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', alignItems: 'center' }}>
@@ -91,4 +91,4 @@ const ScenceReview = (props: Iprops) => {
     </div>
 }
 
-export default connect((store) => store)(ScenceReview)
+export default connect((store: any) => store)(ScenceReview)

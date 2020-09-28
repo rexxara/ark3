@@ -1,7 +1,7 @@
 import React from 'react';
 import Scence from '../../components/scence'
 import ini from '../../assets/ini.jpg'
-import { Link } from 'react-router-dom'
+import { Link } from 'dva/router'
 import { RouteComponentProps } from 'react-router'
 import {imgStyle} from './computedStyle'
 interface Istate {

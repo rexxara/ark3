@@ -2,7 +2,7 @@ import React from 'react';
 import Scence from '../../components/scence'
 import cpri from '../../assets/copyright.jpg'
 import { RouteComponentProps } from 'react-router'
-import { Link } from 'react-router-dom'
+import { Link } from 'dva/router'
 import { imgStyle } from './computedStyle'
 
 class CopyrightPage extends React.Component<RouteComponentProps>{

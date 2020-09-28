@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import rawScripts from '../scripts/index'
 import actions from '../components/Game/actions'
-import styles from './index.css'
+import './index.css'
 import { CGS } from '../utils/types'
 import Abutton from '../components/Abutton'
 import { vw } from '../utils/getSize'
-interface IProps {}
+interface IProps { }
 interface Containers {
     key: string,
     value: string
@@ -14,7 +14,7 @@ interface Containers {
     }
 }
 
-export default function gallery(props: IProps) {
+export default function Gallery(props: IProps) {
     useEffect(() => {
         const cgs = rawScripts.cgs as CGS
         const newCons = Object.keys(cgs).map(v => {
@@ -56,7 +56,7 @@ export default function gallery(props: IProps) {
     const [containers, setContainers]: [Containers[][], any] = useState([])
     const [current, setCurrent] = useState(0)
     const [currentBigPic, setCurrentBigPic] = useState('')
-    const [cgGroups, setCgGroups] = useState()
+    const [cgGroups, setCgGroups]: [{ [arg: string]: string }, any] = useState({})
     const currentPageCons = containers[current] || []
     const imgCaches = unLockKeys.map(v => {
         const dotIndex = v.id.indexOf('.')
@@ -102,8 +102,8 @@ export default function gallery(props: IProps) {
     }
     console.log(currentBigPic)
     return <div>
-        {currentBigPic && <div onClick={bigPicClick} className={styles.displayImg} style={{ background: `url(${require(`../scripts/CGs/${currentBigPic}`)})` }} ></div>}
-        <div className={styles.cardCon}>
+        {currentBigPic && <div onClick={bigPicClick} className='displayImg' style={{ background: `url(${require(`../scripts/CGs/${currentBigPic}`)})` }} ></div>}
+        <div className='cardCon'>
             {currentPageCons.map((v) => {
                 const hitedunlockKey = unLockKeys.find(vv => vv.id === v.key)
                 let cgUrl: string | undefined = undefined
@@ -118,7 +118,7 @@ export default function gallery(props: IProps) {
                         height: vw(15.5),
                         margin: vw(2)
                     }}
-                    className={styles.galleryCard}>{v.key}</div>
+                    className='galleryCard'>{v.key}</div>
             })}
         </div>
         <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', alignItems: 'center' }}>

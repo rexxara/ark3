@@ -1,8 +1,8 @@
 import React from 'react'
 import { Option } from '../../utils/types'
-import styles from './style.css'
+import './style.css'
 import classnames from 'classnames'
-import { vh } from '@/utils/getSize'
+import { vh } from '../../utils/getSize'
 interface IProps {
     onClick: Function,
     v: Option
@@ -18,5 +18,5 @@ export default function (props: IProps) {
     }
     return <p
         style={{ fontSize: vh(5) }}
-        className={isDisable ? classnames(styles.choose, styles.chooseDisable) : styles.choose} onClick={() => { !isDisable && onClick(v, choose) }} >{v.text}:{isDisable}</p>
+        className={isDisable ? classnames('choose', 'chooseDisable') : 'choose'} onClick={() => { !isDisable && onClick(v, choose) }} >{v.text}:{isDisable}</p>
 }

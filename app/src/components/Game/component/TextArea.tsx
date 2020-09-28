@@ -1,8 +1,9 @@
 import React from 'react'
 import { clickHandleConfig } from '../gameTypes'
-import { Icon } from 'antd'
-import styles from '../style.css'
-import { vw, vh } from '@/utils/getSize'
+import { StepForwardOutlined } from '@ant-design/icons';
+import '../style.css'
+import { vh, vw } from '../../../utils/getSize';
+
 const TEXT_DISPLAY_SPEEED = 50
 interface IState {
     localRawLine: string,
@@ -83,10 +84,12 @@ class TextArea extends React.Component<IProps, IState>{
     render() {
         const { displayText } = this.state
         const { rawLine } = this.props
-        return <div className={styles.textarea}
-            style={{
-                padding: vw(2), minHeight: vh(25), lineHeight: vh(6), fontSize: vh(4),
-            }}>{this.state.displayText}{rawLine === displayText && rawLine.length > 0 && <Icon type="step-forward" />}</div>
+        return (
+            <div className='textarea'
+                style={{
+                    padding: vw(2), minHeight: vh(25), lineHeight: vh(6), fontSize: vh(4),
+                }}>{this.state.displayText}{rawLine === displayText && rawLine.length > 0 && <StepForwardOutlined />}</div>
+        );
     }
 }
 

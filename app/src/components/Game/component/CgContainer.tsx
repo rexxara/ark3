@@ -1,5 +1,5 @@
 import React from 'react'
-import styles from '../style.css'
+import '../style.css'
 import classnames from 'classnames'
 import { CSSTransition } from 'react-transition-group'
 interface IProps {
@@ -23,7 +23,7 @@ const main = (props: IProps) => {
                 mountOnEnter={true}
                 unmountOnExit={true}
             >
-                <div key={i} className={classnames(styles.cgCon)} style={{ background: `url(${require(`../../../scripts/CGs/${v}`)})` }}></div>
+                <div key={i} className='cgCon' style={{ background: `url(${require(`../../../scripts/CGs/${v}`)})` }}></div>
             </CSSTransition>
         })}
     </div>

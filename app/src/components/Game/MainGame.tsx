@@ -4,7 +4,7 @@ import { variableLoader } from '../../utils/utils'
 import classnames from 'classnames'
 import { IState, IProps, iniState, clickHandleConfig, AudioCaches } from './gameTypes'
 import NarratorCon from './component/narratorCon'
-import styles from './style.css'
+import './style.css'
 import ARKBGMplayer from './component/BGMplayer'
 import { commandProcess, actionReg } from '../../utils/loader/index'
 import ARKOption from './Option'
@@ -12,16 +12,16 @@ import action, { SaveData } from './actions'
 import SaveDataCon from './component/saveDataCon'
 import ImgCache from './component/ImgCache'
 import CtrlPanel from './component/ctrlPanel'
-import { Icon, message } from 'antd'
+import { message } from 'antd';
 import GAMEInput from './component/input'
 import SoundEffectPlayer from './component/soundEffectPlayer'
 import Title from './titles/Title'
-import { vw, vh } from '@/utils/getSize'
 import { saveDataAdapter } from './utils'
 import CgContainer from './component/CgContainer'
 import BackgroundCon from './component/BackgroundContainer'
 import { commandLineHandle } from './functions'
 import TextArea from './component/TextArea'
+import { vh, vw } from '../../utils/getSize'
 const effectCanvasId = 'effects'
 
 class MainGame extends React.Component<IProps, IState> {
@@ -92,7 +92,7 @@ class MainGame extends React.Component<IProps, IState> {
     startChapter(chapterKey?: string) {
         const { data: { chapters } } = this.props
         const { currentChapter: { arkMark } } = this.state
-        this.setState({stop: false })
+        this.setState({ stop: false })
         this.setState({ clickDisable: true })
         let chapter = undefined
         if (!chapterKey) {
@@ -128,7 +128,7 @@ class MainGame extends React.Component<IProps, IState> {
         const { currentChapter, linePointer } = this.state
         const line = currentChapter.line[linePointer]
         if (line) {//加载存档的时候调用这个函数是没有line的
-            this.setState({stop: false })
+            this.setState({ stop: false })
             if ('value' in line) {
                 const { gameVariables } = this.state
                 const res = variableLoader(line.value, gameVariables) as string
@@ -192,7 +192,7 @@ class MainGame extends React.Component<IProps, IState> {
     }
     reset() {
         this.setState(iniState)
-        this.setState({stop: false })
+        this.setState({ stop: false })
         this.startChapter()
     }
     reviewBack() {
@@ -362,6 +362,7 @@ class MainGame extends React.Component<IProps, IState> {
             gameVariables, saveDataConOpen, currentChapter, rawLine, input, soundEffect, TitleChapterName, audioCaches, narratorMode, textAreaStop } = this.state
         const { data: { caches } } = this.props
         const displaycharactersArray = Object.keys(displaycharacters).map(v => displaycharacters[v])
+        console.log(currentChapter)
         return <div style={{ width: vw(100), height: vh(100), overflow: 'hidden' }}>
             <CtrlPanel clickHandle={(ev) => this.clickHandle(ev, { reset: true })}
                 linePointer={linePointer} auto={auto}
@@ -378,26 +379,26 @@ class MainGame extends React.Component<IProps, IState> {
             <SoundEffectPlayer cache={audioCaches.ses} src={soundEffect} callback={this.soundCallback} />
             {input.key && <GAMEInput placeholder={displayText} clickCallback={this.onInputSubmit} />}
             {saveDataConOpen && <SaveDataCon saveData={this.save} loadData={this.load} />}
-            <div className={styles.container} style={{ width: vw(100), height: vh(100) }} onClick={this.clickHandle}>
+            <div className='container' style={{ width: vw(100), height: vh(100) }} onClick={this.clickHandle}>
                 <NarratorCon narratorMode={narratorMode} displayText={displayText} />
-                <div style={{ position: "absolute", height: vh(67) }} className={choose.length && styles.chooseCon}>
+                <div style={{ position: "absolute", height: vh(67) }} className={choose.length ? 'chooseCon' : undefined}>
                     {choose.map((v, k) => <ARKOption gameVariables={gameVariables} key={k} onClick={this.onSelect} v={v} choose={choose} />)}
                 </div>
-                <div className={styles.displayCharactersCon}>
+                <div className='displayCharactersCon'>
                     {displaycharactersArray.map(v => v.emotion ? <img onLoad={this.imgOnload}
-                        className={displayName === v.name ? classnames(styles.displayCharacter, styles.active) : styles.displayCharacter}
+                        className={displayName === v.name ? classnames('displayCharacter', 'active') : 'displayCharacter'}
                         key={v.name} src={require(`../../scripts/charatersImages/${v.name}/${v.emotion}`)} /> : <p key={v.name} />)}
                 </div>
                 <CgContainer cgList={audioCaches.cgs} cg={cg} />
-                <div className={styles.effects} id={effectCanvasId}></div>
-                {(!narratorMode && !TitleChapterName.chapterName) && <div className={styles.dialog}>
-                    <div className={styles.owner} style={{ height: vh(8), lineHeight: vh(8), paddingLeft: vw(5), fontSize: vh(6) }}>{displayName}</div>
+                <div className='effects' id={effectCanvasId}></div>
+                {(!narratorMode && !TitleChapterName.chapterName) && <div className={'dialog'}>
+                    <div className='owner' style={{ height: vh(8), lineHeight: vh(8), paddingLeft: vw(5), fontSize: vh(6) }}>{displayName}</div>
                     <TextArea lineEndHandle={this.lineEndHandle} clickHandle={this.clickHandle} textAreaStop={textAreaStop} rawLine={rawLine} auto={auto} ></TextArea>
                 </div>}
                 <BackgroundCon background={background} />
             </div>
-            {background && <img className={styles.hide} onLoad={this.cgAndBackgroundOnload} src={require(`../../scripts/backgrounds/${background}`)} alt="" />}
-            {cg && <img className={styles.hide} onLoad={this.cgAndBackgroundOnload} src={require(`../../scripts/CGs/${cg}`)} alt="" />}
+            {background && <img className='hide' onLoad={this.cgAndBackgroundOnload} src={require(`../../scripts/backgrounds/${background}`)} alt="" />}
+            {cg && <img className='hide' onLoad={this.cgAndBackgroundOnload} src={require(`../../scripts/CGs/${cg}`)} alt="" />}
             {(currentChapter.arkMark || TitleChapterName.chapterName) &&
                 <ImgCache onProgress={this.onCacheLoadProgress} caches={caches[(TitleChapterName.chapterName || currentChapter.arkMark)]} callback={this.TitleCallback} />}
         </div>

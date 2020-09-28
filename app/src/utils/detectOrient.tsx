@@ -20,6 +20,7 @@ var detectOrient = function () {
         style += "transform-origin: " + width / 2 + "px " + width / 2 + "px;";
         style += "transform:scale (2,2);"
     }
+    style+='overflow:hidden;'
     $wrapper.style.cssText = style;
 }
 // window.onresize = detectOrient;

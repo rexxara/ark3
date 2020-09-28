@@ -1,9 +1,8 @@
-import Abutton from '@/components/Abutton'
-import { vh, vw } from '@/utils/getSize'
 import * as React from 'react'
 import { useState } from 'react'
-import Amessage from '@/components/AMessage'
 import { message } from 'antd'
+import Abutton from '../../components/Abutton'
+import { vh, vw } from '../../utils/getSize'
 const bgStyle: React.CSSProperties = {
     background: 'white',
     height: vh(100)
