@@ -1,0 +1,240 @@
+body{
+  user-select: none;
+}
+.container {
+  text-align: left;
+  cursor: pointer;
+  user-select: none;
+  z-index: 11;
+  position: relative;
+}
+
+.title {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 999;
+  background-color: rgba(0, 0, 0, 0);
+  transform:translateZ(0);
+}
+
+.titleImg {
+  width: 100%;
+  height: 100%;
+  background-size: cover !important;
+  -moz-background-size: 100% 100% !important;
+}
+
+.effects {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 9;
+}
+
+.dialog {
+  opacity: 0.8;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  background: #aaaaaa;
+  width: 100%;
+  z-index: 10;
+  transform:  translateZ(0);
+}
+
+.owner {
+  background: #eeeeee;
+  width: 100%;
+  z-index: 10;
+}
+
+.textarea {
+  text-indent: 2em;
+  width: 100%;
+  z-index: 10;
+}
+.narrator{
+  font-weight: bold;
+  position: absolute;
+  color: white;
+  top: 0;
+  left: 0;
+  text-indent: 2em;
+  width: 100%;
+  z-index: 10;
+  overflow-x: scroll;
+  background-color: rgba(30, 30, 30, 0.7);
+  padding: 2rem;
+}
+.ctrlPanle {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #272822;
+  color: #0c7d9b;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  z-index: 999;
+  transition:all 1s;
+}
+
+.displayCharactersCon {
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+}
+
+.displayCharacter {
+  z-index: 8;
+  width: 45%;
+  filter: brightness(80%);
+}
+
+.active {
+  filter: brightness(100%) !important;
+}
+
+.cgCon {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background-size: cover !important;
+  -moz-background-size: 100% 100% !important;
+  z-index: 9;
+  transform:translateZ(9);
+}
+
+.hide {
+  width: 100px;
+  position: absolute;
+  opacity: 0.0;
+  top: 0;
+  left: 0;
+  z-index: -1;
+}
+
+.cacheImg {
+  opacity: 0.0;
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100px;
+  z-index: -1;
+}
+
+.chooseCon {
+  position: absolute;
+  display: flex;
+  top: 0;
+  left: 0;
+  width: 100%;
+  user-select: none;
+  background-color: rgba(30, 30, 30, 0.5);
+  z-index: 12;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.choose {
+  width: 80%;
+  margin: auto;
+  text-align: center;
+  color: white;
+  border: 1px solid #1e1e1e;
+  background: #37373d;
+}
+
+.chooseDisable {
+  color: black;
+  border: 1px solid #1e1e1e;
+  background: #37373d;
+}
+
+.chooseDisable:hover {
+  color: black !important;
+  border: 1px solid #1e1e1e !important;
+  background: #37373d !important;
+}
+
+.choose:hover {
+  background: white;
+  color: black;
+}
+
+.SaveDataCon {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: rgba(30, 30, 30, 0.5);
+  color: white;
+  z-index: 12;
+}
+
+.saveDataItem {
+  width: 100%;
+  min-height: 30px;
+  background: #222222;
+  overflow: hidden;
+}
+
+.InputCon {
+  z-index: 13;
+  width: 200px;
+  height: 150px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-left: -100px;
+  margin-top: -75px;
+}
+.InputCover{
+  background-color: #6666cc;
+  padding-top: 100px;
+  position:fixed;
+  height: 100vh;
+  width: 100vw;
+  top: 0;
+  left: 0;
+  z-index: 14;
+}
+.background{
+  background-repeat: no-repeat;
+  background-size: 100% 100% !important;
+  -moz-background-size: 100% 100% !important;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+.log{
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 14;
+}
+.logCon{
+  z-index: 14;
+  font-weight: bold;
+  position: fixed;
+  color: white;
+  top: 0;
+  left: 0;
+  text-indent: 2em;
+  width: 100%;
+  z-index: 10;
+  overflow-x: scroll;
+  text-align: left; 
+  background-color: rgba(30, 30, 30, 1);
+  padding: 2rem;
+}
+.logItem{
+  border-bottom:1px solid rgb(50, 50, 50);
+}
