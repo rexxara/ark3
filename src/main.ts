@@ -1,8 +1,7 @@
 import { app, BrowserWindow } from "electron";
 import * as path from "path";
-function isDev() {
-  return process.mainModule.filename.indexOf('app.asar') === -1;
-}
+const  isDev=process.env.NODE_ENV === 'production'
+
 function createWindow() {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
@@ -14,7 +13,11 @@ function createWindow() {
   });
 
   // and load the index.html of the app.
-  mainWindow.loadFile(path.join(__dirname, "./index.html"));
+  if(isDev){
+    mainWindow.loadURL('http://localhost:3000/');
+  }else{
+    mainWindow.loadFile(path.join(__dirname, "./index.html"));
+  }
   // Open the DevTools.
   //mainWindow.webContents.openDevTools();
 }

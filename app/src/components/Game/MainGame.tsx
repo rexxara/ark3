@@ -104,9 +104,9 @@ class MainGame extends React.Component<IProps, IState> {
         if (chapter) {
             const { gameVariables } = this.state
             if (arkMark === chapter.arkMark) {//小节切换
-                const { cg, displaycharacters, bgm, auto, background, effectKey } = this.state
+                const { cg, displaycharacters, bgm, auto, background, effectKey,audioCaches } = this.state
                 this.setState({
-                    ...iniState, gameVariables, cg, displaycharacters, bgm, auto,
+                    ...iniState, gameVariables, cg, displaycharacters, bgm, auto,audioCaches,
                     background, effectKey, linePointer: 0,
                     currentChapter: chapter, clickDisable: false
                 })
@@ -362,7 +362,6 @@ class MainGame extends React.Component<IProps, IState> {
             gameVariables, saveDataConOpen, currentChapter, rawLine, input, soundEffect, TitleChapterName, audioCaches, narratorMode, textAreaStop } = this.state
         const { data: { caches } } = this.props
         const displaycharactersArray = Object.keys(displaycharacters).map(v => displaycharacters[v])
-        console.log(currentChapter)
         return <div style={{ width: vw(100), height: vh(100), overflow: 'hidden' }}>
             <CtrlPanel clickHandle={(ev) => this.clickHandle(ev, { reset: true })}
                 linePointer={linePointer} auto={auto}

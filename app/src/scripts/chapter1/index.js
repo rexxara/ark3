@@ -2,7 +2,6 @@
 import chapter1 from './chapter1.mi'
 import taluladezhengyiyanjiang from './taluladezhengyiyanjiang.mi'
 import chapter1_a from './a.mi'
-console.log(taluladezhengyiyanjiang,'taluladezhengyiyanjiang')
 const ch1 = [
     { name: 'chapter1', script: chapter1, next: '塔露拉的正义演讲', isBegin: true },
     { name: '塔露拉的正义演讲', script: taluladezhengyiyanjiang, next: ({ 思考结果 }) => 思考结果 > 1 ? '哎给楼' : '奥利给' },
