@@ -1,5 +1,5 @@
 import { DisplayCharacters, selectedBGM, LoadedChapterModel3, Option, RawScript, GameModel3, Input } from '../../utils/types'
-import { SaveData } from './actions'
+import { SaveData, Setting } from './actions'
 import { AudioBlob } from './component/ImgCache'
 export type AudioCaches = {
     bgms: AudioBlob[],
@@ -14,6 +14,7 @@ export const TitleChapterNameIniValue = {
 }
 
 export const iniState = {
+    settingVis:false,
     saveDataConOpen: false,
     auto: false,
     displayText: '',
@@ -61,8 +62,10 @@ export interface IProps {
     RawScript: RawScript,
     isReview: boolean,
     LoadDataFromLoadPage: SaveData
+    setting:Setting
 }
 export interface IState {
+    settingVis:boolean
     saveDataConOpen: boolean,
     auto: boolean
     displayText: string

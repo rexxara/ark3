@@ -22,6 +22,7 @@ import BackgroundCon from './component/BackgroundContainer'
 import { commandLineHandle } from './functions'
 import TextArea from './component/TextArea'
 import { vh, vw } from '../../utils/getSize'
+import SettingComp from './component/settingCompWraper'
 const effectCanvasId = 'effects'
 
 class MainGame extends React.Component<IProps, IState> {
@@ -104,9 +105,9 @@ class MainGame extends React.Component<IProps, IState> {
         if (chapter) {
             const { gameVariables } = this.state
             if (arkMark === chapter.arkMark) {//小节切换
-                const { cg, displaycharacters, bgm, auto, background, effectKey,audioCaches } = this.state
+                const { cg, displaycharacters, bgm, auto, background, effectKey, audioCaches } = this.state
                 this.setState({
-                    ...iniState, gameVariables, cg, displaycharacters, bgm, auto,audioCaches,
+                    ...iniState, gameVariables, cg, displaycharacters, bgm, auto, audioCaches,
                     background, effectKey, linePointer: 0,
                     currentChapter: chapter, clickDisable: false
                 })
@@ -357,13 +358,16 @@ class MainGame extends React.Component<IProps, IState> {
     onCacheLoadProgress(total: number, loaded: number) {
         this.setState({ TitleChapterName: { ...this.state.TitleChapterName, total: total, loaded: loaded } })
     }
+    toggleSetting = () => {
+        this.setState({ settingVis: !this.state.settingVis })
+    }
     render() {
         const { auto, background, displayName, displayText, linePointer, displaycharacters, bgm, cg, choose,
             gameVariables, saveDataConOpen, currentChapter, rawLine, input, soundEffect, TitleChapterName, audioCaches, narratorMode, textAreaStop } = this.state
         const { data: { caches } } = this.props
         const displaycharactersArray = Object.keys(displaycharacters).map(v => displaycharacters[v])
         return <div style={{ width: vw(100), height: vh(100), overflow: 'hidden' }}>
-            <CtrlPanel clickHandle={(ev) => this.clickHandle(ev, { reset: true })}
+            <CtrlPanel toggleSetting={this.toggleSetting} clickHandle={(ev) => this.clickHandle(ev, { reset: true })}
                 linePointer={linePointer} auto={auto}
                 rawLine={rawLine}
                 displayName={displayName}
@@ -374,7 +378,8 @@ class MainGame extends React.Component<IProps, IState> {
                 displaycharactersArray={displaycharactersArray} nextChapter={this.nextChapter}
                 toogleAuto={this.toogleAuto} />
             <Title TitleChapterName={TitleChapterName} ></Title>
-            <ARKBGMplayer cache={audioCaches.bgms} src={bgm} />
+            {this.state.settingVis && <SettingComp></SettingComp>}
+            <ARKBGMplayer vol={this.props.setting.bgmVol} cache={audioCaches.bgms} src={bgm} />
             <SoundEffectPlayer cache={audioCaches.ses} src={soundEffect} callback={this.soundCallback} />
             {input.key && <GAMEInput placeholder={displayText} clickCallback={this.onInputSubmit} />}
             {saveDataConOpen && <SaveDataCon saveData={this.save} loadData={this.load} />}

@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import  '../style.css'
+import '../style.css'
 import Abutton from '../../Abutton'
 import {
     CloseSquareOutlined,
@@ -10,7 +10,8 @@ import {
     RollbackOutlined,
     SaveOutlined,
     DoubleRightOutlined,
-    DoubleLeftOutlined
+    DoubleLeftOutlined,
+    SettingOutlined
 } from '@ant-design/icons';
 
 import { vw } from '../../../utils/getSize'
@@ -25,13 +26,14 @@ interface IProps {
     quickLoad: () => any,
     openSaveCon: () => any,
     closeSaveCon: () => any,
+    toggleSetting: () => any,
     auto: boolean,
     displayName: string,
     rawLine: string,
     saveDataConOpen: boolean
-    bgm:any
+    bgm: any
 }
-export default function CtrlPanel({ clickHandle, rawLine, displayName, saveDataConOpen, linePointer, nextChapter, displaycharactersArray, toogleAuto, quickSave, quickLoad, closeSaveCon, openSaveCon, bgm, auto }: IProps) {
+export default function CtrlPanel({ clickHandle, rawLine, displayName, saveDataConOpen, toggleSetting, linePointer, nextChapter, displaycharactersArray, toogleAuto, quickSave, quickLoad, closeSaveCon, openSaveCon, bgm, auto }: IProps) {
     const [open, setOpen] = useState<boolean>(false)
     const openHandle = () => {
         setOpen((state: boolean) => !state)
@@ -55,8 +57,9 @@ export default function CtrlPanel({ clickHandle, rawLine, displayName, saveDataC
                     onClick={saveDataConOpen ? closeSaveCon : openSaveCon}>
                     {saveDataConOpen ? <CloseSquareOutlined /> : <SaveOutlined />}</Abutton>
                 <Abutton type='small' onClick={() => window.history.back()}><RollbackOutlined /></Abutton>
+                <Abutton type='small' onClick={toggleSetting}><SettingOutlined /></Abutton>
             </>}
-            <Abutton type='small' onClick={openHandle}>{open?<DoubleRightOutlined/>:<DoubleLeftOutlined/>}</Abutton>
+            <Abutton type='small' onClick={openHandle}>{open ? <DoubleRightOutlined /> : <DoubleLeftOutlined />}</Abutton>
         </div>
     );
 }

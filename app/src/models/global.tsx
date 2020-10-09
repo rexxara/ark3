@@ -1,4 +1,11 @@
 import RawScript from '../scripts/index'
+import { INIT_SETTING } from '../components/Game/index'
+import { actions } from '../components/Game'
+export interface globalState {
+    script: string
+    isAuto: boolean
+    setting:typeof INIT_SETTING
+}
 const initalState = {
     script: '',
     edited: false,
@@ -7,7 +14,8 @@ const initalState = {
     //
     RawScript: RawScript,
     isReview: false,
-    LoadDataFromLoadPage: undefined
+    LoadDataFromLoadPage: undefined,
+    setting: INIT_SETTING
 }
 export default {
     namespace: 'global',
@@ -19,6 +27,9 @@ export default {
                 window.location.href = origin + pathname + '#/mainGame'
             }, 0)
             return initalState
+        },
+        'saveSetting'(state: globalState, { payload }: any) {
+            return { ...state, ...payload }
         },
         'load'(state: globalState, { payload }: any) {
             console.log(payload)
@@ -44,8 +55,14 @@ export default {
             return { ...state, RawScript: newConbine, isReview: true }
         },
     },
+    effects: {
+        *getSetting({ payload }: any, { put, call }: any) {
+            const res= yield call(actions.getSetting)
+            yield put({ type: 'saveSetting', payload: { setting: res } });
+        },
+        *setSetting({ payload }: any, { put, call }: any) {
+            const res= yield call(actions.saveSetting,payload)
+            yield put({ type: 'saveSetting', payload: { setting: res } });
+        },
+    },
 };
-interface globalState {
-    script: string
-    isAuto: boolean
-}

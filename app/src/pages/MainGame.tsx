@@ -5,12 +5,13 @@ import './index.css'
 import { GameModel3, RawScript } from '../utils/types'
 import { SaveData } from '../components/Game/actions'
 import { connect } from 'dva'
+import { globalState } from '../models/global';
 interface IProps {
   global: {
     RawScript: RawScript,
     isReview: boolean,
     LoadDataFromLoadPage: SaveData
-  }
+  }&globalState
 }
 const modRs=async(rs:RawScript):Promise<RawScript>=>{
   const {chapters}=rs
@@ -46,12 +47,12 @@ const PlayGround = (props: IProps) => {
     const data = loader(rs as any, true, true)
     setData(data)
   }
-  console.log(data)
   return <div className='App'>
     {data && <MainGame
       data={data}
       isReview={props.global.isReview}
       RawScript={rs as any}
+      setting={props.global.setting}
       LoadDataFromLoadPage={props.global.LoadDataFromLoadPage}
     />}
   </div>

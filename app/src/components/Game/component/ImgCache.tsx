@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import  '../style.css'
+import '../style.css'
 import { ChapterCache } from '../../../utils/types'
 import { AudioCaches } from '../gameTypes'
 import { message } from 'antd'
@@ -30,11 +30,11 @@ export default function SaveDataCon({ callback, caches, onProgress }: IProps) {
             if (total === loadedCount) {
                 const loadedDruation = Date.now() - mountDate
                 if (loadedDruation > TITLE_DISPLAY_TIME) {
-                    callback({ ses, bgms,cgs })
+                    callback({ ses, bgms, cgs })
                     message.success(`加载章节资源耗时${(loadedDruation / 1000).toFixed(2)}`)
                 } else {
                     setTimeout(() => {
-                        callback({ ses, bgms,cgs })
+                        callback({ ses, bgms, cgs })
                         message.success(`加载章节资源耗时${(loadedDruation / 1000).toFixed(2)}，等待时间${((TITLE_DISPLAY_TIME - loadedDruation) / 1000).toFixed(2)}`)
                     }, TITLE_DISPLAY_TIME - loadedDruation)
                 }
@@ -71,7 +71,7 @@ export default function SaveDataCon({ callback, caches, onProgress }: IProps) {
             })
         })).then(data => {
             setBgms(data)
-            updateCount()
+            updateCount(data.length)
         })
 
         Promise.all(preloadSeArray.map(src => {
@@ -86,7 +86,7 @@ export default function SaveDataCon({ callback, caches, onProgress }: IProps) {
             })
         })).then(data => {
             setSes(data)
-            updateCount()
+            updateCount(data.length)
         })
 
         for (const key in preLoadBackgrounds) {
@@ -116,15 +116,16 @@ export default function SaveDataCon({ callback, caches, onProgress }: IProps) {
             console.log(caches, '没有资源')
             setTimeout(() => {
                 message.success(`没有资源 标题显示4s`)
-                callback({ bgms: [], ses: [],cgs:[] })
+                callback({ bgms: [], ses: [], cgs: [] })
             }, TITLE_DISPLAY_TIME)
         }
     }
     useEffect(() => {
         getImgCache()
     }, [caches])
-    const updateCount = () => {
-        setLoadedCount(pre => pre + 1)
+    const updateCount = (counter?:  number | React.SyntheticEvent<HTMLImageElement, Event>) => {
+        const tobeAdd=typeof counter === 'number'?counter:1
+            setLoadedCount(pre => pre + tobeAdd)
     }
     return <div>
         {bgs.map(imgsrc => <img

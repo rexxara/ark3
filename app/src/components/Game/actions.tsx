@@ -18,6 +18,14 @@ let saveData: DBModel = {
         key: 'id'//主键
     }
 }
+let settingData: DBModel = {
+    name: 'settingData',
+    version: 1,
+    objectStore: {
+        name: 'settingData',//quickSave
+        key: 'id'//主键
+    }
+}
 let scenceData: DBModel = {
     name: 'scenceData',
     version: 1,
@@ -34,10 +42,14 @@ let galleryData: DBModel = {
         key: 'id'
     }
 }
+type OpenDbReturnValue = {
+    status: boolean
+    isInit: boolean
+}
 const INDEXDB = {
     indexedDB: window.indexedDB,
     IDBKeyRange: window.IDBKeyRange,
-    openDB: (dbModel: DBModel): Promise<boolean> => {
+    openDB: (dbModel: DBModel): Promise<OpenDbReturnValue> => {
         const { name } = dbModel
         return new Promise((res, rej) => {
             let version = 1
@@ -47,16 +59,16 @@ const INDEXDB = {
             };
             request.onsuccess = function (e) {
                 dbModel.db = request.result
-                //console.log('成功建立并打开数据库:' + dbModel.name + ' version' + dbModel.version)
-                res(true)
+                //console.log('打开打开:' + dbModel.name + ' version' + dbModel.version)
+                res({ status: true, isInit: false })
             }
             request.onupgradeneeded = function (e) {
                 const db = request.result
                 if (!db.objectStoreNames.contains(dbModel.objectStore.name)) {
                     db.createObjectStore(dbModel.objectStore.name, { keyPath: 'id', autoIncrement: true })
-                    //console.log('成功建立对象存储空间：' + dbModel.objectStore.name)
+                    //console.log('建立建立：' + dbModel.objectStore.name)
                 }
-                res(true)
+                res({ status: true, isInit: true })
             }
         })
 
@@ -172,7 +184,18 @@ const modifyToBeSaveData = (state: IState, id: number | string): SaveData => {
 INDEXDB.openDB(saveData)
 INDEXDB.openDB(galleryData)
 INDEXDB.openDB(scenceData)
-const actions = {
+INDEXDB.openDB(settingData).then(res => {
+    if (res.isInit) actions.initSetting()
+})
+export const INIT_SETTING: Setting = {
+    bgmVol: 100,
+    seVol: 100
+}
+export type Setting = {
+    bgmVol: number
+    seVol: number
+}
+export const actions = {
     skipThisLine: () => message.info('skipThisLine'),
     save: async (state: IState, id: number | string) => {
         const openSuccess = await INDEXDB.openDB(saveData)
@@ -226,6 +249,32 @@ const actions = {
             return await INDEXDB.loadAll(scenceData.db, scenceData.objectStore.name) || []
         } else {
             return []
+        }
+    },
+    getSetting: async (): Promise<Setting> => {
+        const openSuccess = await INDEXDB.openDB(settingData)
+        if (openSuccess && settingData.db) {
+            const res = await INDEXDB.loadAll(settingData.db, settingData.objectStore.name) as Array<Setting> | undefined || []
+            return res[0] || INIT_SETTING
+        } else {
+            return INIT_SETTING
+        }
+    },
+    saveSetting: async (params:Setting) => { 
+        const openSuccess = await INDEXDB.openDB(settingData)
+        if (openSuccess && settingData.db) {
+            const saveSuccess = await INDEXDB.putData(settingData.db, settingData.objectStore.name, { id: 'Ark', ...params })
+        } else {
+            console.log('databaseNotFound')
+        }
+        return params
+    },
+    initSetting: async () => {
+        const openSuccess = await INDEXDB.openDB(settingData)
+        if (openSuccess && settingData.db) {
+            const saveSuccess = await INDEXDB.putData(settingData.db, settingData.objectStore.name, { id: 'Ark', ...INIT_SETTING })
+        } else {
+            console.log('databaseNotFound')
         }
     },
 }

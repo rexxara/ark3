@@ -18,6 +18,8 @@ import LoadPage from './loadPage'
 import detectOrient from '../utils/detectOrient'
 import { vh, vw } from '../utils/getSize'
 import PaintGame from './paintGame/index'
+import ConfigPage from './ConfigPage'
+import Init from './Init'
 detectOrient()
 const WarpedIniPage = warpedAnimation(IniPage)
 const WarpedCopyrightPage = warpedAnimation(copyrightPage)
@@ -26,6 +28,7 @@ const WarpedGallery = warpedAnimation(Gallery)
 const WarpedScenceReview = warpedAnimation(ScenceReview)
 const WarpedMainGame = warpedAnimation(MainGame)
 const WarpedLoadPage = warpedAnimation(LoadPage)
+const WarpedConfigPage=warpedAnimation(ConfigPage)
 // document.oncontextmenu = function () {
 //   return false;
 // }
@@ -58,8 +61,9 @@ const App: React.FC<IProps> = ({ history }) => {
       <Route path="/gallery" children={props => <WarpedGallery {...props} />} />
       <Route path="/ScenceReview" children={props => <WarpedScenceReview {...props} />} />
       <Route path="/loadPage" children={props => <WarpedLoadPage {...props} />} />
+      <Route path="/config" children={props => <WarpedConfigPage {...props} />} />
       <Route  path="/paintGame" component={PaintGame}></Route>
-      <Route></Route>
+      <Init/>
     </div>
   </HashRouter>
 }

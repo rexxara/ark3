@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Scence from '../components/scence'
 import Abutton from '../components/Abutton/index'
 import { connect } from 'dva'
@@ -23,6 +23,7 @@ const LoginPage = (props: Iprops) => {
       <Abutton to='/loadPage' text="加载" />
       <Abutton to="/gallery" text="画廊" />
       <Abutton to="/ScenceReview" text="场景回想" />
+      <Abutton to="/config" text="设置" />
       <TitleCache />
     </div>
   </Scence>
