@@ -94,6 +94,7 @@ export interface RawScript {
     inputs: Inputs,
     scences: Array<ScencesPage>
     soundEffects: SoundEffects
+    loaded?:boolean
 }
 export default interface Chaptermodel4 {
     [arg: string]: ChapterModel3[]

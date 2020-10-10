@@ -14,6 +14,7 @@ interface IProps {
   }&globalState
 }
 const modRs=async(rs:RawScript):Promise<RawScript>=>{
+  if(rs.loaded){return rs}
   const {chapters}=rs
   type Pro={
     p:Promise<string>
@@ -33,6 +34,7 @@ const modRs=async(rs:RawScript):Promise<RawScript>=>{
       rs.chapters[item.k][item.index].script=loadedString
     })
   })
+  rs.loaded=true
   return rs
 }
 const PlayGround = (props: IProps) => {

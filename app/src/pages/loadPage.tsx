@@ -3,8 +3,8 @@ import SaveDataCon from '../components/Game/component/saveDataCon'
 import './index.css'
 import { connect } from 'dva'
 import { AnyAction } from 'redux'
-import Abutton from '../components/Abutton'
 import { vw, vh } from '../utils/getSize'
+import BackBtn from '../components/BackBtn'
 
 interface Iprops {
     dispatch: (a: AnyAction) => AnyAction
@@ -21,7 +21,7 @@ const LoadPage = (props: Iprops) => {
             <SaveDataCon loadData={load} />
         </div>
         <div style={{ position: "absolute", bottom: 0 }}>
-            <Abutton onClick={() => { window.history.back() }}>返回</Abutton>
+            <BackBtn></BackBtn>
         </div>
     </div>
 }

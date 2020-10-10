@@ -5,6 +5,7 @@ import './index.css'
 import { CGS } from '../utils/types'
 import Abutton from '../components/Abutton'
 import { vw } from '../utils/getSize'
+import BackBtn from '../components/BackBtn'
 interface IProps { }
 interface Containers {
     key: string,
@@ -100,7 +101,6 @@ export default function Gallery(props: IProps) {
             setCurrentBigPic('')
         }
     }
-    console.log(currentBigPic)
     return <div>
         {currentBigPic && <div onClick={bigPicClick} className='displayImg' style={{ background: `url(${require(`../scripts/CGs/${currentBigPic}`)})` }} ></div>}
         <div className='cardCon'>
@@ -123,7 +123,7 @@ export default function Gallery(props: IProps) {
         </div>
         <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', alignItems: 'center' }}>
             {containers.map((v, i) => <Abutton key={i} onClick={() => { setCurrent(i) }}>{i + 1}</Abutton>)}
-            <Abutton onClick={() => { window.history.back() }} >返回</Abutton>
+            <BackBtn></BackBtn>
         </div>
         <div>
             {imgCaches.map(v => <div key={v} style={{ background: `url(${require(`../scripts/CGs/${v}`)})` }}></div>)}
