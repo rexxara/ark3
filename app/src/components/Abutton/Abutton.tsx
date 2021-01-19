@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useCallback, useRef, useState } from 'react';
 import './style.css'
 import { Link } from 'dva/router'
 import { vw, vh } from '../../utils/getSize'
+import { CSSTransition } from 'react-transition-group';
 interface IProps {
     text?: string,
     onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void
@@ -14,6 +15,19 @@ interface IProps {
 
 const Abutton = (props: IProps) => {
     const { type, ...restProps } = props
+    const [disable, setDisable] = useState(false)
+    const timeRef: any = useRef(undefined)
+    const clickWraper = useCallback((ev) => {
+        if (!disable) {
+            if (props.onClick) {
+                setDisable(true)
+                timeRef.current = setTimeout(() => {
+                    //props.onClick && props.onClick(ev)
+                    setDisable(false)
+                }, 1000);
+            }
+        }
+    }, [props.onClick, disable])
     const BtnStyle: React.CSSProperties = {
         color: 'white',
         minWidth: type === 'small' ? vw(10) : vw(20),
@@ -30,17 +44,30 @@ const Abutton = (props: IProps) => {
     const res = props.to ? <Link to={props.to}><button
         {...restProps}
         style={BtnStyle}
-        onClick={props.onClick}
+        onClick={clickWraper}
         className="Abutton">
         {props.text || props.children}
     </button></Link> : <button
         {...restProps}
         style={BtnStyle}
-        onClick={props.onClick}
+        onClick={clickWraper}
         className="Abutton">
             {props.text || props.children}
         </button>
-    return res
+        
+        return <CSSTransition
+        in={!disable}
+        timeout={1000}
+        classNames={{
+            enter: 'animate__animated',
+            exit: 'animate__animated',
+            exitActive: 'animate__tada'
+        }}
+        mountOnEnter={true}
+        unmountOnExit={true}
+    >
+        {res}
+    </CSSTransition>
 }
 
 
