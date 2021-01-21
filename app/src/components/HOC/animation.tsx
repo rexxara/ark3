@@ -10,9 +10,9 @@ export default function wrapAnimation(WrappedComponent: any): any {
           in={match !== null}
           classNames={{
             enter: 'animate__animated',
-            enterActive: 'animate__fadeIn',
+            enterActive: 'animate__bounceInLeft',
             exit: 'animate__animated',
-            exitActive: 'animate__fadeOut'
+            exitActive: 'animate__bounceOutRight'
           }}
           timeout={1000}
           mountOnEnter={true}

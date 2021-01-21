@@ -2,6 +2,7 @@ import './index.css';
 import Global from './models/global'
 //import * as serviceWorker from './serviceWorker';
 import dva from 'dva';
+import History from './models/history'
 import createHistory from 'history/createHashHistory';
 const app = dva(
   { history: createHistory() }
@@ -9,6 +10,7 @@ const app = dva(
 // 2. Add plugins (optionally)
 //app.use(plugin);
 app.model(Global);
+app.model(History);
 
 // 5. Config router with Components
 app.router(require('./pages/index').default);

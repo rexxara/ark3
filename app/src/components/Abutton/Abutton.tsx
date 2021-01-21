@@ -1,8 +1,9 @@
-import React, { useCallback, useRef, useState } from 'react';
+import React, { PropsWithChildren, useCallback, useRef, useState } from 'react';
 import './style.css'
-import { Link } from 'dva/router'
 import { vw, vh } from '../../utils/getSize'
 import { CSSTransition } from 'react-transition-group';
+import { useAutoToggle } from '../../Hooks/autoToggle';
+import { connect } from 'dva';
 interface IProps {
     text?: string,
     onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void
@@ -14,20 +15,15 @@ interface IProps {
 }
 
 const Abutton = (props: IProps) => {
-    const { type, ...restProps } = props
-    const [disable, setDisable] = useState(false)
-    const timeRef: any = useRef(undefined)
-    const clickWraper = useCallback((ev) => {
-        if (!disable) {
-            if (props.onClick) {
-                setDisable(true)
-                timeRef.current = setTimeout(() => {
-                    //props.onClick && props.onClick(ev)
-                    setDisable(false)
-                }, 1000);
-            }
+    const { type, dispatch,routing,global,historystore, ...restProps } = props
+    const [disable, toggle] = useAutoToggle(1000)
+    const clickWraper = toggle((ev: any) => {
+        if (props.onClick) {
+            props.onClick && props.onClick(ev)
+        } else if (props.to) {
+            props.historyStore.history.push(props.to)
         }
-    }, [props.onClick, disable])
+    })
     const BtnStyle: React.CSSProperties = {
         color: 'white',
         minWidth: type === 'small' ? vw(10) : vw(20),
@@ -41,21 +37,7 @@ const Abutton = (props: IProps) => {
         letterSpacing: 1,
         ...props.style
     }
-    const res = props.to ? <Link to={props.to}><button
-        {...restProps}
-        style={BtnStyle}
-        onClick={clickWraper}
-        className="Abutton">
-        {props.text || props.children}
-    </button></Link> : <button
-        {...restProps}
-        style={BtnStyle}
-        onClick={clickWraper}
-        className="Abutton">
-            {props.text || props.children}
-        </button>
-        
-        return <CSSTransition
+    return <CSSTransition
         in={!disable}
         timeout={1000}
         classNames={{
@@ -66,9 +48,17 @@ const Abutton = (props: IProps) => {
         mountOnEnter={true}
         unmountOnExit={true}
     >
-        {res}
+        <button
+            {...restProps}
+            style={BtnStyle}
+            onClick={clickWraper}
+            className="Abutton">
+            {props.text || props.children}
+        </button>
     </CSSTransition>
 }
+const Provider = (props: IProps) => {
+    return <Abutton {...props} />
+}
 
-
-export default Abutton
+export default connect((store: any) => store)(Provider)

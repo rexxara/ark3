@@ -45,7 +45,6 @@ interface IProps {
   history: any
 }
 const App: React.FC<IProps> = ({ history }) => {
-  console.log(history)
   return <HashRouter>
     <div style={indexStyle} className='App'>
       <title>kimi no hanashi</title>
@@ -63,7 +62,7 @@ const App: React.FC<IProps> = ({ history }) => {
       <Route path="/loadPage" children={props => <WarpedLoadPage {...props} />} />
       <Route path="/config" children={props => <WarpedConfigPage {...props} />} />
       <Route  path="/paintGame" component={PaintGame}></Route>
-      <Init/>
+      <Init historyObj={history}/>
     </div>
   </HashRouter>
 }
