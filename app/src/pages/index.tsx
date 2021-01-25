@@ -4,9 +4,6 @@ import 'animate.css'
 import {  Route, HashRouter } from 'dva/router';
 import IniPage from './loadingPages/IniPage'
 import copyrightPage from './loadingPages/copyrightPage'
-import alertPage from './loadingPages/alertPage'
-import titlePage from './titlePage'
-import updatePage from './updatePage'
 import playGround from './playGround/index'
 import loginPage from './loginPage'
 import warpedAnimation from '../components/HOC/animation'
@@ -34,7 +31,6 @@ const WarpedConfigPage=warpedAnimation(ConfigPage)
 // }
 const indexStyle: React.CSSProperties = {
   height: vh(100), width: vw(100),
-  //backgroundImage: `url(${require('../assets/mainCover.jpg')})`,
   backgroundRepeat: 'no-repeat',
   backgroundColor: 'black',
   backgroundSize: 'Contain',
@@ -50,9 +46,6 @@ const App: React.FC<IProps> = ({ history }) => {
       <title>kimi no hanashi</title>
       <Route exact path="/" children={props => <WarpedIniPage  {...props} />} />
       <Route path="/copyrightPage" children={props => <WarpedCopyrightPage {...props} />} />
-      <Route path="/alertPage" component={alertPage} />
-      <Route path="/titlePage" component={titlePage} />
-      <Route path="/updatePage" component={updatePage} />
       <Route path="/playGround" component={playGround} />
       <Route path="/homePage" component={HomePage} />
       <Route path="/mainGame" children={props => <WarpedMainGame {...props} />} />

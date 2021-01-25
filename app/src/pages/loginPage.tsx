@@ -11,9 +11,10 @@ interface Iprops {
 }
 const LoginPage = (props: Iprops) => {
   const startGame = () => {
-    props.dispatch({
-      type: 'global/start'
-    })
+    console.log('start')
+    // props.dispatch({
+    //   type: 'global/start'
+    // })
   }
   return <Scence>
     <div style={{ width: vw(100), height: (vh(100)) }} className='bodyAnimate'>

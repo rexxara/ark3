@@ -13,9 +13,8 @@ interface IProps {
     type?: 'small' | 'big'
     [arg: string]: any
 }
-
 const Abutton = (props: IProps) => {
-    const { type, dispatch,routing,global,historystore, ...restProps } = props
+    const { type, dispatch, routing, global, historyStore, ...restProps } = props
     const [disable, toggle] = useAutoToggle(1000)
     const clickWraper = toggle((ev: any) => {
         if (props.onClick) {
