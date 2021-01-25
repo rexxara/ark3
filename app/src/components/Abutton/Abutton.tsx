@@ -1,9 +1,11 @@
-import React, { PropsWithChildren, useCallback, useRef, useState } from 'react';
+import React, { PropsWithChildren, useCallback, useEffect, useRef, useState } from 'react';
 import './style.css'
 import { vw, vh } from '../../utils/getSize'
 import { CSSTransition } from 'react-transition-group';
 import { useAutoToggle } from '../../Hooks/autoToggle';
 import { connect } from 'dva';
+//@ts-ignore
+import { Howl, Howler } from 'howler'
 interface IProps {
     text?: string,
     onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void
@@ -13,9 +15,27 @@ interface IProps {
     type?: 'small' | 'big'
     [arg: string]: any
 }
+
+const clickAudio = new Howl({
+    src: [require('./click.mp3')]
+})
+const hoverAudio = new Howl({
+    src: [require('./hover.mp3')]
+})
 const Abutton = (props: IProps) => {
-    const { type, dispatch, routing, global, historyStore, ...restProps } = props
-    const [disable, toggle] = useAutoToggle(1000)
+    const { type, dispatch, routing, global, historyStore, audio, ...restProps } = props
+    const { seVol } = audio
+    useEffect(()=>{
+        clickAudio.volume(seVol/100)
+        hoverAudio.volume(seVol/100)
+    },[seVol])
+    const clickSound = () => {
+        clickAudio.play()
+    }
+    const hoverSound = () => {
+        hoverAudio.play()
+    }
+    const [disable, toggle] = useAutoToggle(1000, { beforeCallBack: clickSound })
     const clickWraper = toggle((ev: any) => {
         if (props.onClick) {
             props.onClick && props.onClick(ev)
@@ -50,6 +70,7 @@ const Abutton = (props: IProps) => {
         <button
             {...restProps}
             style={BtnStyle}
+            onMouseOver={hoverSound}
             onClick={clickWraper}
             className="Abutton">
             {props.text || props.children}

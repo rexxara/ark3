@@ -1,11 +1,11 @@
 import * as React from 'react'
 import { connect } from 'dva'
-import { globalState } from '../../../models/global'
 import VolControllor from './VolControllor'
 import { AnyAction } from 'redux'
 import { vw, vh } from '../../../utils/getSize'
+import { INIT_SETTING } from '../actions'
 interface IProps {
-    global: globalState
+    audio: typeof INIT_SETTING
     dispatch: (a: AnyAction) => AnyAction
 }
 const style: React.CSSProperties = {
@@ -17,11 +17,11 @@ const conStyle = {
     padding: `${vh(5)} ${vw(5)}`
 }
 const SettingItem = (props: IProps) => {
-    const { global: { setting: { bgmVol, seVol } } } = props
+    const { audio: { bgmVol, seVol } } = props
     return <div style={conStyle}>
         <div style={style}>
-            <VolControllor setting={props.global.setting} dispatch={props.dispatch} typeKey='bgmVol' title="BGM音量" value={bgmVol} />
-            <VolControllor setting={props.global.setting} dispatch={props.dispatch} typeKey='seVol' title="音效音量" value={seVol} />
+            <VolControllor setting={props.audio} dispatch={props.dispatch} typeKey='bgmVol' title="BGM音量" value={bgmVol} />
+            <VolControllor setting={props.audio} dispatch={props.dispatch} typeKey='seVol' title="音效音量" value={seVol} />
         </div>
     </div>
 }

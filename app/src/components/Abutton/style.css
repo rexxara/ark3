@@ -10,4 +10,8 @@
     display: inline-block;
     border: none;
     outline: none;
+    transition: all ease 0.33s;
 }
+.Abutton:hover {
+    background-color: black !important;
+  }

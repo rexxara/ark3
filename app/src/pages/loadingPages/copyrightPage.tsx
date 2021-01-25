@@ -4,16 +4,27 @@ import cpri from '../../assets/copyright.jpg'
 import { RouteComponentProps } from 'react-router'
 import { Link } from 'dva/router'
 import { imgStyle } from './computedStyle'
-
-class CopyrightPage extends React.Component<RouteComponentProps>{
+import { connect } from 'dva';
+interface IProps{
+  dispatch:any
+}
+class CopyrightPage extends React.Component<RouteComponentProps&IProps>{
   render() {
+    const {dispatch}=this.props
     return (
       <Scence>
-        <Link to="/loginPage"><img src={cpri} style={imgStyle} alt="" /></Link>
+        <span onClick={()=>{
+        dispatch({
+            type: 'audio/playBgm',
+            payload: 'theme'
+        })
+        }}>
+          <Link to="/loginPage"><img src={cpri} style={imgStyle} alt="" /></Link>
+        </span>
       </Scence>
     )
   }
 
 }
 
-export default CopyrightPage
+export default connect((store: any) => {})(CopyrightPage)

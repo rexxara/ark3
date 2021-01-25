@@ -2,8 +2,9 @@ import './index.css';
 import Global from './models/global'
 //import * as serviceWorker from './serviceWorker';
 import dva from 'dva';
-import History from './models/history'
+import History from './models/history';
 import createHistory from 'history/createHashHistory';
+import AudioStore from './models/audio';
 const app = dva(
   { history: createHistory() }
 );
@@ -11,6 +12,7 @@ const app = dva(
 //app.use(plugin);
 app.model(Global);
 app.model(History);
+app.model(AudioStore);
 
 // 5. Config router with Components
 app.router(require('./pages/index').default);

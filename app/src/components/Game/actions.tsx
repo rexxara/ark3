@@ -260,7 +260,7 @@ export const actions = {
             return INIT_SETTING
         }
     },
-    saveSetting: async (params:Setting) => { 
+    saveSetting: async (params:Setting) => {
         const openSuccess = await INDEXDB.openDB(settingData)
         if (openSuccess && settingData.db) {
             const saveSuccess = await INDEXDB.putData(settingData.db, settingData.objectStore.name, { id: 'Ark', ...params })

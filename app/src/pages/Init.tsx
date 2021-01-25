@@ -8,14 +8,18 @@ interface Iprops {
 }
 const Init = (props: Iprops) => {
     useEffect(() => {
+        // props.dispatch({
+        //     type: 'global/getSetting'
+        // })
         props.dispatch({
-            type: 'global/getSetting'
+            type: 'audio/getSetting'
         })
         props.dispatch({
-            type: 'history/setHistory',
+            type: 'historyStore/setHistory',
             payload: props.historyObj
         })
     }, [])
-    return <div></div>
+    return <div>
+    </div>
 }
 export default connect((store: any) => store)(Init)

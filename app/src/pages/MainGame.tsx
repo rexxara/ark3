@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import MainGame from '../components/Game'
+import MainGame, { INIT_SETTING } from '../components/Game'
 import loader from '../utils/loader/index'
 import './index.css'
 import { GameModel3, RawScript } from '../utils/types'
@@ -11,41 +11,42 @@ interface IProps {
     RawScript: RawScript,
     isReview: boolean,
     LoadDataFromLoadPage: SaveData
-  }&globalState
+  } & globalState
+  audio: typeof INIT_SETTING & { bgm: any }
 }
-const modRs=async(rs:RawScript):Promise<RawScript>=>{
-  if(rs.loaded){return rs}
-  const {chapters}=rs
-  type Pro={
-    p:Promise<string>
-    k:string,
-    index:number
+const modRs = async (rs: RawScript): Promise<RawScript> => {
+  if (rs.loaded) { return rs }
+  const { chapters } = rs
+  type Pro = {
+    p: Promise<string>
+    k: string,
+    index: number
   }
-  let promises:Pro[]=[]
+  let promises: Pro[] = []
   Object.keys(chapters).map(key => {
-      const chapter=chapters[key]
-      chapter.map(async (sec,index) => {
-          promises.push({p:fetch(sec.script).then((r) => r.text()),k:key,index:index})
-      })
-  })
-  await Promise.all(promises.map(v=>v.p)).then(arr=>{
-    arr.map((loadedString,index)=>{
-      const item=promises[index]
-      rs.chapters[item.k][item.index].script=loadedString
+    const chapter = chapters[key]
+    chapter.map(async (sec, index) => {
+      promises.push({ p: fetch(sec.script).then((r) => r.text()), k: key, index: index })
     })
   })
-  rs.loaded=true
+  await Promise.all(promises.map(v => v.p)).then(arr => {
+    arr.map((loadedString, index) => {
+      const item = promises[index]
+      rs.chapters[item.k][item.index].script = loadedString
+    })
+  })
+  rs.loaded = true
   return rs
 }
 const PlayGround = (props: IProps) => {
   const rs = props.global.RawScript
   const [data, setData]: [GameModel3 | false, Function] = useState(false)
   useEffect(() => {
-    modRs(rs).then(rs=>{
+    modRs(rs).then(rs => {
       getData(rs)
     })
   }, [])
-  const getData = (rs:RawScript) => {
+  const getData = (rs: RawScript) => {
     const data = loader(rs as any, true, true)
     setData(data)
   }
@@ -54,7 +55,7 @@ const PlayGround = (props: IProps) => {
       data={data}
       isReview={props.global.isReview}
       RawScript={rs as any}
-      setting={props.global.setting}
+      setting={props.audio}
       LoadDataFromLoadPage={props.global.LoadDataFromLoadPage}
     />}
   </div>

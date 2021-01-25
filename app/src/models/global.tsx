@@ -1,11 +1,8 @@
 import script from '../scripts/index'
-import { INIT_SETTING } from '../components/Game/index'
-import { actions } from '../components/Game'
 import { RawScript } from '../utils/types';
 export interface globalState {
     script: string
     isAuto: boolean
-    setting:typeof INIT_SETTING
     RawScript:RawScript
 }
 const initalState = {
@@ -17,7 +14,6 @@ const initalState = {
     RawScript: script,
     isReview: false,
     LoadDataFromLoadPage: undefined,
-    setting: INIT_SETTING
 }
 export default {
     namespace: 'global',
@@ -28,12 +24,12 @@ export default {
                 const { origin, pathname } = window.location
                 window.location.href = origin + pathname + '#/mainGame'
             }, 0)
-            const {setting,RawScript}=state
-            return {...initalState,setting,RawScript:script}
+            const {RawScript}=state
+            return {...initalState,RawScript:script}
         },
-        'saveSetting'(state: globalState, { payload }: any) {
-            return { ...state, ...payload }
-        },
+        // 'saveSetting'(state: globalState, { payload }: any) {
+        //     return { ...state, ...payload }
+        // },
         'load'(state: globalState, { payload }: any) {
             console.log(payload)
             setTimeout(() => {
@@ -58,13 +54,13 @@ export default {
         },
     },
     effects: {
-        *getSetting({ payload }: any, { put, call }: any) {
-            const res= yield call(actions.getSetting)
-            yield put({ type: 'saveSetting', payload: { setting: res } });
-        },
-        *setSetting({ payload }: any, { put, call }: any) {
-            const res= yield call(actions.saveSetting,payload)
-            yield put({ type: 'saveSetting', payload: { setting: res } });
-        },
+        // *getSetting({ payload }: any, { put, call }: any) {
+        //     const res= yield call(actions.getSetting)
+        //     yield put({ type: 'saveSetting', payload: { setting: res } });
+        // },
+        // *setSetting({ payload }: any, { put, call }: any) {
+        //     const res= yield call(actions.saveSetting,payload)
+        //     yield put({ type: 'saveSetting', payload: { setting: res } });
+        // },
     },
 };

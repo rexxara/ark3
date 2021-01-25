@@ -17,14 +17,14 @@ const VolControllor = (props: IProps) => {
         if (percent > 100) {
             percent = 100;
         }
-        props.dispatch({ type: 'global/setSetting', payload: { ...props.setting, [typeKey]: percent } })
+        props.dispatch({ type: 'audio/setSetting', payload: { ...props.setting, [typeKey]: percent } })
     };
     const decline = () => {
         let percent = value - 10;
         if (percent < 0) {
             percent = 0;
         }
-        props.dispatch({ type: 'global/setSetting', payload: { ...props.setting, [typeKey]: percent } })
+        props.dispatch({ type: 'audio/setSetting', payload: { ...props.setting, [typeKey]: percent } })
     };
     return <div className="site-card-border-less-wrapper">
         <Card title={title} bordered={false} style={{ width: vw(40) }}>

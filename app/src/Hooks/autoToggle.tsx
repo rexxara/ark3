@@ -1,11 +1,21 @@
 import React, { useState } from 'react'
-
-export const useAutoToggle = (time = 1000, isBefore = false) => {
+type Setting = {
+    isBefore?: boolean,
+    beforeCallBack?: Function
+}
+export const useAutoToggle = (time = 1000, setting: Setting = {
+    isBefore: false,
+    beforeCallBack: undefined
+}) => {
+    const { isBefore, beforeCallBack } = setting
     const [disable, setDisable] = useState(false)
     const timeRef: any = React.useRef()
     const toggle = (fn: Function) => (ev: any) => {
         if (timeRef.current) {
             return;
+        }
+        if (typeof beforeCallBack === 'function') {
+            beforeCallBack()
         }
         setDisable(true)
         if (isBefore) {
