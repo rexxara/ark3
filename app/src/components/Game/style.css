@@ -73,7 +73,7 @@ body{
   display: flex;
   justify-content: center;
   align-items: center;
-  background: #272822;
+  background: black;
   color: #0c7d9b;
   position: absolute;
   bottom: 0;

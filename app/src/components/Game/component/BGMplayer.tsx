@@ -7,7 +7,6 @@ interface IProps {
     vol:number
 }
 export default function (props: IProps) {
-    console.log(props)
     const { src: { name, src }, cache } = props
     const arkBgm = useRef(null);
     useEffect(()=>{

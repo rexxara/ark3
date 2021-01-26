@@ -4,12 +4,16 @@ import { SaveData } from './actions'
 import { Option } from '../../utils/types'
 
 export  const saveDataAdapter = (newData: SaveData, props: IProps, state: IState) => {
+    //cgCache
     //currentChapter(string)=>array //rawLine=displaytext//chooseKey=>choose//isNext=>choose
-    const { data: { chapters }, RawScript: { inputs, chooses } } = props
+    const { data: { chapters,caches }, RawScript: { inputs, chooses } } = props
     const { background, cg, displaycharacters: oldCharater } = state
     const { currentChapterName, inputKey } = newData
     const loadedChapter = chapters.find(v => v.name === currentChapterName)
+    console.log(props)
     if (loadedChapter) {
+        console.log(loadedChapter)
+        const loadedChapterCache=caches[loadedChapter.arkMark]
         let choose: Option[] = []
         if (newData.chooseKey) {
             choose = chooses[newData.chooseKey]
@@ -41,7 +45,14 @@ export  const saveDataAdapter = (newData: SaveData, props: IProps, state: IState
             choose,
             input: inputKey ? inputs[inputKey] : iniState.input,
             currentChapter: loadedChapter,
-            skipResourseCount: skipResourseCount
+            skipResourseCount: skipResourseCount,
+            audioCaches: {
+                bgms:[],
+                ses:[],
+                // bgms: Object.values(loadedChapterCache.preLoadBgms),
+                // ses: Object.values(loadedChapterCache.preloadSoundEffects),
+                cgs: Object.values(loadedChapterCache.preLoadCgs)
+            }
         }
         return mergedData
     } else {

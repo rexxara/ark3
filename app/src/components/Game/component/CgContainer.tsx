@@ -1,6 +1,5 @@
 import React from 'react'
 import '../style.css'
-import classnames from 'classnames'
 import { CSSTransition } from 'react-transition-group'
 interface IProps {
     cg: string,
@@ -8,6 +7,7 @@ interface IProps {
 }
 const main = (props: IProps) => {
     const { cg, cgList } = props
+    console.log(cgList)
     return <div>
         {cgList.map((v, i) => {
             return <CSSTransition
