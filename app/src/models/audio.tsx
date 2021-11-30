@@ -24,10 +24,16 @@ export default {
     reducers: {
         'saveSetting'(state: AudioState, { payload }: any) {
             const { setting } = payload
-            if(state.bgm){
-                state.bgm.volume(setting.bgmVol/100)
+            if (state.bgm) {
+                state.bgm.volume(setting.bgmVol / 100)
             }
             return { ...state, bgmVol: setting.bgmVol, seVol: setting.seVol }
+        },
+        'stopBgm'(state: AudioState, { payload }: any) {
+            if (state.bgm) {
+                state.bgm.stop()
+            }
+            return state;
         },
         'playBgm'(state: AudioState, { payload }: any) {
             if (state.bgm) {
@@ -49,7 +55,8 @@ export default {
     },
     effects: {
         *getSetting({ payload }: any, { put, call }: any) {
-            const res = yield call(actions.getSetting)
+            //@ts-ignore
+            const res = yield call(actions.getSetting);
             console.log(res)
             yield put({ type: 'saveSetting', payload: { setting: res } });
         },
@@ -61,6 +68,7 @@ export default {
                 } else {
                 }
             }
+            //@ts-ignore
             const res = yield call(actions.saveSetting, props)
             yield put({ type: 'saveSetting', payload: { setting: res } });
         },

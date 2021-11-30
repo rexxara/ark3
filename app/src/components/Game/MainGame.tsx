@@ -1,6 +1,6 @@
 import React from 'react'
 import { LINE_TYPE, DisplayLine, CommandLine, NO_IMG, displayCharacter, DisplayCharacters, Option } from '../../utils/types'
-import { variableLoader } from '../../utils/utils'
+import { back, variableLoader } from '../../utils/utils'
 import classnames from 'classnames'
 import { IState, IProps, iniState, clickHandleConfig, AudioCaches } from './gameTypes'
 import NarratorCon from './component/narratorCon'
@@ -12,7 +12,7 @@ import action, { SaveData } from './actions'
 import SaveDataCon from './component/saveDataCon'
 import ImgCache from './component/ImgCache'
 import CtrlPanel from './component/ctrlPanel'
-import { message } from 'antd';
+import { Modal } from 'antd';
 import GAMEInput from './component/input'
 import SoundEffectPlayer from './component/soundEffectPlayer'
 import Title from './titles/Title'
@@ -23,6 +23,7 @@ import { commandLineHandle } from './functions'
 import TextArea from './component/TextArea'
 import { vh, vw } from '../../utils/getSize'
 import SettingComp from './component/settingCompWraper'
+import { ExclamationCircleOutlined } from '@ant-design/icons';
 const effectCanvasId = 'effects'
 
 class MainGame extends React.Component<IProps, IState> {
@@ -209,7 +210,15 @@ class MainGame extends React.Component<IProps, IState> {
     nextChapter() {
         const { currentChapter: { next, isEnd }, gameVariables } = this.state
         if (isEnd) {
-            message.success('gameOver')
+            Modal.confirm({
+                title: '游戏结束，回到主菜单？',
+                icon: <ExclamationCircleOutlined />,
+                content: '游戏结束，回到主菜单？',
+                onOk() {
+                    back();
+                },
+                onCancel() { },
+            });
             return console.warn("gameOver")
         }
         if (!next) { return this.reviewBack() }
@@ -389,7 +398,7 @@ class MainGame extends React.Component<IProps, IState> {
                     {choose.map((v, k) => <ARKOption gameVariables={gameVariables} key={k} onClick={this.onSelect} v={v} choose={choose} />)}
                 </div>
                 <div className='displayCharactersCon'>
-                    {displaycharactersArray.map(v => v.emotion ? <img onLoad={this.imgOnload}
+                    {displaycharactersArray.map(v => v.emotion ? <img alt='' onLoad={this.imgOnload}
                         className={displayName === v.name ? classnames('displayCharacter', 'active') : 'displayCharacter'}
                         key={v.name} src={require(`../../scripts/charatersImages/${v.name}/${v.emotion}`)} /> : <p key={v.name} />)}
                 </div>

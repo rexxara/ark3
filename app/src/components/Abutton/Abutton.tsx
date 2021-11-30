@@ -45,8 +45,8 @@ const Abutton = (props: IProps) => {
     })
     const BtnStyle: React.CSSProperties = {
         color: 'white',
-        minWidth: type === 'small' ? vw(10) : vw(20),
-        height: type === 'small' ? vw(5) : vw(10),
+        minWidth: type === 'small' ? vw(6) : vw(12),
+        height: type === 'small' ? vw(4) : vw(8),
         background: '#313131',
         fontFamily: "Microsoft YaHei",
         border: 0,

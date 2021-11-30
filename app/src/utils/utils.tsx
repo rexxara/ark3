@@ -1,3 +1,6 @@
+
+import _throttle from 'lodash/throttle'
+
 export function strlen(str: string = "") {
   let len = 0;
   for (let i = 0; i < str.length; i++) {
@@ -80,3 +83,12 @@ export function splitFromFirstKey(str: string, key: string): string[] {
   const last = str.substring(index + 1)
   return [pre, last]
 }
+
+
+const _back = () => {
+  if (window.location.hash.indexOf('#/loginPage') > -1) {
+    return;
+  }
+  window.history.back()
+}
+export const back = _throttle(_back, 2200, { trailing: false })
