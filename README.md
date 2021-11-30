@@ -1,3 +1,19 @@
+## how to 
+### pack windows
+npm run build
+npm run pack-only
+### pack android
+npm run build
+npx cap sync
+npx cap open android
+### run android
+remove windows build in ./dist
+npm run build
+npx cap sync
+npx cap run android --stacktrace
+
+
+
 # electron-quick-start-typescript
 
 **Clone and run for a quick way to see Electron in action.**

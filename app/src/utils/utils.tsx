@@ -23,6 +23,11 @@ export function variableLoader(text: string, variables: any): any {
   })
   return res
 }
+export function isAndroid() {
+  var u = navigator.userAgent;
+  var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1;
+  return isAndroid;
+}
 // export function ToDBC(txtstring: string) {
 //   var tmp = "";
 //   for (var i = 0; i < txtstring.length; i++) {

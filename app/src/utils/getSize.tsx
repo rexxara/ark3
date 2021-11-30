@@ -1,3 +1,4 @@
+import { isAndroid } from "./utils"
 
 interface CacheMap {
     [arg: string]: string
@@ -9,7 +10,7 @@ const vw = (num: number): string => {
     if (vwCacheMap[num]) {
         return vwCacheMap[num]
     }
-    if (clientHeight > clientWidth) {
+    if (clientHeight > clientWidth&&!isAndroid()) {
         //手机
         const res = clientHeight / 100 * num + 'px'
         vwCacheMap[num] = res
@@ -27,7 +28,7 @@ const vh = (num: number): string => {
         return vhCacheMap[num]
     }
     const { clientHeight, clientWidth } = document.documentElement
-    if (clientHeight > clientWidth) {
+    if (clientHeight > clientWidth&&!isAndroid()) {
         //手机
         const res = clientWidth / 100 * num + 'px'
         vhCacheMap[num] = res

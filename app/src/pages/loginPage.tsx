@@ -6,6 +6,7 @@ import { AnyAction } from 'redux'
 import { vh, vw } from '../utils/getSize'
 import TitleCache from '../components/Game/titles/TitleCache'
 import './index.css'
+import { message } from 'antd';
 interface Iprops {
   dispatch: (a: AnyAction) => AnyAction
 }
@@ -21,6 +22,7 @@ const LoginPage = (props: Iprops) => {
       type: 'audio/playBgm',
       payload: 'theme'
     })
+    message.info('2021年12月1日,00点54分')
   }, []);
   return <Scence>
     {/* <Abutton to="/playGround" text="游乐场" /> */}

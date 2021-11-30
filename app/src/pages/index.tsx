@@ -17,7 +17,11 @@ import { vh, vw } from '../utils/getSize'
 import PaintGame from './paintGame/index'
 import ConfigPage from './ConfigPage'
 import Init from './Init'
-detectOrient()
+import { isAndroid } from '../utils/utils';
+
+if (!isAndroid()) {//ios only
+  detectOrient()
+}
 const WarpedIniPage = warpedAnimation(IniPage)
 const WarpedCopyrightPage = warpedAnimation(copyrightPage)
 const WarpedLoginPage = warpedAnimation(loginPage)
