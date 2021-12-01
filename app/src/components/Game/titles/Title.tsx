@@ -79,7 +79,7 @@ class title extends React.Component<IProps, IState>{
                 unmountOnExit={true}
             >{chapterName ? <div className="title" style={{ width: vw(100), height: vh(100) }}>
                 <audio src={require("./title.mp3")} autoPlay></audio>
-                <div className="titleImg" style={{ background: `url(${imgMap[chapterName]}) no-repeat center 0` }}>
+                <div className="titleImg" style={{ background: `url(${imgMap[chapterName]}) no-repeat center center` }}>
                     {children}
                     <div style={style}>
                         <h3>{closeAble ?

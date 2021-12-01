@@ -47,7 +47,6 @@ const Abutton = (props: IProps) => {
         color: 'white',
         minWidth: type === 'small' ? vw(6) : vw(12),
         height: type === 'small' ? vw(4) : vw(8),
-        background: '#313131',
         fontFamily: "Microsoft YaHei",
         border: 0,
         margin: '6px 12px',
@@ -72,7 +71,7 @@ const Abutton = (props: IProps) => {
             style={BtnStyle}
             onMouseOver={hoverSound}
             onClick={clickWraper}
-            className="Abutton">
+            className="Abutton button-63">
             {props.text || props.children}
         </button>
     </CSSTransition>
