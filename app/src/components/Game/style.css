@@ -73,13 +73,12 @@ body{
   display: flex;
   justify-content: center;
   align-items: center;
-  background: black;
   color: #0c7d9b;
   position: absolute;
   bottom: 0;
   right: 0;
   z-index: 999;
-  transition:all 1s;
+  transition:all 0.3s;
 }
 
 .displayCharactersCon {

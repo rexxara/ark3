@@ -95,7 +95,7 @@ const displayLineParserInner = (value: string, command?: string[]): { value: str
         const matchCommand = matchRes[0];
         const restStringPre = value.slice(0, matchRes.index);
         const restStringAfter = value.slice((matchRes.index || 0) + matchCommand.length);
-        return displayLineParserInner(restStringPre + restStringAfter, [...preCommands, matchCommand.replaceAll('[', '').replaceAll(']', '')])
+        return displayLineParserInner(restStringPre + restStringAfter, [...preCommands, matchCommand.replace(/\[/g, '').replace(/\]/g, '')])
     } else {
         return { value: value, commands: preCommands }
     }
@@ -122,6 +122,6 @@ const getDetailFromDisplayLineCommands = (commands: string[]) => {
     console.log(soundSrc)
     return {
         style: style,
-        soundSrc: soundSrc.replaceAll('"', '').replaceAll("'", '')
+        soundSrc: soundSrc.replace(/\"/g, '').replace(/\'/g, '')
     }
 }

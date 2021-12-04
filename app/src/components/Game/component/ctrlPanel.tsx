@@ -14,7 +14,6 @@ import {
     SettingOutlined
 } from '@ant-design/icons';
 
-import { vw } from '../../../utils/getSize'
 import Log from './Log'
 interface IProps {
     clickHandle: (ev: React.MouseEvent<HTMLButtonElement, MouseEvent>, any: any) => any,
@@ -39,27 +38,23 @@ export default function CtrlPanel({ clickHandle, rawLine, displayName, saveDataC
         setOpen((state: boolean) => !state)
     }
     return (
-        <div className='ctrlPanle' style={{ width: open ? vw(100) : vw(10) }}>
-            {/* <p>第<Abutton onClick={(ev) => clickHandle(ev, { reset: true })}>{linePointer}</Abutton>行</p> */}
-            {/* <Abutton onClick={nextChapter}>下一章</Abutton> */}
-            {/* <p>在场人物<span></span></p>
-            <p>{displaycharactersArray.map(v => v.name)}</p> */}
+        <div className='ctrlPanle' style={{ width: open ? '100vw' : undefined }}>
             {open && <React.Fragment>
-                <Abutton type='small' onClick={toogleAuto}>{auto ? <PauseCircleOutlined /> : <PlayCircleOutlined />}</Abutton>
+                <Abutton  onClick={toogleAuto}>{auto ? <PauseCircleOutlined /> : <PlayCircleOutlined />}</Abutton>
             </React.Fragment>}
             <span style={{ display: open ? 'inline-block' : 'none' }}>
                 <Log rawLine={rawLine} displayName={displayName} />
             </span>
             {open && <>
-                <Abutton type='small' onClick={quickSave}><span><CloudDownloadOutlined /></span></Abutton>
-                <Abutton type='small' onClick={quickLoad}><CloudUploadOutlined /></Abutton>
-                <Abutton type='small'
+                <Abutton  onClick={quickSave}><span><CloudDownloadOutlined /></span></Abutton>
+                <Abutton  onClick={quickLoad}><CloudUploadOutlined /></Abutton>
+                <Abutton 
                     onClick={saveDataConOpen ? closeSaveCon : openSaveCon}>
                     {saveDataConOpen ? <CloseSquareOutlined /> : <SaveOutlined />}</Abutton>
-                <Abutton type='small' onClick={() => window.history.back()}><RollbackOutlined /></Abutton>
-                <Abutton type='small' onClick={toggleSetting}><SettingOutlined /></Abutton>
+                <Abutton  onClick={() => window.history.back()}><RollbackOutlined /></Abutton>
+                <Abutton  onClick={toggleSetting}><SettingOutlined /></Abutton>
             </>}
-            <Abutton type='small' onClick={openHandle}>{open ? <DoubleRightOutlined /> : <DoubleLeftOutlined />}</Abutton>
+            <Abutton  onClick={openHandle}>{open ? <DoubleRightOutlined /> : <DoubleLeftOutlined />}</Abutton>
         </div>
     );
 }

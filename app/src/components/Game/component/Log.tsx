@@ -88,7 +88,7 @@ export default class App extends React.Component<IProps>{
                         </div>
                     </div> : <div></div>}
                 </CSSTransition>
-                <Abutton onClick={this.toggleLog} type='small' >{open ? <VerticalAlignBottomOutlined /> : <VerticalAlignTopOutlined />}</Abutton>
+                <Abutton onClick={this.toggleLog} >{open ? <VerticalAlignBottomOutlined /> : <VerticalAlignTopOutlined />}</Abutton>
             </div>
         );
     }
