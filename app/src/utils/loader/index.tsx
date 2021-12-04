@@ -1,3 +1,4 @@
+import { displayLineParser } from '../../components/Game/utils'
 import {
     DisplayLine, CommandLine,
     RawScript, LINE_TYPE, NO_IMG,
@@ -347,7 +348,7 @@ export function commandProcess(matchedRawLine: RegExpMatchArray,
 }
 // export const oldActionReg = /(?<!\/\/)\[(.*)\]/
 export const actionReg = /(\[.*?\])/
-function lineTypeJudger(lineText: string[], currentSpaceLine: number[], currentSingleSpaceLine: number[]) {
+function lineTypeJudger(lineText: string[], currentSpaceLine: number[], currentSingleSpaceLine: number[]): { type: string; extra?: RegExpMatchArray } {
     const rawLine = filterSpace(lineText.join(""))
     const commentReg = /\/\//
     if (rawLine.match(commentReg)) {
@@ -355,6 +356,11 @@ function lineTypeJudger(lineText: string[], currentSpaceLine: number[], currentS
     }
     const isCommand = rawLine.match(actionReg)
     if (isCommand) {
+        const { _value } = displayLineParser(rawLine);
+        const newType = lineTypeJudger(_value.split(''), currentSpaceLine, currentSingleSpaceLine);
+        if (_value && newType && newType.type === LINE_TYPE.raw) {
+            return { type: LINE_TYPE.raw };
+        }
         return { type: LINE_TYPE.command, extra: isCommand }
     }
     const isMonologue = lineText.find((v, i) => {

@@ -22,7 +22,7 @@ const LoginPage = (props: Iprops) => {
       type: 'audio/playBgm',
       payload: 'theme'
     })
-    message.info('2021年12月1日,00点54分')
+    message.info('2021年12月4日')
   }, []);
   return <Scence>
     {/* <Abutton to="/playGround" text="游乐场" /> */}

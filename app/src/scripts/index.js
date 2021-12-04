@@ -17,6 +17,14 @@ const charaters = {
             死妈脸: 'char_011_talula_2.png.merge.png',
             气急败坏: 'char_011_talula_2.png.merge.png',
         }
+    },
+    文静: {
+        images: {
+            default: '3b1f1948a8b9212f81960ae8dc6c77ac9b521899.png'
+        },
+        style: {
+            top: '6vh',
+        }
     }
 }
 
@@ -69,7 +77,7 @@ const chooses = {
 }
 const variables = {
     女主好感度: 1,
-    adminName:'rexxara'
+    adminName: 'rexxara'
 }
 const backgrounds = {
     大街: 'bg_abyss_1.png',

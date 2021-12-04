@@ -22,7 +22,7 @@ export const LINE_TYPE = {
     COMMAND_SHOW_EFFECT: 'showEffect',
     COMMAND_REMOVE_EFFECT: 'removeEffect',
     COMMAND_SHOW_SOUND_EFFECT: 'showSoundEffect',
-    COMMAND_DELAY: 'delay',
+    COMMAND_DELAY: 'delay'
 }
 
 
@@ -51,7 +51,7 @@ export interface DisplayLine {
 
 export interface CommandLine {
     command: string,
-    param?: string | displayCharacter | selectedBGM | Option[] | Input | CGParama | DelayParama
+    param?: string | DisplayCharacter | selectedBGM | Option[] | Input | CGParama | DelayParama
 }
 export type DelayParama = number
 
@@ -60,12 +60,13 @@ export interface CGParama {
     src: string
 }
 export interface DisplayCharacters {
-    [arg: string]: displayCharacter
+    [arg: string]: DisplayCharacter
 }
 
-export interface displayCharacter {
+export interface DisplayCharacter {
     name: string
-    emotion: string
+    emotion: string,
+    style?:React.CSSProperties
 }
 
 export interface selectedBGM {
@@ -77,7 +78,8 @@ export interface Emotions {
     [arg: string]: string
 }
 export interface Charater {
-    images: Emotions
+    images: Emotions,
+    style?:React.CSSProperties
 }
 export interface Characters {
     [arg: string]: Charater

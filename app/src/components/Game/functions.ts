@@ -1,4 +1,4 @@
-import { DisplayCharacters, CommandLine, LINE_TYPE, displayCharacter, CGParama } from '../../utils/types'
+import { DisplayCharacters, CommandLine, LINE_TYPE, DisplayCharacter, CGParama } from '../../utils/types'
 import effects from './effects'
 import action from './actions'
 import _omit from 'lodash/omit'
@@ -26,12 +26,12 @@ export const commandLineHandle = (command: CommandLine, { background, displaycha
             newParam = { displaycharacters: _omit(displaycharacters, [command.param as string]) }
             break
         case LINE_TYPE.COMMAND_ENTER_CHARATER:
-            const hitedCharater = displaycharacters[(command.param as displayCharacter).name]
+            const hitedCharater = displaycharacters[(command.param as DisplayCharacter).name]
             if (hitedCharater) {
-                needLoadImg = hitedCharater.emotion !== (command.param as displayCharacter).emotion//有人表情不一样
+                needLoadImg = hitedCharater.emotion !== (command.param as DisplayCharacter).emotion//有人表情不一样
             } else { needLoadImg = true }//没人
             newParam = {
-                displaycharacters: { ...displaycharacters, [(command.param as displayCharacter).name]: command.param },
+                displaycharacters: { ...displaycharacters, [(command.param as DisplayCharacter).name]: command.param },
                 cacheDisplayLineName: '',
                 cacheDisplayLineText: ''
             }

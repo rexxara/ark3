@@ -1,5 +1,5 @@
 import React from 'react'
-import { LINE_TYPE, DisplayLine, CommandLine, NO_IMG, displayCharacter, DisplayCharacters, Option } from '../../utils/types'
+import { LINE_TYPE, DisplayLine, CommandLine, NO_IMG, DisplayCharacter, DisplayCharacters, Option } from '../../utils/types'
 import { back, variableLoader } from '../../utils/utils'
 import classnames from 'classnames'
 import { IState, IProps, iniState, clickHandleConfig, AudioCaches } from './gameTypes'
@@ -16,7 +16,7 @@ import { Modal } from 'antd';
 import GAMEInput from './component/input'
 import SoundEffectPlayer from './component/soundEffectPlayer'
 import Title from './titles/Title'
-import { saveDataAdapter } from './utils'
+import { displayLineParser, getCharacterStyle, saveDataAdapter } from './utils'
 import CgContainer from './component/CgContainer'
 import BackgroundCon from './component/BackgroundContainer'
 import { commandLineHandle } from './functions'
@@ -24,6 +24,8 @@ import TextArea from './component/TextArea'
 import { vh, vw } from '../../utils/getSize'
 import SettingComp from './component/settingCompWraper'
 import { ExclamationCircleOutlined } from '@ant-design/icons';
+//@ts-ignore
+import { Howl, Howler } from 'howler'
 const effectCanvasId = 'effects'
 
 class MainGame extends React.Component<IProps, IState> {
@@ -134,7 +136,8 @@ class MainGame extends React.Component<IProps, IState> {
             if ('value' in line) {
                 const { gameVariables } = this.state
                 const res = variableLoader(line.value, gameVariables) as string
-                this.setState({ displayText: res, rawLine: res, textAreaStop: true })
+                const { _value, style, soundSrc } = displayLineParser(res);
+                this.setState({ displayText: _value, rawLine: _value, textAreaStop: true })
             } else {
                 this.setState({ textAreaStop: true })
             }
@@ -156,6 +159,14 @@ class MainGame extends React.Component<IProps, IState> {
         const { name, emotion } = line
         let { value } = line
         value = variableLoader(value, gameVariables)
+        const { _value, style, soundSrc } = displayLineParser(value);
+        value = _value;
+        if (soundSrc.length) {
+            new Howl({
+                src: ['lines/' + this.state.currentChapter.name + '/' + (soundSrc)],
+                html5: true
+            }).play()
+        }
         let needLoadNewCharater = false
         let needLoadNewEmotion = false
         if (name && emotion) {
@@ -166,12 +177,13 @@ class MainGame extends React.Component<IProps, IState> {
             for (const key in displaycharacters) {
                 if (displaycharacters.hasOwnProperty(key)) {
                     const element = displaycharacters[key]
+                    const newStyle = { ...element.style, ...style };
                     if (element.name === name) { needLoadNewCharater = false }
                     if (element.name === name && element.emotion === nextEmo) { needLoadNewEmotion = false }
-                    nextDisplay[element.name] = element.name !== name ? element : { name, emotion: nextEmo }
+                    nextDisplay[element.name] = element.name !== name ? element : { name, emotion: nextEmo, style: newStyle }
                 }
             }
-            if (needLoadNewCharater) { nextDisplay = { ...displaycharacters, [name]: { name, emotion: nextEmo } as displayCharacter } }
+            if (needLoadNewCharater) { nextDisplay = { ...displaycharacters, [name]: { name, emotion: nextEmo, style: style } } }
             this.setState({ displaycharacters: nextDisplay })
         }
         if (isNarratorMode) {
@@ -181,7 +193,12 @@ class MainGame extends React.Component<IProps, IState> {
             if (needLoadNewEmotion) {
                 this.setState({ cacheDisplayLineText: value, cacheDisplayLineName: name || '', clickDisable: true })
             } else {
-                if (name !== displayName) { this.setState({ displayName: '', rawLine: value, displayText: value, textAreaStop: false }) }
+                if (name !== displayName) {
+                    this.setState({ displayName: '', rawLine: value, displayText: value, textAreaStop: false })
+                } else {
+                    this.setState({ rawLine: value, displayText: value, textAreaStop: false })
+                    //上一句和这一句没换人
+                }
             }
         }
     }
@@ -398,9 +415,12 @@ class MainGame extends React.Component<IProps, IState> {
                     {choose.map((v, k) => <ARKOption gameVariables={gameVariables} key={k} onClick={this.onSelect} v={v} choose={choose} />)}
                 </div>
                 <div className='displayCharactersCon'>
-                    {displaycharactersArray.map(v => v.emotion ? <img alt='' onLoad={this.imgOnload}
-                        className={displayName === v.name ? classnames('displayCharacter', 'active') : 'displayCharacter'}
-                        key={v.name} src={require(`../../scripts/charatersImages/${v.name}/${v.emotion}`)} /> : <p key={v.name} />)}
+                    {displaycharactersArray.map(v => {
+                        const style = getCharacterStyle(v.name, this.props.RawScript.charaters);
+                        return v.emotion ? <img alt='' style={{ ...style, ...v.style }} onLoad={this.imgOnload}
+                            className={displayName === v.name ? classnames('displayCharacter', 'active') : 'displayCharacter'}
+                            key={v.name} src={require(`../../scripts/charatersImages/${v.name}/${v.emotion}`)} /> : <p key={v.name} />
+                    })}
                 </div>
                 <CgContainer cgList={audioCaches.cgs} cg={cg} />
                 <div className='effects' id={effectCanvasId}></div>
