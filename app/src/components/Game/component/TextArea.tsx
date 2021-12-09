@@ -42,7 +42,7 @@ class TextArea extends React.Component<IProps, IState>{
         if (nextProps.rawLine !== this.props.rawLine) {
             // console.log('rawLineChangedINshouldComponentUpdate')
             clearTimeout(this.timer)
-            if(nextProps.rawLine.length){
+            if (nextProps.rawLine.length) {
                 this.textAnimation(nextProps.rawLine)
             }
         }
@@ -70,8 +70,8 @@ class TextArea extends React.Component<IProps, IState>{
                 this.timer = undefined
                 this.setState({ displayText: rawLine })
                 let { auto } = this.props
-                this.props.lineEndHandle(false)
-                if (auto) {
+                const canNext = this.props.lineEndHandle(false)
+                if (auto && canNext) {
                     setTimeout(() => {
                         this.props.clickHandle()
                     }, 500);
@@ -88,7 +88,8 @@ class TextArea extends React.Component<IProps, IState>{
             <div className='textarea'
                 style={{
                     padding: vw(2), minHeight: vh(25), lineHeight: vh(6), fontSize: vh(4),
-                }}>{this.state.displayText}{rawLine === displayText && rawLine.length > 0 && <StepForwardOutlined />}</div>
+                }}>{this.state.displayText}{rawLine === displayText && rawLine.length > 0 && <StepForwardOutlined />}
+            </div>
         );
     }
 }

@@ -7,7 +7,6 @@ interface IProps {
 }
 const main = (props: IProps) => {
     const { cg, cgList } = props
-    console.log(cgList)
     return <div>
         {cgList.map((v, i) => {
             return <CSSTransition

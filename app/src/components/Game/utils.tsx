@@ -119,7 +119,6 @@ const getDetailFromDisplayLineCommands = (commands: string[]) => {
             soundSrc = matchRes?.[0] || '';
         }
     })
-    console.log(soundSrc)
     return {
         style: style,
         soundSrc: soundSrc.replace(/\"/g, '').replace(/\'/g, '')

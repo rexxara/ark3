@@ -41,6 +41,7 @@ export const commandLineHandle = (command: CommandLine, { background, displaycha
             break
         case LINE_TYPE.COMMAND_REMOVE_BACKGROUND:
             newParam = { background: '' }
+            break
         case LINE_TYPE.COMMAND_PAUSE_BGM:
             if (ARKBGM) { ARKBGM.pause() } else { throw new Error('bgmNotFound') }
             break

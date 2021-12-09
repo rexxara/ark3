@@ -56,6 +56,7 @@ class MainGame extends React.Component<IProps, IState> {
         this.TitleCallback = this.TitleCallback.bind(this)
         this.lineEndHandle = this.lineEndHandle.bind(this)
         this.onCacheLoadProgress = this.onCacheLoadProgress.bind(this)
+        this.soundEnd = this.soundEnd.bind(this)
 
     }
     quickSave() {
@@ -143,7 +144,19 @@ class MainGame extends React.Component<IProps, IState> {
             }
         }
     }
-    lineEndHandle(bySkip: boolean) {
+    lineEndHandle(bySkip: boolean): boolean {
+        const { auto, lineSound } = this.state
+        let result = true;
+        if (!bySkip) {
+            if (auto) {
+                if (lineSound) {
+                    const playing = lineSound.playing();
+                    if (playing) {
+                        result = false;
+                    }
+                }
+            }
+        }
         const { narratorMode } = this.state
         if (narratorMode) {//自动scroll到底
             const narrator = document.getElementById('narrator')
@@ -152,6 +165,19 @@ class MainGame extends React.Component<IProps, IState> {
             } else { throw new Error("narrator container not found") }
         }
         this.setState({ textAreaStop: true })
+        return result;
+    }
+    soundEnd(...args: any[]) {
+        const { lineSound, auto, textAreaStop } = this.state;
+        console.log(auto, textAreaStop, this.state)
+        if (lineSound) {
+            lineSound.unload();
+            this.setState({ lineSound: undefined })
+            console.log(auto, textAreaStop)
+            if (auto && textAreaStop) {
+                this.clickHandle();
+            }
+        }
     }
     async displayLineProcess(line: DisplayLine) {
         const isNarratorMode = false || line.type === LINE_TYPE.narrator
@@ -162,10 +188,17 @@ class MainGame extends React.Component<IProps, IState> {
         const { _value, style, soundSrc } = displayLineParser(value);
         value = _value;
         if (soundSrc.length) {
-            new Howl({
+            if (this.state.lineSound) {
+                const { lineSound } = this.state;
+                lineSound.unload();
+            }
+            const lineSound = new Howl({
                 src: ['lines/' + this.state.currentChapter.name + '/' + (soundSrc)],
                 html5: true
-            }).play()
+            });
+            lineSound.play();
+            lineSound.on('end', this.soundEnd);
+            this.setState({ lineSound: lineSound })
         }
         let needLoadNewCharater = false
         let needLoadNewEmotion = false
@@ -331,7 +364,7 @@ class MainGame extends React.Component<IProps, IState> {
         }
     }
     clickHandle(ev?: React.MouseEvent, config?: clickHandleConfig) {
-        const { skipResourseCount, auto, linePointer, clickDisable, currentChapter, textAreaStop } = this.state
+        const { skipResourseCount, auto, clickDisable, currentChapter, textAreaStop, linePointer } = this.state
         config = config || {}
         if (skipResourseCount) {//这块和imgOnLoad的逻辑有重复，不过没bug就先不改了,没个j8,到处都是bug//好像没bug..
             return

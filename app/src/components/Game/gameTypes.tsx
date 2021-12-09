@@ -96,6 +96,7 @@ export interface IState {
     effectKey: string
     TitleChapterName: TitleChapterName
     audioCaches: AudioCaches
+    lineSound?:any;
 }
 export interface TitleChapterName {
     chapterName: string
