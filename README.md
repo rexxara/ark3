@@ -3,17 +3,11 @@
 npm run build
 npm run pack-only
 ### pack android
-remove windows build in ./dist
-
 npm run build
-
 cd app\
-
 npx cap sync
 npx cap open android
 ### run android
-remove windows build in ./dist
-
 npm run build
 cd app\
 

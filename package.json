@@ -11,7 +11,7 @@
     "build": "npm run build:render && npm run build:app && copy build.json dist\\package.json ",
     "dev:e": "tsc && cross-env NODE_ENV=production electron ./dist/main.js",
     "pack": "npm run build && npm run pack-only",
-    "pack-only": "cd dist && electron-packager . ark3 --platform=win32 --arch=x64 --electron-version=16.0.2",
+    "pack-only": "cd dist && electron-packager . ark3 --platform=win32 --arch=x64 --electron-version=16.0.2 --out ../dist_windows",
     "dev:render": "cd app && npm run start",
     "watch": "concurrently \"tsc -w\" \"&& electron ./dist/main.js\"",
     "lint": "tslint -c tslint.json -p tsconfig.json"
