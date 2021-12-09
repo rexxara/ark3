@@ -1,5 +1,5 @@
 import React from 'react'
-import  '../style.css'
+import '../style.css'
 import { CSSTransition } from 'react-transition-group'
 import { vh, vw } from '../../../utils/getSize';
 
@@ -15,6 +15,18 @@ interface IState {
 class App extends React.Component<IProps>{
     static getDerivedStateFromProps(nextProps: IProps, prevState: IState) {
         const { narratorMode, displayText } = nextProps;
+        if (narratorMode && prevState.narratorMode && narratorMode.length > 1) {
+            if (narratorMode.length > prevState.narratorMode.length) {
+                const narrator = document.getElementById('narrator')
+                if (narrator) {
+                    setTimeout(() => {
+                        narrator.scrollTop = narrator.scrollHeight
+                    }, 0);
+                } else {
+                    throw new Error("narrator container not found")
+                }
+            }
+        }
         if (Array.isArray(narratorMode)) {
             return { in: true, displayText, narratorMode }
         } else {

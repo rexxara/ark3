@@ -157,13 +157,6 @@ class MainGame extends React.Component<IProps, IState> {
                 }
             }
         }
-        const { narratorMode } = this.state
-        if (narratorMode) {//自动scroll到底
-            const narrator = document.getElementById('narrator')
-            if (narrator) {
-                setTimeout(() => { narrator.scrollTop = narrator.scrollHeight }, 200)
-            } else { throw new Error("narrator container not found") }
-        }
         this.setState({ textAreaStop: true })
         return result;
     }

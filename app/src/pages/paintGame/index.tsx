@@ -37,7 +37,6 @@ const PaintGame = () => {
     React.useEffect(() => {
         randomGray()
     }, [])
-    console.log(BtnArray)
     return <div style={{ ...bgStyle, ...wrapedStyle }}>
         <div style={{ backgroundColor: '#000000', color: 'white' }}>
             {BtnArray.map(v => <div style={{
