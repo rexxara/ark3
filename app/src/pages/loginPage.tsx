@@ -22,7 +22,7 @@ const LoginPage = (props: Iprops) => {
       type: 'audio/playBgm',
       payload: 'theme'
     })
-    message.info('2021年12月4日')
+    message.info('2021年12月9日')
   }, []);
   return <Scence>
     {/* <Abutton to="/playGround" text="游乐场" /> */}
@@ -32,6 +32,7 @@ const LoginPage = (props: Iprops) => {
       <Abutton to="/gallery" text="画廊" />
       <Abutton to="/ScenceReview" text="场景回想" />
       <Abutton to="/config" text="设置" />
+      <Abutton to="/paintGame" text="灰度" />
     </div>
     <TitleCache />
   </Scence>

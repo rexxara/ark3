@@ -39,16 +39,19 @@ const PaintGame = () => {
     }, [])
     console.log(BtnArray)
     return <div style={{ ...bgStyle, ...wrapedStyle }}>
-        <div style={{ backgroundColor: '#000000',color:'white' }}>
-            {BtnArray.map(v => <div style={{ display:'inline-block', width:vw(5),height:vh(5),
-             backgroundColor: `rgb(${v*2.55},${v*2.55},${v*2.55})`, }}></div>)}
-            <h2 style={{ backgroundColor: '#000000',color:'white' }}>{successCount}/{answerCount}</h2>
-            {answerCount && <h2 style={{ backgroundColor: '#000000',color:'white' }}>{((successCount / answerCount) * 100).toFixed(2)}%</h2>}
+        <div style={{ backgroundColor: '#000000', color: 'white' }}>
+            {BtnArray.map(v => <div style={{
+                display: 'inline-block', width: vw(5), height: vh(5),
+                backgroundColor: `rgb(${v * 2.55},${v * 2.55},${v * 2.55})`,
+            }}></div>)}
+            <h2 style={{ backgroundColor: '#000000', color: 'white' }}>{successCount}/{answerCount}</h2>
+            {answerCount && <h2 style={{ backgroundColor: '#000000', color: 'white' }}>{((successCount / answerCount) * 100).toFixed(2)}%</h2>}
             {/* <h2>{gray}</h2>
         <h2>{gray255}</h2> */}
         </div>
         {quizCount === answerCount ? <Abutton onClick={randomGray}>随机</Abutton> : <div>
             {BtnArray.map(v => <Abutton
+                type='small'
                 style={{
                     backgroundColor: `rgb(${antiGray},${antiGray},${antiGray})`,
                     color: `rgb(${gray255},${gray255},${gray255})`
