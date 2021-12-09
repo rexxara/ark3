@@ -7,6 +7,7 @@ interface IProps {
     callback: (arg: AudioCaches) => any
     onProgress: (loaded: number, total: number) => any
     caches: ChapterCache
+    chapterName: string
 }
 export interface AudioBlob {
     src: string,
@@ -14,7 +15,7 @@ export interface AudioBlob {
     type: 'bgm' | 'se'
 }
 const TITLE_DISPLAY_TIME = 1000
-export default function SaveDataCon({ callback, caches, onProgress }: IProps) {
+export default function SaveDataCon({ callback, caches, onProgress, chapterName }: IProps) {
     const [bgs, setBgs]: [Array<string>, Function] = useState([])
     const [cgs, setCgs]: [Array<string>, Function] = useState([])
     const [chs, setChs]: [Array<string>, Function] = useState([])
@@ -23,6 +24,7 @@ export default function SaveDataCon({ callback, caches, onProgress }: IProps) {
     const [mountDate, setMountDate] = useState(Date.now())
     const { preloadSoundEffects, preLoadBgms } = caches
     const total = bgs.length + cgs.length + chs.length + Object.keys(preloadSoundEffects).length + Object.keys(preLoadBgms).length
+
     const [loadedCount, setLoadedCount] = useState(0)
     useEffect(() => {
         if (total && loadedCount) {
@@ -123,26 +125,26 @@ export default function SaveDataCon({ callback, caches, onProgress }: IProps) {
     useEffect(() => {
         getImgCache()
     }, [caches])
-    const updateCount = (counter?:  number | React.SyntheticEvent<HTMLImageElement, Event>) => {
-        const tobeAdd=typeof counter === 'number'?counter:1
-            setLoadedCount(pre => pre + tobeAdd)
+    const updateCount = (counter?: number | React.SyntheticEvent<HTMLImageElement, Event>) => {
+        const tobeAdd = typeof counter === 'number' ? counter : 1
+        setLoadedCount(pre => pre + tobeAdd)
     }
     return <div>
         {bgs.map(imgsrc => <img
             className='cacheImg'
-            key={imgsrc}
+            key={chapterName + imgsrc}
             onLoad={updateCount}
             src={require(`../../../scripts/backgrounds/${imgsrc}`)} />
         )}
         {cgs.map(imgsrc => <img
             className='cacheImg'
-            key={imgsrc}
+            key={chapterName + imgsrc}
             onLoad={updateCount}
             src={require(`../../../scripts/CGs/${imgsrc}`)} />
         )}
         {chs.map(imgsrc => <img
             className='cacheImg'
-            key={imgsrc}
+            key={chapterName + imgsrc}
             onLoad={updateCount}
             src={require(`../../../scripts/charatersImages/${imgsrc}`)} />
         )}

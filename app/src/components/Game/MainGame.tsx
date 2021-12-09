@@ -459,7 +459,7 @@ class MainGame extends React.Component<IProps, IState> {
             {background && <img className='hide' onLoad={this.cgAndBackgroundOnload} src={require(`../../scripts/backgrounds/${background}`)} alt="" />}
             {cg && <img className='hide' onLoad={this.cgAndBackgroundOnload} src={require(`../../scripts/CGs/${cg}`)} alt="" />}
             {(currentChapter.arkMark || TitleChapterName.chapterName) &&
-                <ImgCache onProgress={this.onCacheLoadProgress} caches={caches[(TitleChapterName.chapterName || currentChapter.arkMark)]} callback={this.TitleCallback} />}
+                <ImgCache chapterName={TitleChapterName.chapterName} onProgress={this.onCacheLoadProgress} caches={caches[(TitleChapterName.chapterName || currentChapter.arkMark)]} callback={this.TitleCallback} />}
         </div>
     }
 }

@@ -26,7 +26,7 @@ const Main = (props: IProps)=> {
 
     if (!background.length) return <div></div>
     return <div>{
-        cgList.map((v, i) => <div className={(cgList.length > 1 && i !== 0) ? classnames('background', 'hiddingCgCon') : 'background'} key={v}
+        cgList.map((v, i) => <div className={(cgList.length > 1 && i !== 0) ? classnames('background', 'hiddingCgCon') : 'background'} key={i}
             style={{zIndex: 1, width: vw(100),
                 height: vh(100), background: `url(${require(`../../../scripts/backgrounds/${v}`)})` }}></div>)
     }</div>
