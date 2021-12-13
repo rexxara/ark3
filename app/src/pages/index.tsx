@@ -30,6 +30,7 @@ const WarpedScenceReview = warpedAnimation(ScenceReview)
 const WarpedMainGame = warpedAnimation(MainGame)
 const WarpedLoadPage = warpedAnimation(LoadPage)
 const WarpedConfigPage = warpedAnimation(ConfigPage)
+
 // document.oncontextmenu = function () {
 //   return false;
 // }
@@ -54,7 +55,9 @@ const App: React.FC<IProps> = ({ history }) => {
         <Route path="/playGround" component={playGround} />
         <Route path="/homePage" component={HomePage} />
         <Route path="/mainGame" children={props => <WarpedMainGame {...props} />} />
+
         <Route path="/loginPage" children={props => <WarpedLoginPage {...props} />} />
+
         <Route path="/gallery" children={props => <WarpedGallery {...props} />} />
         <Route path="/ScenceReview" children={props => <WarpedScenceReview {...props} />} />
         <Route path="/loadPage" children={props => <WarpedLoadPage {...props} />} />

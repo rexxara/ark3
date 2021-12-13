@@ -14,6 +14,7 @@ interface IProps {
     style?: React.CSSProperties
     type?: 'small' | 'big'
     [arg: string]: any
+    exitActive?:string;
 }
 
 const clickAudio = new Howl({
@@ -61,7 +62,7 @@ const Abutton = (props: IProps) => {
         classNames={{
             enter: 'animate__animated',
             exit: 'animate__animated',
-            exitActive: 'animate__tada'
+            exitActive: props.exitActive||'animate__tada'
         }}
         mountOnEnter={true}
         unmountOnExit={true}
