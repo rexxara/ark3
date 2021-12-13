@@ -5,11 +5,11 @@ const  isDev=process.env.NODE_ENV === 'production'
 function createWindow() {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
-    height: 720,
+    height: 1080,
     webPreferences: {
       preload: path.join(__dirname, "preload.js"),
     },
-    width: 1200,
+    width: 1920,
   });
 
   // and load the index.html of the app.
