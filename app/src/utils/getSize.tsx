@@ -1,41 +1,53 @@
 import { isAndroid } from "./utils"
 
 interface CacheMap {
-    [arg: string]: string
+    [arg: string]: string | number
 }
 
 let vwCacheMap: CacheMap = {}
-const vw = (num: number): string => {
+const vw = (num: number, ignorePx?: boolean): string | number => {
     const { clientHeight, clientWidth } = document.documentElement
     if (vwCacheMap[num]) {
         return vwCacheMap[num]
     }
-    if (clientHeight > clientWidth&&!isAndroid()) {
+    if (clientHeight > clientWidth && !isAndroid()) {
         //手机
-        const res = clientHeight / 100 * num + 'px'
+        let res: string | number = clientHeight / 100 * num;
+        if (!ignorePx) {
+            res = res + 'px';
+        }
         vwCacheMap[num] = res
         return res
     } else {
         //pc
-        const res = clientWidth / 100 * num + 'px'
+        let res: string | number = clientWidth / 100 * num;
+        if (!ignorePx) {
+            res = res + 'px';
+        }
         vwCacheMap[num] = res
         return res
     }
 }
 let vhCacheMap: CacheMap = {}
-const vh = (num: number): string => {
+const vh = (num: number, ignorePx?: boolean): string | number => {
     if (vhCacheMap[num]) {
         return vhCacheMap[num]
     }
     const { clientHeight, clientWidth } = document.documentElement
-    if (clientHeight > clientWidth&&!isAndroid()) {
+    if (clientHeight > clientWidth && !isAndroid()) {
         //手机
-        const res = clientWidth / 100 * num + 'px'
+        let res: string | number = clientWidth / 100 * num
+        if (!ignorePx) {
+            res = res + 'px';
+        }
         vhCacheMap[num] = res
         return res
     } else {
         //pc
-        const res = clientHeight / 100 * num + 'px'
+        let res: string | number = clientHeight / 100 * num;
+        if (!ignorePx) {
+            res = res + 'px';
+        }
         vhCacheMap[num] = res
         return res
     }

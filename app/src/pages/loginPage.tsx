@@ -11,6 +11,7 @@ import TWEEN from '@tweenjs/tween.js';
 import type { } from 'lume/dist/index.react-jsx'
 import { Component, createRef, CSSProperties, ChangeEvent } from 'react'
 import { is } from '../utils/lumeUtils';
+import { vh, vw } from '../utils/getSize';
 useDefaultNames()
 
 type View = 'top' | 'side' | 'free'
@@ -169,9 +170,9 @@ class LoginPage extends Component<Iprops, IState>{
                   ref="btn"
                   key={i}
                   size-mode="literal proportional"
-                  size="150 4 0"
-                  align-point={`${i * 0.5 - 0.75} 0 0`}
-                  mount-point={`${i * 0.25} 0 0`}
+                  size={`${(vw(12, true) as number) * 0.75} ${(vw(6, true) as number) * 0.032} 0`}
+                  align-point={`${(i - 1.5) * 0.028 * (vw(1, true) as number)} 0 0`}
+                  mount-point={`${(i - 1.2) * 0.028 * (vw(1, true) as number)} 0 0`}
                   color="#444"
                 >
                   {v}

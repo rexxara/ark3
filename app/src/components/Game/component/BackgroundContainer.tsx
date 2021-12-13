@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from 'react'
 import '../style.css'
 import classnames from 'classnames'
 import { vw, vh } from '../../../utils/getSize'
+
 interface IProps {
     background: string
 }

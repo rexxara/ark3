@@ -45,6 +45,10 @@ const indexStyle: React.CSSProperties = {
 interface IProps {
   history: any
 }
+function reload(){
+  window.location.reload();
+}
+window.addEventListener('resize',reload);
 const App: React.FC<IProps> = ({ history }) => {
   return <>
     <HashRouter>
