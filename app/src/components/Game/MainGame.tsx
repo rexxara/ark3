@@ -1,5 +1,5 @@
 import React from 'react'
-import { LINE_TYPE, DisplayLine, CommandLine, NO_IMG, DisplayCharacter, DisplayCharacters, Option } from '../../utils/types'
+import { LINE_TYPE, DisplayLine, CommandLine, NO_IMG, DisplayCharacters, Option } from '../../utils/types'
 import { back, variableLoader } from '../../utils/utils'
 import classnames from 'classnames'
 import { IState, IProps, iniState, clickHandleConfig, AudioCaches } from './gameTypes'
@@ -85,7 +85,6 @@ class MainGame extends React.Component<IProps, IState> {
         } else { console.warn('noQuick load Data') }
     }
     componentDidMount() {
-        console.log(this.props)
         const { LoadDataFromLoadPage } = this.props
         if (LoadDataFromLoadPage) {
             this.load(undefined, LoadDataFromLoadPage)
@@ -220,7 +219,7 @@ class MainGame extends React.Component<IProps, IState> {
                 this.setState({ cacheDisplayLineText: value, cacheDisplayLineName: name || '', clickDisable: true })
             } else {
                 if (name !== displayName) {
-                    this.setState({ displayName: '', rawLine: value, displayText: value, textAreaStop: false })
+                    this.setState({ displayName: name || '', rawLine: value, displayText: value, textAreaStop: false })
                 } else {
                     this.setState({ rawLine: value, displayText: value, textAreaStop: false })
                     //上一句和这一句没换人

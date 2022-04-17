@@ -5,7 +5,6 @@ import { Route, HashRouter } from 'dva/router';
 import IniPage from './loadingPages/IniPage'
 import copyrightPage from './loadingPages/copyrightPage'
 import playGround from './playGround/index'
-import loginPage from './loginPage'
 import warpedAnimation from '../components/HOC/animation'
 import MainGame from './MainGame'
 import HomePage from './loadingPages/HomePage'
@@ -18,13 +17,13 @@ import PaintGame from './paintGame/index'
 import ConfigPage from './ConfigPage'
 import Init from './Init'
 import { isAndroid } from '../utils/utils';
-
+import LoginPage from './LoginPage';
 if (!isAndroid()) {//ios only
   detectOrient()
 }
 const WarpedIniPage = warpedAnimation(IniPage)
 const WarpedCopyrightPage = warpedAnimation(copyrightPage)
-const WarpedLoginPage = warpedAnimation(loginPage)
+const WarpedLoginPage = warpedAnimation(LoginPage)
 const WarpedGallery = warpedAnimation(Gallery)
 const WarpedScenceReview = warpedAnimation(ScenceReview)
 const WarpedMainGame = warpedAnimation(MainGame)
@@ -45,10 +44,10 @@ const indexStyle: React.CSSProperties = {
 interface IProps {
   history: any
 }
-function reload(){
+function reload() {
   window.location.reload();
 }
-window.addEventListener('resize',reload);
+window.addEventListener('resize', reload);
 const App: React.FC<IProps> = ({ history }) => {
   return <>
     <HashRouter>

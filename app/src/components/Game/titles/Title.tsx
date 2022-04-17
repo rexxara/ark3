@@ -73,7 +73,7 @@ class title extends React.Component<IProps, IState>{
                     exit: 'animate__animated',
                     exitActive: 'animate__backOutDown'
                 }}
-                timeout={2000}
+                timeout={1000}
                 onExited={() => { this.setState(iniState) }}
                 mountOnEnter={true}
                 unmountOnExit={true}

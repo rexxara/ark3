@@ -1,17 +1,21 @@
-import script from '../scripts/index'
+import { SaveData } from '../components/Game/actions';
+import script from '../scripts/index';
 import { RawScript } from '../utils/types';
 export interface globalState {
     script: string
     isAuto: boolean
-    RawScript:RawScript
+    RawScript: RawScript
+    edited: boolean
+    test: string
+    isReview: boolean;
+    LoadDataFromLoadPage?: SaveData
 }
-const initalState = {
+const initalState: globalState = {
     script: '',
     edited: false,
     test: 'test',
     isAuto: false,
-    //
-    RawScript: script,
+    RawScript: script as unknown as RawScript,
     isReview: false,
     LoadDataFromLoadPage: undefined,
 }
@@ -24,8 +28,7 @@ export default {
                 const { origin, pathname } = window.location
                 window.location.href = origin + pathname + '#/mainGame'
             }, 0)
-            const {RawScript}=state
-            return {...initalState,RawScript:script}
+            return { ...initalState, RawScript: script }
         },
         // 'saveSetting'(state: globalState, { payload }: any) {
         //     return { ...state, ...payload }

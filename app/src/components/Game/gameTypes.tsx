@@ -62,7 +62,7 @@ export interface IProps {
     RawScript: RawScript,
     isReview: boolean,
     LoadDataFromLoadPage: SaveData
-    setting:Setting
+    setting:Setting;
 }
 export interface IState {
     settingVis:boolean

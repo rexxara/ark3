@@ -41,7 +41,7 @@ export default {
             }
             switch (payload) {
                 case 'theme':
-                    const theme = playerFactory(require('../components/SoundPlayer/title.mp3'), state.bgmVol)
+                    const theme = playerFactory(require('../components/SoundPlayer/title.m4a'), state.bgmVol)
                     theme.play()
                     return { ...state, bgm: theme }
                 case 'theme2':

@@ -2,7 +2,27 @@
 import chapter1 from './chapter1/index'
 import chapter2 from './chapter2.mi'
 import chapter3 from './chapter3/index'
+import bkChapter1 from './BkTestChapter1/index';
 const charaters = {
+    凉子: {
+        images: {
+            default: '1_normal.png',
+            开心: '2_happy.png'
+        },
+        style: {
+            width: '20vw',
+            top: '5vh'
+        }
+    },
+    真由: {
+        images: {
+            default: '1_normal.png',
+            无语: '7_wordless.png'
+        },
+        style: {
+            width: '20vw',
+        }
+    },
     临光: {
         images:
         {
@@ -26,12 +46,6 @@ const charaters = {
             top: '6vh',
         }
     }
-}
-
-const chapters = {
-    chapter1: chapter1,
-    chapter2: [{ name: 'chapter2', script: chapter2, next: 'chapter3_section1' }],
-    chapter3: chapter3
 }
 const inputs = {
     第一章输入姓名: {
@@ -80,12 +94,12 @@ const variables = {
     adminName: 'rexxara'
 }
 const backgrounds = {
-    大街: 'bg_abyss_1.png',
+    公园门口: 'BG11a_1280.jpg',
     龙门: "bg_lungmen_m.png",
 }
 const BGMs = {
-    無花果: 'ウォルピスカーター - 無花果.mp3',
-    晴天前夜: 'ウォルピスカーター - 晴天前夜.mp3'
+    tamn01: 'tam-n01.ogg',
+    tamn16: 'tam-n16.ogg'
 }
 
 const cgs = {
@@ -116,6 +130,15 @@ const scences = [
         白色相簿2: { script: chapter3, cover: cgs.set1.a }
     }
 ]
+
+const bkScript1 = {
+    chapter1: bkChapter1
+}
+const apiTestChapters = {
+    chapter1: chapter1,
+    chapter2: [{ name: 'chapter2', script: chapter2, next: 'chapter3_section1' }],
+    chapter3: chapter3
+}
 export default {
     charaters,
     variables,
@@ -123,7 +146,7 @@ export default {
     BGMs,
     cgs,
     chooses,
-    chapters,
+    chapters: bkScript1,
     inputs,
     scences,
     soundEffects

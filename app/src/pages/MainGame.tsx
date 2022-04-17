@@ -40,15 +40,15 @@ const modRs = async (rs: RawScript): Promise<RawScript> => {
 }
 const PlayGround = (props: IProps) => {
   const rs = props.global.RawScript
-  const [data, setData]: [GameModel3 | false, Function] = useState(false)
+  const [data, setData] = useState<GameModel3>()
   useEffect(() => {
-    modRs(rs).then(rs => {
-      getData(rs)
-    })
+    modRs(rs).then(getData)
   }, [])
   const getData = (rs: RawScript) => {
     const data = loader(rs as any, true, true)
-    setData(data)
+    if (data) {
+      setData(data)
+    }
   }
   return <div className='App'>
     {data && <MainGame

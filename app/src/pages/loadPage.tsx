@@ -15,6 +15,7 @@ const LoadPage = (props: Iprops) => {
             type: 'global/load',
             payload: data
         })
+        props.dispatch({ type: 'audio/stopBgm' })
     }
     return <div className='scence' style={{ width: vw(100), height: vh(100) }}>
         <div style={{ position: 'relative', overflowY: 'scroll', overflowX: 'hidden', width: vw(100), height: vh(80) }}>

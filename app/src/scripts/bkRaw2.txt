@@ -1,0 +1,560 @@
+*main
+
+//========================================================
+//
+//Unfinished stuff is marked with *@
+//
+//=====================================================================
+//关闭自动模式与快进模式
+##
+System.autoMode=false;
+System.skipMode=false;
+##
+@action target=5000 mode="fadeto" opacity=0 time=500
+@waitallaction
+@remove index=5000
+
+@textstyle name='font/NotoSansCJKsc-Regular' color=0x000000 size=24
+@savepoint
+@layer index=100 width=1280 height=1280
+@sprite index=101 file='bg/B001Y_1280x720_改'
+@addto index=101 target=100 zorder=1
+@addto index=100 target=basic_layer opacity=0
+@action mode='fadeto' target=100 opacity=255 time=300
+@basic_dialogbox
+@waitallaction
+//记录bgm
+#sf.bgm[1]=true;
+@bgm file='sanpo'  fadein=100 //轻快爵士风。〔 来源网站：http://savior.aki.gs〕
+//△载入对话框。对话框左上有凸出的姓名栏，左侧有头像，随说话者变换（亦可省略），文字内容结尾处有动态文字光标（「加载对话框」指令以下不再重复）。
+
+【】//主角：
+啊……这夕阳的光线……真是超现实呢。[p]
+（……等等，为什么我会说出有如gal的开场白？我不是只是来看个DEMO而已吗！？）[p]
+（不管怎样，先找个地方休息一下吧。有没有有空调的地方呢……）[p]
+
+@sprite index=102 file='bg/B018Y_1280x720_改'
+@addto index=102 target=100 zorder=0
+@anchor index=101 set='center' keep=true
+
+@action mode='scaleto'  target=101 x=150 y=150 time=500
+@action mode='fadeto' target=101 opacity=0 time=500
+@waitallaction
+@remove index=101
+
+//△背景A远处街景放大，淡入面包店外街景。〔D大捐的付费素材B018Y_1280x720_改，来源网站：http://murakumo.biz〕。
+
+（从那儿传出面包的香味……过去看看吧。）[p]
+
+@pretrans
+//△模仿开门的方式，由左至右，从背景A过渡至背景B（遮片渐隐？）。另一首音乐B（登录音乐展示）淡入，使用开门伴随风铃声音效〔 来源网站：http://www.s-t-t.com〕
+@sprite index=101 file='bg/B032Y_1280x720_改'
+@addto index=101 target=100 opacity=255 
+@remove index=102
+@trans mode='universal' rule='rule/leftFade' time=500
+@se channel=1 file="混合2_mixdown"
+//△背景B：面包店柜台（参考魔女宅急便里琪琪看店的地方）。〔D大捐的付费素材B032Y_1280x720_改，来源网站：http://murakumo.biz〕
+@stop channel=bgm fadeout=250
+@waitfade channel=bgm
+//记录bgm
+#sf.bgm[2]=true;
+@bgm file="rmn_m_015" fadein=250
+@waittrans //△音乐B：轻快抒情风。〔 来源网站：http://enikaitashiro.com〕
+@l2dsprite file="image/fig/belle/belle.model.json" index=1
+@spriteopt index=1 disable=true
+##
+Live2DSprite(1).setExpression("F01.exp.json");
+Live2DSprite(1).startMotionFile("motions/01.mtn",void,void,3,void,0,0);
+##
+@action mode="scaleto" target=1 time=0 x=60 y=60
+@addto index=1 target=100 pos=[640,600]
+
+
+【少女】
+欢迎光临！[p]
+
+//*@△贝莉从柜台后冒出，可做成从柜台下探头起身的感觉，如果太困难亦可直接渐变加载贝莉立绘。
+
+【少女】
+这位客人，下午好！你是要买面包还是要买面包呢？[p]
+
+【】
+呃，我是来看BKE的DEMO的。[p]
+
+##
+Live2DSprite(1).startRandomMotion("idle","idle");
+Live2DSprite(1).setExpression("F04.exp.json");
+//Live2DSprite(1).startMotionFile("motions/01.mtn",void,void,3,void,0,0);小望修
+##
+
+【少女】
+这样子～请问你叫什么名字呀？[p]
+
+【】
+我叫
+@layer index=300 width=1280 height=720
+@sprite index=301 file="dialog/back"
+@anchor index=301 set="center"
+@addto index=301 target=300 pos=[640,360]
+//输入框
+@inputbox index=302 back="dialog/inputbox" maxchars=5  text='小野妹子' onok=["*input_check", ,'jump']
+@textsprite index=303 text="请输入姓名" font="font/MFYueYuan_Noncommercial-Regular" size=34 color=0xB97A57
+@button index=304 idle="dialog/ok" hover='dialog/ok_on' click='dialog/ok_on' onclick=["*input_check", ,'jump']
+@anchor index=302 set="topcenter"
+@anchor index=303 set="topcenter"
+@anchor index=304 set="topcenter"
+@addto index=303 target=301 pos=[238,100]
+@addto index=302 target=301 pos=[238,160]
+@addto index=304 target=301 pos=[238,220]
+@addto index=300 target=basic_layer zorder=3 opacity=0
+@action target=300 mode="fadeto" opacity=255 time=300
+@waitaction index=300
+*input_wait
+@waitbutton
+*input_check
+@if "(Sprite(302).value.length<1||Sprite(302).value.length>5)"
+	@jump '*input_wait'
+@endif
+//@inputbox 
+
+##
+f.firstName=Sprite(302).value
+//目前我们没有区分姓和名，这里只是做个演示
+f.lastName=''
+var mainName=f.lastName+f.firstName;
+##
+//对话框消失
+@action target=300 mode="fadeto" opacity=0 time=300
+@waitaction index=300
+@removeall index=300 delete=true
+@remove index=300 delete=true
+
+@text text=mainName
+。
+@p
+//*@△对话框中出现供使用者填写姓与名的字段与确定钮，按确定后才能继续。姓名最长四个字，然后对二三四个四的情况分别设定下字间距。
+//△之后「主角」都会换成使用者填写的姓名。建议每个角色姓名预设颜色不同，以便区隔。以下用ＴＡ暂代。
+
+##
+Live2DSprite(1).setExpression("F03.exp.json");
+Live2DSprite(1).startMotionFile("motions/01.mtn",void,void,3,void,0,0);
+##
+
+【少女】
+@text text=mainName
+//(这句有CV）
+@voice file="belly_start"
+，很高兴认识你！我叫贝莉！[p]
+@stop channel=voice
+##
+Live2DSprite(1).startRandomMotion("idle","idle")Live2DSprite(1).setExpression("F03.exp.json");
+Live2DSprite(1).startMotionFile("motions/03.mtn",void,void,3,void,0,0); //小望修
+##
+
+【贝莉】
+一个人在这儿好无聊哦，有人来陪我玩真是太好了☆[p]
+
+
+//△旁白出现时左上姓名栏空白即可。
+
+
+【】
+注意！前方高能！请立即使用对话框上的「储存」功能，而后点击继续。[p]
+
+@select text=['废话少说，DEMO呢！','贝莉，我也很高兴认识你。那个，DEMO……'] label=['*s1','*s2'] labelFile=['story','story']
+//△存档章节名称：序章（从头到尾都显示序章也可，开始接触BKE所以是序章，这样的感觉）
+//△出现分歧选项：废话少说，DEMO呢！
+//　　　　　　　　贝莉，我也很高兴认识你。那个，DEMO……
+
+
+*s1
+//▲选废话少说，DEMO呢！（好感度-50）
+#f.好感度=-50;
+//
+
+##
+Live2DSprite(1).setExpression("F09.exp.json");
+Live2DSprite(1).startMotionFile("motions/10.mtn",void,void,3,void,0,0);
+##
+
+【贝莉】
+急什么嘛！你不是已经在DEMO里了吗？[p]
+@jump '*send'
+
+*s2
+##
+Live2DSprite(1).setExpression("F04.exp.json");
+Live2DSprite(1).startMotionFile("motions/03.mtn",void,void,3,void,0,0);
+##
+
+//▲选贝莉，我也很高兴认识你。那个，DEMO……（好感度+5）
+#f.好感度=5;
+【贝莉】
+嘻嘻～你已经在DEMO里了呀～[p]
+
+//△回到共通路线。
+*send
+
+##
+Live2DSprite(1).setExpression("F01.exp.json");
+Live2DSprite(1).startMotionFile("motions/06.mtn",void,void,3,void,0,0);
+##
+
+【贝莉】
+在现在这个世界，你可以随心所欲创造你想要的一切，你就是造物者。[p]
+
+##
+Live2DSprite(1).setExpression("F03.exp.json");
+Live2DSprite(1).startMotionFile("motions/03.mtn",void,void,3,void,0,0); //小望修
+##
+
+【贝莉】
+想实现什么，尽管跟贝莉说，贝莉会帮你烘焙出来的！[p]
+【$】
+那么……对话框的文字外观有些单调，换个颜色字体吧？[p]
+
+//△对话框文字换成华康少女体之类的少女字体，颜色是亮粉红。
+
+##
+Live2DSprite(1).setExpression("F07.exp.json");
+Live2DSprite(1).startMotionFile("motions/13.mtn",void,void,3,void,0,0); //小望修
+##
+
+//不能用storefont因为历史记录里面用了storefont会覆盖这个值。
+//@storefont
+@textstyle name='font/MFDingDing_Noncommercial-Regular' color=0xFA95FA size=60
+【贝莉】
+那有什么问题！ [p]
+【$】
+突……突然卖什么萌！好刺眼……还是换回来吧。[p]
+//@restorefont
+@textstyle name='font/NotoSansCJKsc-Regular' color=0x000000 size=28
+//△对话框文字换回原来字体，做大小、斜体、粗体、阴影、描边变化。
+##
+Live2DSprite(1).setExpression("F03.exp.json");
+Live2DSprite(1).startMotionFile("motions/12.mtn",void,void,3,void,0,0);
+##
+
+【贝莉】
+要变
+@textstyle size=35
+大
+@textstyle size=15
+小
+@textstyle size=28
+、
+@i
+斜体
+@i
+、
+@b
+粗体
+@b
+、
+@textstyle shadow=true shadowcolor=0Xfffff
+加上阴影
+@textstyle shadow=false
+与
+@textstyle color=0xffffff stroke=true strokecolor=0x11A4F2
+描边
+@textstyle color=0x000000 stroke=false
+，也都难不倒我～ [p]
+【$】
+没想到能做这么多变化，贝莉你满有两把刷子的嘛！[p]
+
+//△对话框文字做颜色渐变、下划线、删除线变化。
+
+##
+Live2DSprite(1).setExpression("F14.exp.json");
+Live2DSprite(1).startMotionFile("motions/13.mtn",void,void,3,void,0,0);
+##
+
+【贝莉】
+这当然，我可是人称天才面包少女的
+@s
+贝利
+@s
+贝莉！[p] 
+
+##
+Live2DSprite(1).setExpression("F15.exp.json");
+//Live2DSprite(1).startMotionFile("motions/13.mtn",void,void,3,void,0,0);小望修
+##
+
+【贝莉】
+……等等，你是不是给我加了奇怪的删除线？[p]
+【$】
+没有，绝对没有，我绝对没有说你是什么球王贝利。[p]
+
+##
+Live2DSprite(1).setExpression("F09.exp.json");
+Live2DSprite(1).startMotionFile("motions/11.mtn",void,void,3,void,0,0);
+##
+
+【贝莉】
+竟敢取笑我的名字，当心我好感度降低哦！[p]
+【$】
+好感度……那是什么，能吃吗？[p]
+
+##
+Live2DSprite(1).setExpression("F02.exp.json");
+Live2DSprite(1).startMotionFile("motions/09.mtn",void,void,3,void,0,0);
+##
+
+【贝莉】
+刚才不是出现过选项吗？[p]
+
+##
+Live2DSprite(1).setExpression("F01.exp.json");
+Live2DSprite(1).startMotionFile("motions/09.mtn"); //小望修
+##
+
+【贝莉】
+你选了不同选项，在程序幕后就会影响「好感度」这个值的增减，最后会根据值的多少，带你走向不同结局……[p]
+【$】
+这只是个DEMO，为什么会有不同结局啊！该不会还有什么Good End跟Bad End吧！？[p]
+
+##
+Live2DSprite(1).setExpression("F04.exp.json");
+Live2DSprite(1).startMotionFile("motions/00.mtn",void,void,3,void,0,0); //小望修
+##
+
+【贝莉】
+别担心嘛～如果不小心死掉了，可以点击对话框上的「读取」，重读刚刚旁白叫你存的檔哦～☆[p]
+【$】
+你这么说我就更担心了啊啊啊！！！[p]
+
+##
+Live2DSprite(1).setExpression("F01.exp.json");
+Live2DSprite(1).startMotionFile("motions/12.mtn",void,void,3,void,0,0);
+##
+
+【贝莉】
+你如果读檔，再点击「快进」，就可以快速跳过我们聊过的内容，很快跑到现在这儿啦。[p]
+##
+Live2DSprite(1).setExpression("F08.exp.json");
+Live2DSprite(1).startMotionFile("motions/09.mtn",void,void,3,void,0,0);
+##
+【贝莉】
+如果现在想回去看我们聊过的内容，则是点击「回顾」；如果想边吃面包边玩DEMO，点击「自动」，DEMO的剧情就会自动前进哦～[p]
+【$】
+……还满方便的嘛。[p]
+##
+Live2DSprite(1).setExpression("F05.exp.json");
+Live2DSprite(1).startMotionFile("motions/01.mtn",void,void,3,void,0,0);
+##
+【贝莉】
+谢谢
+@text f.firstName
+的称赞，贝莉好开心！[p]
+
+//△对话框文字做小字注释变化。
+
+【$】
+[r]
+贝莉还真是[ruby char=2 text='单纯']可爱呢。 [p]
+
+##
+Live2DSprite(1).setExpression("F10.exp.json");
+Live2DSprite(1).startMotionFile("motions/10.mtn",void,void,3,void,0,0); //小望修
+##
+//△下面对话框文字速度放慢，一字一顿的效果，像是贝莉故作娇嗔。
+
+【贝莉】
+你
+@wait time=500 canskip=true
+说
+@wait 500 true
+什
+@wait 500 true
+么
+@wait 500 true
+？
+[p]
+
+@if 'f.好感度<0'
+
+//▲如果好感度=-50 ，进入结局A（登录结局展示）。
+
+*end1
+【$】
+没事、没事。好啦，我空调也吹够了，该走了。[p]
+##
+Live2DSprite(1).setExpression("F11.exp.json");
+Live2DSprite(1).startMotionFile("motions/04.mtn",void,void,3,void,0,0);
+##
+【贝莉】
+掰掰。[p]
+【$】
+这么果断，铁定是我刚刚好感度扣多了……[p]
+
+//*@△对话框文字做位移变化。
+
+【$】
+……不管怎样，临走前可以跟你合照一张吗？[p]
+我要发群里跟基友炫耀一番。 [p]
+
+##
+Live2DSprite(1).setExpression("F03.exp.json");
+Live2DSprite(1).startMotionFile("motions/00.mtn",void,void,3,void,0,0); //小望修
+##
+【贝莉】
+好哇～来吧！[p]
+
+@textoff //△对话框消失。
+@action target=1 mode="scaleby" x=150 y=150 time=300
+@action target=1 mode="moveby" pos=[0,200] time=300 //△贝莉立绘放大变成半身像，来到柜台外，歪头摆出kira姿势。
+@waitaction index=1
+@wait time=1000
+@se channel=1 file="Camera Shutter01-6"
+@waitse channel=1
+@screenshot index=10 target=basic_layer
+@savetoimage index=10 file="screenshot/end1"
+@pretrans
+@removeall index=100 delete=true
+@remove index=100 delete=true
+@wait time=500
+@trans mode="rotatevanish" time=500
+//△照相音效〔 ，来源网站：http://musicisvfr.com〕 ，这张画面变成一张完整的图片A（登录图片展示），以旋转消失的方式转场入黑幕。
+//△黑幕中，对话框出现。
+@waittrans
+
+【】
+刚才的结局图，你可以在主菜单的「特典」中看到哦！[p]
+
+@pretrans
+@textoff
+@trans mode="shutter" time=500
+@if 'tf.isRecall'
+	#tf.isRecall=0;
+	@return
+@endif
+//记录结局A完成
+#sf.endA=true;
+@jump "*main" "ED"	
+
+
+
+//△以百叶窗渐变的方式转场入ED。
+
+//▲如果好感度=+5，进入结局B（登录结局展示）。
+@else
+*end2
+【$】
+没事、没事。好啦，我空调也吹够了，该走了。[p]
+##
+Live2DSprite(1).setExpression("F12.exp.json");
+Live2DSprite(1).startMotionFile("motions/00.mtn",void,void,3,void,0,0); //小望修
+##
+【贝莉】
+啊？这样就要走了吗……[p]
+【$】
+你该不会在舍不得吧？[p]
+
+##
+Live2DSprite(1).setExpression("F11.exp.json");
+Live2DSprite(1).startMotionFile("motions/03.mtn",void,void,3,void,0,0); //小望修
+##
+
+【贝莉】
+哪……哪有！我只是想……我还没把咱们面包工坊的东西介绍完呢……[p]
+【$】
+DEMO只是初步了解，之后啊，我会自己动手好好去研究一番的。[p]
+
+##
+Live2DSprite(1).setExpression("F04.exp.json");
+Live2DSprite(1).startMotionFile("motions/02.mtn",void,void,3,void,0,0);
+##
+
+【贝莉】
+真的吗？嗯，等你回来！[p]
+
+@pretrans
+@removeall index=100
+@sprite index=102 file='bg/B018Y_1280x720_改'
+@addto index=102 target=100
+@trans mode='universal' time=500 rule="image/rule/leftFade"
+@se channel=1 file="混合2_mixdown"
+@stop channel=bgm fadeout=250
+@waitfade channel=bgm canskip=true
+//记录bgm
+#sf.bgm[1]=true;
+@bgm file="sanpo" fadein=250
+//△模仿开门的方式，由右至左，从背景B过渡至背景A（遮片渐隐？）。音乐A淡入，使用开门音效，还可伴随风铃声。
+//△背景A：夏天阳光下的海边商店街（或类似这种感觉的背景，面包店座落的地方）
+//△音乐A：轻快爵士风。
+
+【$】
+（不知为何，有点像一场梦啊。）[p]
+
+@se file="Footsteps03-2L" channel=1//△脚步声音效〔 来源网站：http://musicisvfr.com〕。
+@addto index=1 target=100 pos=[-200,600]//△贝莉立绘出现，横向位移一小段至中间，模拟从旁走来的感觉。
+##
+Live2DSprite(1).setExpression("F01.exp.json");
+Live2DSprite(1).startMotionFile("motions/07.mtn",void,void,3,void,0,0);
+##
+@action target=1 mode='moveby' pos=[840,0] time=1500
+【贝莉】
+@if "tf.isRecall"
+	@text tf.name
+@else
+	@text text=f.lastName+f.firstName
+@endif
+！[p]
+【$】
+贝莉？[p]
+##
+Live2DSprite(1).setExpression("F13.exp.json");
+Live2DSprite(1).startMotionFile("motions/14.mtn",void,void,3,void,0,0); //小望修
+##
+【贝莉】
+仔细想了想……如果没有我，你一个人想烘焙出面包是很困难的。所以，我就大发慈悲跟着你，帮你忙吧！[p]
+【$】
+这是私奔呢还是私奔呢？[p]
+##
+Live2DSprite(1).setExpression("F09.exp.json");
+Live2DSprite(1).startMotionFile("motions/14.mtn"); //小望修
+##
+【贝莉】
+才不是呢！只是……如果我不跟着你，你去找别的女孩子帮忙，那我会很生气的！[p]
+##
+Live2DSprite(1).setExpression("F06.exp.json");
+Live2DSprite(1).startMotionFile("motions/00.mtn",void,void,3,void,0,0); //小望修
+##
+【$】
+（……结果，这DEMO不但有个如gal的开场白，还有个如gal的结尾啊。）[p]
+
+@textoff
+//小望修
+@wait time=1000
+@se channel=1 file="Camera Shutter01-6"
+@waitse channel=1
+@screenshot index=10 target=basic_layer
+@savetoimage index=10 file="screenshot/end2"
+@pretrans
+@removeall index=100 delete=true
+@remove index=100 delete=true
+@wait time=1000
+@trans mode="rotatevanish" time=500
+@waittrans
+//△贝莉立绘侧头甜甜微笑。
+//△照相音效，这张画面变成一张完整的图片B（登录图片展示），以旋转放大的方式转场入黑幕。
+//△黑幕中，对话框出现。
+
+
+
+【】
+刚才的结局图，你可以在主菜单的「特典」中看到哦！[p]
+@pretrans
+@textoff
+@trans mode="ripple" time=500
+@waittrans
+//△以涟漪的方式转场入ED。
+@if 'tf.isRecall'
+	#tf.isRecall=0;
+	@return
+@endif
+//记录结局B完成
+#sf.endB=true;
+@jump "*main" "ED"		
+@endif

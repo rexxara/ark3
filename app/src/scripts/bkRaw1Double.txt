@@ -1,0 +1,124 @@
+*main
+[bgm file="sound/bgm/tam-n16" loop=true]
+
+[basic_dialogbox]
+[sprite index=0 file="image/bg/bg441a_1280"]
+[addto index=0 target=basic_layer pos=[0,0] zorder=0 opacity=255]
+
+[sprite index=1 file="image/character/A/2_happy"]
+[addto index=1 target=basic_layer zorder=10 pos=[400,120] opacity=255]
+[sprite index=2 file="image/character/B/7_wordless"]
+[addto index=2 target=basic_layer zorder=10 pos=[640,120] opacity=255]
+
+【凉子】[r]
+抱歉，等很久了么？？[p]
+【真由】[r]
+啊，真是的，凉子你怎么那么慢？[p]
+
+[textoff] //用于在显示选项时关闭对话框
+[select file="image/menu/textwindow/2" text=["要好好遵守约定啊","为什么会迟到呢"] label=["*A","*B"]]
+
+*A
+[texton] //重新显示对话框
+[sprite index=2 file="image/character/B/1_normal"]
+[addto index=2 target=basic_layer zorder=10 pos=[640,120] opacity=255]
+【真由】[r]
+嘛，这次就算了。下一次可要好好遵守约定啊。[p]
+#var ask=-1;
+[jump label="*continue"]
+
+*B
+[texton]
+[sprite index=2 file="image/character/B/1_normal"]
+[addto index=2 target=basic_layer zorder=10 pos=[640,120] opacity=255]
+【真由】[r]
+平日里你不是很守时的吗？今天怎么迟到了？[p]
+#var ask=1;
+[jump label="*continue"]
+
+*continue
+@if "ask>0"
+@jump label="*ask"
+@else
+@jump label="*no_ask"
+@endif
+
+*ask
+[sprite index=1 file="image/character/A/4_worry"]
+[addto index=1 target=basic_layer zorder=10 pos=[400,120] opacity=255]
+【凉子】[r]
+唔……这是有原因的。[p]
+[jump label="*story"]
+
+*no_ask
+[sprite index=1 file="image/character/A/1_normal"]
+[addto index=1 target=basic_layer zorder=10 pos=[400,120] opacity=255]
+【凉子】[r]
+抱歉抱歉，下次一定不会迟到了～[p]
+[jump label="*end"]
+
+*story
+[bgm file="sound/bgm/tam-n01" loop=true]
+
+[sprite index=2 file="image/character/B/5_surprise_2"]
+[addto index=2 target=basic_layer zorder=10 pos=[640,120] opacity=255]
+【真由】[r]
+嗯？什么原因？[p]
+
+[sprite index=1 file="image/character/A/1_normal"]
+[addto index=1 target=basic_layer zorder=10 pos=[400,120] opacity=255]
+【凉子】[r]
+哥哥昨晚说，今天他要开车去买最新的CD，所以可以顺路载我过来。[p]
+【真由】[r]
+嗯嗯，然后呢？[p]
+
+[sprite index=1 file="image/character/A/3_angry"]
+[addto index=1 target=basic_layer zorder=10 pos=[400,120] opacity=255]
+【凉子】[r]
+结果哥哥竟然因为通宵打游戏睡过头了！[p]
+
+[sprite index=2 file="image/character/B/7_wordless_2"]
+[addto index=2 target=basic_layer zorder=10 pos=[640,120] opacity=255]
+【真由】[r]
+我说你啊……万一今天你哥哥不起床的话呢？[p]
+
+[sprite index=1 file="image/character/A/2_happy"]
+[addto index=1 target=basic_layer zorder=10 pos=[400,120] opacity=255]
+【凉子】[r]
+那我就不会迟到了啊。[p]
+
+[sprite index=2 file="image/character/B/5_surprise"]
+[addto index=2 target=basic_layer zorder=10 pos=[640,120] opacity=255]
+[stop channel=bgm]
+[textoff]
+[se channel=10 file="sound/se/Ikkyu_san" loop=false]
+[wait time=7000 canskip=false]
+
+[texton]
+[sprite index=2 file="image/character/B/7_wordless_2"]
+[addto index=2 target=basic_layer zorder=10 pos=[640,120] opacity=255]
+【真由】[r]
+啊啊……听说商业街有家店的冰淇淋很好吃，待会去不去呢……[p]
+
+[sprite index=1 file="image/character/A/3_angry"]
+[addto index=1 target=basic_layer zorder=10 pos=[400,120] opacity=255]
+【凉子】[r]
+唔，你那是什么反应啊……[p]
+
+[sprite index=1 file="image/character/A/2_happy"]
+[addto index=1 target=basic_layer zorder=10 pos=[400,120] opacity=255]
+【凉子】[r]
+啊，说起冰淇淋的话，我知道一家更好吃的店……[p]
+[jump label="*end"]
+
+*end
+[textoff]
+[action mode="fadeto" opacity=0 target=1 time=1000]
+[action mode="fadeto" opacity=0 target=2 time=1000]
+[waitaction index=1]
+[action mode="fadeto" opacity=0 target=0 time=1500]
+[waitaction index=0]
+[for var=i range=[0,1,2]]
+	[remove index=i delete=true]
+[next]
+[quit force=false]
