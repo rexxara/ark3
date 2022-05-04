@@ -7,7 +7,9 @@ const charaters = {
     凉子: {
         images: {
             default: '1_normal.png',
-            开心: '2_happy.png'
+            开心: '2_happy.png',
+            生气: "3_angry.png",
+            惊讶: "5_surprise.png"
         },
         style: {
             width: '20vw',
@@ -17,7 +19,9 @@ const charaters = {
     真由: {
         images: {
             default: '1_normal.png',
-            无语: '7_wordless.png'
+            无语: '7_wordless.png',
+            无语2: '7_wordless_2.png',
+            惊讶: "5_surprise.png"
         },
         style: {
             width: '20vw',
@@ -54,6 +58,17 @@ const inputs = {
     }
 }
 const chooses = {
+    BK选择A: [{
+        text: '要好好遵守约定啊',
+        callback: (execCommand, variables) => {
+            return { ...variables, BK选择A: '要好好遵守约定啊' }
+        }
+    }, {
+        text: '为什么会迟到呢',
+        callback: (execCommand, variables) => {
+            return { ...variables, BK选择A: '为什么会迟到呢' }
+        }
+    }],
     第三章选择A: [{
         text: '冬马好感+1',
         callback: (execCommand, variables) => {
@@ -120,7 +135,8 @@ const cgs = {
     }
 }
 const soundEffects = {
-    eff1: 'eff01.mp3'
+    eff1: 'eff01.mp3',
+    大无语: 'Ikkyu_san.ogg',
 }
 const scences = [
     {

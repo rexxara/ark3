@@ -16,7 +16,8 @@ export default function (props: IProps) {
     if (disable) {
         isDisable = disable(gameVariables)
     }
-    return <p
-        style={{ fontSize: vh(5) }}
-        className={isDisable ? classnames('choose', 'chooseDisable') : 'choose'} onClick={() => { !isDisable && onClick(v, choose) }} >{v.text}:{isDisable}</p>
+    return <p style={{ fontSize: vh(5) }}
+        className={isDisable ? classnames('choose', 'chooseDisable') : 'choose'}
+        onClick={() => { !isDisable && onClick(v, choose) }}
+    >{v.text}.{isDisable}</p>
 }
