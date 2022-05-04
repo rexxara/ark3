@@ -34,6 +34,7 @@ const LoginPage = (props: Iprops) => {
             <Abutton to="/ScenceReview" text="场景回想" />
             <Abutton to="/config" text="设置" />
             <Abutton to="/paintGame" text="灰度" />
+            <Abutton to="/newCommandList" text="newCommandList" />
         </div>
         <TitleCache />
     </Scence>

@@ -18,6 +18,7 @@ import ConfigPage from './ConfigPage'
 import Init from './Init'
 import { isAndroid } from '../utils/utils';
 import LoginPage from './LoginPage';
+import NewCommandList from './NewCommandList';
 if (!isAndroid()) {//ios only
   detectOrient()
 }
@@ -29,7 +30,7 @@ const WarpedScenceReview = warpedAnimation(ScenceReview)
 const WarpedMainGame = warpedAnimation(MainGame)
 const WarpedLoadPage = warpedAnimation(LoadPage)
 const WarpedConfigPage = warpedAnimation(ConfigPage)
-
+const WarpedNewCommandList = warpedAnimation(NewCommandList);
 // document.oncontextmenu = function () {
 //   return false;
 // }
@@ -66,6 +67,7 @@ const App: React.FC<IProps> = ({ history }) => {
         <Route path="/loadPage" children={props => <WarpedLoadPage {...props} />} />
         <Route path="/config" children={props => <WarpedConfigPage {...props} />} />
         <Route path="/paintGame" component={PaintGame}></Route>
+        <Route path="/newCommandList" component={WarpedNewCommandList}></Route>
       </div>
     </HashRouter>
     <Init historyObj={history} /></>
