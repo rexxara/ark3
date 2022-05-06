@@ -18,6 +18,12 @@ const LoginPage = (props: Iprops) => {
         })
         props.dispatch({ type: 'audio/stopBgm' })
     }
+    const startArk4 = () => {
+        props.dispatch({
+            type: 'global/startArk4'
+        })
+        props.dispatch({ type: 'audio/stopBgm' })
+    }
     React.useEffect(() => {
         props.dispatch({
             type: 'audio/playBgm',
@@ -34,7 +40,7 @@ const LoginPage = (props: Iprops) => {
             <Abutton to="/ScenceReview" text="场景回想" />
             <Abutton to="/config" text="设置" />
             <Abutton to="/paintGame" text="灰度" />
-            <Abutton to="/newCommandList" text="newCommandList" />
+            <Abutton onClick={startArk4} text="newCommandList" />
         </div>
         <TitleCache />
     </Scence>

@@ -1,28 +1,28 @@
 
 export const NO_IMG = "不显示立绘"
-export const LINE_TYPE = {
-    narrator: 'narrator',
-    raw: 'raw',
-    spaceLine: 'spaceLine',
-    chat: 'chat',
-    monologue: 'monologue',
-    comment: "comment",
-    command: 'command',
-    COMMAND_SHOW_BACKGROUND: 'showBg',
-    COMMAND_LEAVE_CHARATER: 'leaveCh',
-    COMMAND_ENTER_CHARATER: 'showCh',
-    COMMAND_PLAY_BGM: 'playBgm',
-    COMMAND_PAUSE_BGM: 'pauseBgm',
-    COMMAND_RESUME_BGM: 'resumeBgm',
-    COMMAND_REMOVE_BACKGROUND: 'removeBg',
-    COMMAND_SHOW_CG: 'showCg',
-    COMMAND_REMOVE_CG: 'removeCg',
-    COMMAND_SHOW_CHOOSE: 'showChoose',
-    COMMAND_SHOW_INPUT: 'showInput',
-    COMMAND_SHOW_EFFECT: 'showEffect',
-    COMMAND_REMOVE_EFFECT: 'removeEffect',
-    COMMAND_SHOW_SOUND_EFFECT: 'showSoundEffect',
-    COMMAND_DELAY: 'delay'
+export enum LINE_TYPE {
+    narrator = 'narrator',
+    raw = 'raw',
+    spaceLine = 'spaceLine',
+    chat = 'chat',
+    monologue = 'monologue',
+    comment = "comment",
+    command = 'command',
+    COMMAND_SHOW_BACKGROUND = 'showBg',
+    COMMAND_LEAVE_CHARATER = 'leaveCh',
+    COMMAND_ENTER_CHARATER = 'showCh',
+    COMMAND_PLAY_BGM = 'playBgm',
+    COMMAND_PAUSE_BGM = 'pauseBgm',
+    COMMAND_RESUME_BGM = 'resumeBgm',
+    COMMAND_REMOVE_BACKGROUND = 'removeBg',
+    COMMAND_SHOW_CG = 'showCg',
+    COMMAND_REMOVE_CG = 'removeCg',
+    COMMAND_SHOW_CHOOSE = 'showChoose',
+    COMMAND_SHOW_INPUT = 'showInput',
+    COMMAND_SHOW_EFFECT = 'showEffect',
+    COMMAND_REMOVE_EFFECT = 'removeEffect',
+    COMMAND_SHOW_SOUND_EFFECT = 'showSoundEffect',
+    COMMAND_DELAY = 'delay'
 }
 
 
@@ -50,7 +50,7 @@ export interface DisplayLine {
 }
 
 export interface CommandLine {
-    command: string,
+    command: LINE_TYPE,
     param?: string | DisplayCharacter | selectedBGM | Option[] | Input | CGParama | DelayParama
 }
 export type DelayParama = number
@@ -66,7 +66,7 @@ export interface DisplayCharacters {
 export interface DisplayCharacter {
     name: string
     emotion: string,
-    style?:React.CSSProperties
+    style?: React.CSSProperties
 }
 
 export interface selectedBGM {
@@ -79,7 +79,7 @@ export interface Emotions {
 }
 export interface Charater {
     images: Emotions,
-    style?:React.CSSProperties
+    style?: React.CSSProperties
 }
 export interface Characters {
     [arg: string]: Charater
@@ -96,7 +96,7 @@ export interface RawScript {
     inputs: Inputs,
     scences: Array<ScencesPage>
     soundEffects: SoundEffects
-    loaded?:boolean
+    loaded?: boolean
 }
 export default interface Chaptermodel4 {
     [arg: string]: ChapterModel3[]

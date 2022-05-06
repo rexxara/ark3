@@ -30,6 +30,13 @@ export default {
             }, 0)
             return { ...initalState, RawScript: script }
         },
+        'startArk4'(state: globalState, { payload }: any) {
+            setTimeout(() => {
+                const { origin, pathname } = window.location
+                window.location.href = origin + pathname + '#/newCommandList'
+            }, 0)
+            return { ...initalState, RawScript: script }
+        },
         // 'saveSetting'(state: globalState, { payload }: any) {
         //     return { ...state, ...payload }
         // },

@@ -14,7 +14,7 @@ interface IProps {
   } & globalState
   audio: typeof INIT_SETTING & { bgm: any }
 }
-const modRs = async (rs: RawScript): Promise<RawScript> => {
+export const modRs = async (rs: RawScript): Promise<RawScript> => {
   if (rs.loaded) { return rs }
   const { chapters } = rs
   type Pro = {

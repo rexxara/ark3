@@ -120,7 +120,7 @@ class MainGame extends React.Component<IProps, IState> {
                 //章节切换
                 const tName = { chapterName: chapter.arkMark, sectionName: chapter.name, total: 0, loaded: 0 }
                 this.setState({ TitleChapterName: { chapterName: '', sectionName: '', total: 0, loaded: 0 } }, () => {
-                    this.commandLineProcess({ "command": "removeEffect" }, true)
+                    this.commandLineProcess({ "command": LINE_TYPE.COMMAND_REMOVE_EFFECT }, true)
                     this.setState({ TitleChapterName: tName })
                 })
             }
@@ -268,7 +268,7 @@ class MainGame extends React.Component<IProps, IState> {
             case 'string':
                 return this.startChapter(next)
             case "object":
-                return this.commandLineProcess({ "command": "showChoose", "param": next })
+                return this.commandLineProcess({ "command": LINE_TYPE.COMMAND_SHOW_CHOOSE, "param": next })
             case 'function':
                 return this.startChapter(next(gameVariables))
             default:

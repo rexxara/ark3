@@ -11,7 +11,7 @@ interface nextHandleOption {
 }
 const useCommandQueue = <T,>(queue: QueueItem<T, any>[], initState: T, initIndex?: number) => {
     const [state, setState] = useState<T>(initState);
-    const [processing, setProcessing,stopProcessing] = useBoolean(false);
+    const [processing, setProcessing, stopProcessing] = useBoolean(false);
     const [auto, setAuto, disableAuto] = useBoolean(false);
     const [index, setIndex] = useState<number>(initIndex ?? 0);
     async function nextHandle(ev?: nextHandleOption | React.MouseEvent) {
@@ -24,22 +24,21 @@ const useCommandQueue = <T,>(queue: QueueItem<T, any>[], initState: T, initIndex
         if (processing) {
             //message.warn('doing')
         } else {
-            const nextIndex = index + 1;
-            const currentTask = queue[nextIndex];
+            const currentTask = queue[index];
             if (!currentTask) {
                 //next
                 message.error('done')
             }
             setProcessing()
             try {
+                console.log(currentTask.function);
                 const res = await currentTask.function(state, currentTask.args);
                 setState(res)
-                console.log(res);
             } catch (error) {
                 console.warn(error);
             } finally {
                 stopProcessing();
-                setIndex(nextIndex);
+                setIndex(index + 1);
                 // if (auto) {
                 //     console.log('next');
                 //     nextHandle({ triggerByAuto: true })
