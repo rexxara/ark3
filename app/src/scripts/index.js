@@ -1,8 +1,9 @@
 
-import chapter1 from './chapter1/index'
-import chapter2 from './chapter2.mi'
-import chapter3 from './chapter3/index'
-import bkChapter1 from './BkTestChapter1/index';
+import chapter1 from './texts/chapter1/index'
+import chapter2 from './texts/chapter2.mi'
+import chapter3 from './texts/chapter3/index'
+import bkChapter1 from './texts/BkTestChapter1/index';
+import bkChapter2 from './texts/BKTestChapter2/bkchapter2.mi';
 const charaters = {
     凉子: {
         images: {
@@ -148,7 +149,8 @@ const scences = [
 ]
 
 const bkScript1 = {
-    chapter1: bkChapter1
+    chapter1: bkChapter1,
+    chapter2: [{ name: 'chapter2', script: bkChapter2 ,isEnd:true }],
 }
 const apiTestChapters = {
     chapter1: chapter1,

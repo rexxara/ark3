@@ -7,6 +7,6 @@ const ch1 = [
     { name: 'chapter1', script: chapter1, next: ({ BK选择A }) => BK选择A === '要好好遵守约定啊' ? 'afterChooseA_1' : 'afterChooseA_2', isBegin: true, },
     { name: 'afterChooseA_1', script: afterChooseA_1, next: 'sectionB' },
     { name: 'afterChooseA_2', script: afterChooseA_2, next: 'sectionB' },
-    { name: 'sectionB', script: sectionB, isEnd: true },
+    { name: 'sectionB', script: sectionB, next:'chapter2'},
 ]
 export default ch1

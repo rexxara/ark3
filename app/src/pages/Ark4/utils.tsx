@@ -2,6 +2,7 @@ import { message } from "antd";
 import { QueueItem } from "../../Hooks/useCommandQueue";
 import { CommandLine, DisplayLine, LINE_TYPE } from "../../utils/types";
 import playBGMHandle from "./commandHandle/playBGMHandle";
+import showBackgroundHandle from "./commandHandle/showBackgroundHandle";
 import { ChapterState } from "./GameState";
 
 export function convertLineToQueueItem(params: CommandLine | DisplayLine): QueueItem<ChapterState, any> {
@@ -9,14 +10,17 @@ export function convertLineToQueueItem(params: CommandLine | DisplayLine): Queue
         if (params.command === LINE_TYPE.COMMAND_PLAY_BGM) {
             return { function: playBGMHandle, args: params.param };
         }
+        if (params.command === LINE_TYPE.COMMAND_SHOW_BACKGROUND) {
+            return { function: showBackgroundHandle, args: params.param };
+        }
     }
 
-    return { function: wait, args: { time: 2000, raw: JSON.stringify(params) } };
+    return { function: wait, args: { time: 1000, raw: JSON.stringify(params) } };
 }
-function wait(state: ChapterState, params: { time: number, raw: string }) {
+function wait(getState: () => ChapterState, params: { time: number, raw: string }) {
     const promise = new Promise<ChapterState>(res => {
         setTimeout(() => {
-            res(state)
+            res(getState())
             message.info(params.raw);
         }, params.time);
     })

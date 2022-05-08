@@ -133,7 +133,7 @@ export interface LoadedChapterModel3 {
     next?: string | Function | JumpOption[],
     isBegin?: boolean
     isEnd?: boolean
-    arkMark: string
+    arkMark: string//chapterName
 }
 export interface ChapterModel3 {
     name: string,

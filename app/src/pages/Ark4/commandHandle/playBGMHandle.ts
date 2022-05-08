@@ -1,15 +1,25 @@
 import { message } from "antd";
 import { ChapterState } from "../GameState";
 
-export default function playBGMHandle(state: ChapterState, param: { name: string, src: string }) {
+export default function playBGMHandle(getState: () => ChapterState, param: { name: string, src: string }) {
     const src = require(`../../../scripts/BGM/${param.src}`)
-    if (state.bgmName === param.name) {
+    if (getState().bgmName === param.name) {
         message.warn('play sameBgm');
         return new Promise<ChapterState>(res => {
-            res(state);
+            res(getState());
         });
     }
-    return new Promise<ChapterState>((res) => {
+    return new Promise<ChapterState>(res => {
+        getBase64FromSrc(src).then((url: string) => {
+            const result: ChapterState = { ...getState(), bgmName: param.name, bgmBase64Buff: url }
+            res(result);
+        }).catch(err => console.error(err));
+    })
+};
+
+
+export function getBase64FromSrc(src: string) {
+    return new Promise<string>((res) => {
         fetch(src).then(response => {
             if (!response.body) {
                 throw new Error("bgmNotFound");
@@ -34,11 +44,6 @@ export default function playBGMHandle(state: ChapterState, param: { name: string
             })
         }).then(stream => new Response(stream))
             .then(response => response.blob())
-            .then(blob => URL.createObjectURL(blob))
-            .then(url => {
-                const result: ChapterState = { ...state, bgmName: param.name, bgmBase64Buff: url }
-                res(result);
-            })
-            .catch(err => console.error(err));
+            .then(blob => URL.createObjectURL(blob)).then((data) => res(data))
     })
 };

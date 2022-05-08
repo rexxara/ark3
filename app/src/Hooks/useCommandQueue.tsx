@@ -1,20 +1,23 @@
-import { message } from "antd";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import useBoolean from "./useBoolean";
 
 export type QueueItem<T, U> = {
-    function: ((state: T, param: any) => Promise<T>) | ((state: T, param: any) => T),
+    function: ((getState: () => T, param: any) => Promise<T>) | ((getState: () => T, param: any) => T),
     args?: U
 };
 interface nextHandleOption {
     triggerByAuto: boolean;
 }
 const useCommandQueue = <T,>(queue: QueueItem<T, any>[], initState: T, initIndex?: number) => {
-    const [state, setState] = useState<T>(initState);
+    const _state = useRef<T>(initState);
     const [processing, setProcessing, stopProcessing] = useBoolean(false);
     const [auto, setAuto, disableAuto] = useBoolean(false);
-    const [index, setIndex] = useState<number>(initIndex ?? 0);
+    const _index = useRef<number>(initIndex ?? 0);
+    function getState(): T {
+        return _state.current;
+    }
     async function nextHandle(ev?: nextHandleOption | React.MouseEvent) {
+        const index = _index.current;
         if (ev && 'triggerByAuto' in ev) {
             //autoing
         } else {
@@ -25,36 +28,41 @@ const useCommandQueue = <T,>(queue: QueueItem<T, any>[], initState: T, initIndex
             //message.warn('doing')
         } else {
             const currentTask = queue[index];
+            console.log(queue, index);
             if (!currentTask) {
-                //next
-                message.error('done')
+                //outof boundary
             }
             setProcessing()
             try {
-                console.log(currentTask.function);
-                const res = await currentTask.function(state, currentTask.args);
-                setState(res)
+                console.log(_state.current, initState)
+                const res = await currentTask.function(getState, currentTask.args);
+                _state.current = res;
             } catch (error) {
                 console.warn(error);
             } finally {
                 stopProcessing();
-                setIndex(index + 1);
-                // if (auto) {
-                //     console.log('next');
-                //     nextHandle({ triggerByAuto: true })
-                // }
+                _index.current = index + 1;
             }
         }
     }
+    const index = _index.current;
+    const state = _state.current;
     const current = queue[index];
-    const done = !current;
+    const done = index > queue.length;
     useEffect(() => {
         if (auto && !done) {
             nextHandle({ triggerByAuto: true })
         }
     }, [auto, index, done])
-
-    return { current, nextHandle, setAuto, state, processing, auto, done, disableAuto }
+    function resetState() {
+        _state.current = initState;
+        disableAuto();
+    }
+    function resetQueue() {
+        _index.current = 0;
+        nextHandle({ triggerByAuto: true })
+    }
+    return { current, nextHandle, setAuto, state, processing, auto, done, index, disableAuto, resetQueue, resetState }
 };
 
 export default useCommandQueue;

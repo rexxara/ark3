@@ -7,7 +7,7 @@ import { GameModel3, RawScript } from "../../utils/types";
 import { modRs } from "../MainGame";
 import Game from "./Game";
 import { initGameState } from "./GameState";
-
+import './style.css'
 
 interface IProps {
   global: {
