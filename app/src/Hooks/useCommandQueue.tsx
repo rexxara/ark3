@@ -1,12 +1,14 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
 import useBoolean from "./useBoolean";
 
 export type QueueItem<T, U> = {
     function: ((getState: () => T, param: any) => Promise<T>) | ((getState: () => T, param: any) => T),
-    args?: U
+    args?: U,
+    type: 'command' | 'line' | 'error'
 };
 interface nextHandleOption {
     triggerByAuto: boolean;
+    triggerByCommandAuto: boolean;
 }
 const useCommandQueue = <T,>(queue: QueueItem<T, any>[], initState: T, initIndex?: number) => {
     const _state = useRef<T>(initState);
@@ -16,7 +18,10 @@ const useCommandQueue = <T,>(queue: QueueItem<T, any>[], initState: T, initIndex
     function getState(): T {
         return _state.current;
     }
-    async function nextHandle(ev?: nextHandleOption | React.MouseEvent) {
+    async function nextHandle(ev?: Partial<nextHandleOption> | React.MouseEvent) {
+        if (ev && 'triggerByCommandAuto' in ev) {
+            //
+        }
         const index = _index.current;
         if (ev && 'triggerByAuto' in ev) {
             //autoing
@@ -28,13 +33,12 @@ const useCommandQueue = <T,>(queue: QueueItem<T, any>[], initState: T, initIndex
             //message.warn('doing')
         } else {
             const currentTask = queue[index];
-            console.log(queue, index);
             if (!currentTask) {
                 //outof boundary
             }
             setProcessing()
             try {
-                console.log(_state.current, initState)
+
                 const res = await currentTask.function(getState, currentTask.args);
                 _state.current = res;
             } catch (error) {
@@ -42,6 +46,9 @@ const useCommandQueue = <T,>(queue: QueueItem<T, any>[], initState: T, initIndex
             } finally {
                 stopProcessing();
                 _index.current = index + 1;
+                if (currentTask.type === 'command') {
+                    nextHandle({ triggerByCommandAuto: true })
+                }
             }
         }
     }

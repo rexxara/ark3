@@ -128,9 +128,14 @@ const gameLoader = (rawScript: RawScript, needDecode: boolean, IsCRLF: boolean):
         caches
     }
 }
-const main = (rawScript: RawScript, needDecode: boolean, IsCRLF: boolean) => {
-    if (!RawScriptValidator(rawScript)) return false
-    return gameLoader(rawScript, false, true)
+function main(rawScript: RawScript, needDecode: boolean, IsCRLF: boolean): false | { charaters: Characters; chapters: LoadedChapterModel3[]; caches: ChapterCaches } {
+    if (!RawScriptValidator(rawScript))
+        return false
+    const res = gameLoader(rawScript, false, true)
+    return {
+        ...res,
+        charaters: rawScript.charaters
+    }
 }
 
 

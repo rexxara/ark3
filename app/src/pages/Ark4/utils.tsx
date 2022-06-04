@@ -3,19 +3,25 @@ import { QueueItem } from "../../Hooks/useCommandQueue";
 import { CommandLine, DisplayLine, LINE_TYPE } from "../../utils/types";
 import playBGMHandle from "./commandHandle/playBGMHandle";
 import showBackgroundHandle from "./commandHandle/showBackgroundHandle";
+import showCharacterHandle from "./commandHandle/showCharacterHandle";
 import { ChapterState } from "./GameState";
 
 export function convertLineToQueueItem(params: CommandLine | DisplayLine): QueueItem<ChapterState, any> {
     if (isCommandLine(params)) {
         if (params.command === LINE_TYPE.COMMAND_PLAY_BGM) {
-            return { function: playBGMHandle, args: params.param };
+            return { function: playBGMHandle, args: params.param, type: 'command' };
         }
         if (params.command === LINE_TYPE.COMMAND_SHOW_BACKGROUND) {
-            return { function: showBackgroundHandle, args: params.param };
+            return { function: showBackgroundHandle, args: params.param, type: 'command' };
+        }
+        if (params.command === LINE_TYPE.COMMAND_ENTER_CHARATER) {
+            return { function: showCharacterHandle, args: params.param, type: 'command' };
         }
     }
-
-    return { function: wait, args: { time: 1000, raw: JSON.stringify(params) } };
+    if (isDisplayLine(params)) {
+        return { function: wait, args: { time: 1000, raw: JSON.stringify(params) }, type: 'line' };
+    }
+    return { function: wait, args: { time: 1000, raw: JSON.stringify(params) }, type: 'error' };
 }
 function wait(getState: () => ChapterState, params: { time: number, raw: string }) {
     const promise = new Promise<ChapterState>(res => {

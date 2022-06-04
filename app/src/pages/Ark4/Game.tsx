@@ -2,17 +2,19 @@ import { ExclamationCircleOutlined } from '@ant-design/icons';
 import { Modal } from 'antd';
 import React, { useEffect, useState } from 'react';
 import useVisiableToggle from '../../Hooks/useAnimateModel/useVisiableToggle';
-import { GameModel3, LoadedChapterModel3 } from '../../utils/types';
+import { LoadedChapterModel3 } from '../../utils/types';
 import { loadChapterHandle } from './commandHandle/loadChapterHandle';
 import Title from './components/Title';
+import { DataContext } from './context/dataContext';
 import { ChapterState, GameState, initChapterState } from './GameState';
 import SectionProcessor from './SectionProcessor';
 
 interface IProps {
     gameState: GameState
-    data: GameModel3
 }
 export default function Ark4Game(props: IProps) {
+    const { context, dispatch } = React.useContext(DataContext);
+    const { chapters } = context.data;
     const [currentChapterName, setCurrentChapterName] = useState<string>();
     const [currentSectionName, setCurrentSectionName] = useState<string>();
     const [currentChapterState, setCurrentChapterState] = useState<ChapterState>(initChapterState);
@@ -22,8 +24,6 @@ export default function Ark4Game(props: IProps) {
         showTitle,
         hideTitle
     ] = useVisiableToggle<string>(undefined);
-    const { chapters } = props.data;
-    console.log(props.data)
     useEffect(() => {
         setCurrentChapterState(initChapterState);
 

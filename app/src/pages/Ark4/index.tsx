@@ -1,10 +1,11 @@
 import { connect } from "dva";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { INIT_SETTING, SaveData } from "../../components/Game/actions";
 import { globalState } from "../../models/global";
 import loader from "../../utils/loader";
-import { GameModel3, RawScript } from "../../utils/types";
+import { RawScript } from "../../utils/types";
 import { modRs } from "../MainGame";
+import { DataContext, KeywordsContextProvider } from "./context/dataContext";
 import Game from "./Game";
 import { initGameState } from "./GameState";
 import './style.css'
@@ -17,18 +18,25 @@ interface IProps {
   } & globalState
   audio: typeof INIT_SETTING & { bgm: any }
 }
- function Ark4(props:IProps) {
-    const rs = props.global.RawScript
-    const [data, setData] = useState<GameModel3>()
-    useEffect(() => {
-      modRs(rs).then(getData)
-    }, [])
-    const getData = (rs: RawScript) => {
-      const data = loader(rs as any, true, true)
-      if (data) {
-        setData(data)
-      }
+function Ark4(props: IProps) {
+  const rs = props.global.RawScript
+  const { context, dispatch } = React.useContext(DataContext);
+  useEffect(() => {
+    modRs(rs).then(getData)
+  }, [])
+  const getData = (rs: RawScript) => {
+    const data = loader(rs as any, true, true)
+    if (data) {
+      dispatch?.({ type: 'data', payload: data })
     }
-    return <>{data&&<Game gameState={initGameState} data={data} />}</>
+  }
+  return <>{context.loaded && <Game gameState={initGameState} />}</>
 }
-export default connect((store: any) => store)(Ark4)
+
+
+function Ark4Wraper(props: any) {
+  return <KeywordsContextProvider>
+    <Ark4 {...props} />
+  </KeywordsContextProvider>
+}
+export default connect((store: any) => store)(Ark4Wraper)
