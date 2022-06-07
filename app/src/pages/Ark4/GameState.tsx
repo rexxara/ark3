@@ -7,7 +7,9 @@ export interface ChapterState {
     bgmBase64Buff?: string;
     bgName?: string;
     bgBase64Buff?: string;
-    charaters: Charaters
+    charaters: Charaters;
+    textAreaContent?: string;
+    textAreaSpeaker?: string;
 }
 export const initChapterState: ChapterState = {
     bgmName: undefined,
@@ -15,7 +17,7 @@ export const initChapterState: ChapterState = {
     bgName: undefined,
     bgBase64Buff: undefined,
     charaters: {
-    }
+    },
 }
 
 export interface GameState {

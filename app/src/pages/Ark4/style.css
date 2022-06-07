@@ -1,48 +1,81 @@
-.ARKBG{
-    width: 100vw;
-    height: 100vh;
-    background-position: center center;
-    background-repeat: no-repeat ;
-    background-size: cover;
-    background-attachment: fixed;
-    position: absolute;
-    left: 0;
-    top: 0;
-    z-index: 1;
+.ARKBG {
+  width: 100vw;
+  height: 100vh;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment: fixed;
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 1;
 }
-.ark4Title{
-    width: 100vw;
-    height: 100vh;
-    position: absolute;
-    top: 0;
-    left: 0;
-    background-position: center center;
-    background-repeat: no-repeat ;
-    background-size: cover;
-    background-attachment: fixed;
-    z-index: 2;
+
+.ark4Title {
+  width: 100vw;
+  height: 100vh;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment: fixed;
+  z-index: 2;
 }
+
 .fadeIn {
   animation-name: example;
   animation-duration: 0.3s;
 }
+
 .fadeOut {
   animation-name: fadeOut;
   animation-duration: 0.3s;
 }
+
 @keyframes example {
   from {
     opacity: 0;
   }
+
   to {
     opacity: 1;
   }
 }
+
 @keyframes fadeOut {
   from {
     opacity: 1;
   }
+
   to {
     opacity: 0;
   }
+}
+
+.disableCharater {
+  filter: brightness(50%);
+}
+
+.textarea {
+  background-color: rgba(0, 0, 0, 0.3);
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  text-align: left;
+  margin-bottom: 6vw;
+  min-height: 25vh;
+  line-height: 6vh;
+  font-size: 4vh;
+  padding: 0;
+}
+
+.textarea .nameCon {
+  background-color: rgba(0, 0, 0, 0.3);
+  text-align: left;
+}
+
+.textarea .textCon {
+  padding-left: 2vw;
 }

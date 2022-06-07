@@ -4,7 +4,7 @@ interface IParam {
     name: string,
     emotion: string
 }
-export default function showCharacterHandle(getState: () => ChapterState, param: IParam) {
+export default function showCharacterHandle(getState: () => ChapterState, param: IParam): Promise<ChapterState> {
     const src = require(`../../../scripts/charatersImages/${param.name}/${param.emotion}`)
     return new Promise<ChapterState>(res => {
         getBase64FromSrc(src).then((url: string) => {

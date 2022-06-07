@@ -5,6 +5,7 @@ import { Charaters } from '../GameState';
 
 interface IProps {
     charaters: Charaters
+    speaker?: string;
 }
 export default function CharaterStage(props: IProps) {
     const { charaters } = props;
@@ -14,9 +15,9 @@ export default function CharaterStage(props: IProps) {
         {displaycharactersArray.map(name => {
             const style = getCharacterStyle(name, context.data.charaters);
             //todo 单独一句话的样式 比如这句话站在中间说什么的
-            //todo 说话的人高亮displayName === v.name ? classnames('displayCharacter', 'active') :
+            const disable = props.speaker && props.speaker !== name;
             return <img alt={name} style={style}
-                className="displayCharacter"
+                className={`displayCharacter ${disable ? 'disableCharater' : ""}`}
                 key={name} src={charaters[name]} />
         })}
     </div>

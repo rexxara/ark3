@@ -9,6 +9,7 @@ import { DataContext, KeywordsContextProvider } from "./context/dataContext";
 import Game from "./Game";
 import { initGameState } from "./GameState";
 import './style.css'
+import './animate.css'
 
 interface IProps {
   global: {

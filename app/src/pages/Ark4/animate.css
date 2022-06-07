@@ -1,0 +1,22 @@
+.nextIcon {
+    position: relative;
+    animation: nextIcon 0.8s infinite;
+    animation-timing-function: ease-in-out;
+}
+
+
+@keyframes nextIcon {
+    0% {
+        right: 0;
+        color: white;
+    }
+
+    50% {
+        right: -20px;
+        color: rgb(255, 169, 169);
+    }
+    100% {
+        right: 0;
+        color: white;
+    }
+}

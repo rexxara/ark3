@@ -10,6 +10,7 @@ interface nextHandleOption {
     triggerByAuto: boolean;
     triggerByCommandAuto: boolean;
 }
+export type NextHandle = (ev?: Partial<nextHandleOption> | React.MouseEvent) => Promise<void>;
 const useCommandQueue = <T,>(queue: QueueItem<T, any>[], initState: T, initIndex?: number) => {
     const _state = useRef<T>(initState);
     const [processing, setProcessing, stopProcessing] = useBoolean(false);
@@ -18,7 +19,7 @@ const useCommandQueue = <T,>(queue: QueueItem<T, any>[], initState: T, initIndex
     function getState(): T {
         return _state.current;
     }
-    async function nextHandle(ev?: Partial<nextHandleOption> | React.MouseEvent) {
+    async function nextHandle(ev?: Partial<nextHandleOption> | React.MouseEvent): Promise<void> {
         if (ev && 'triggerByCommandAuto' in ev) {
             //
         }

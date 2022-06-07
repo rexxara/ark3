@@ -29,7 +29,7 @@ export default function SectionProcessor(props: IProps) {
         commandQueue.resetState()
     }, [props.currentSection.arkMark])
     return <div style={{ color: 'white' }}>
-        <div style={{ position: 'absolute', left: '0', bottom: '0', zIndex: 9, width: '100vw', background: 'white', overflow: 'hidden' }}>
+        <div style={{ position: 'absolute', left: '0', bottom: '0', zIndex: 20, width: '100vw', background: 'rgba(0,0,0,0.3)', overflow: 'hidden' }}>
             <div style={{ color: 'black' }}>
                 {commandQueue.processing && <p>loading...</p>}
                 {commandQueue.auto && <p>autoing...</p>}
@@ -40,6 +40,6 @@ export default function SectionProcessor(props: IProps) {
                 <Abutton onClick={commandQueue.auto ? commandQueue.disableAuto : commandQueue.setAuto}>auto</Abutton>
             </div>
         </div>
-        <Stage state={commandQueue.state} />
+        <Stage nextHandle={commandQueue.nextHandle} state={commandQueue.state} />
     </div>
 }

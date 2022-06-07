@@ -4,7 +4,9 @@ import { CommandLine, DisplayLine, LINE_TYPE } from "../../utils/types";
 import playBGMHandle from "./commandHandle/playBGMHandle";
 import showBackgroundHandle from "./commandHandle/showBackgroundHandle";
 import showCharacterHandle from "./commandHandle/showCharacterHandle";
+import rawLineHandle from './commandHandle/rawLineHandle'
 import { ChapterState } from "./GameState";
+import chatHandle from "./commandHandle/chatHandle";
 
 export function convertLineToQueueItem(params: CommandLine | DisplayLine): QueueItem<ChapterState, any> {
     if (isCommandLine(params)) {
@@ -19,6 +21,12 @@ export function convertLineToQueueItem(params: CommandLine | DisplayLine): Queue
         }
     }
     if (isDisplayLine(params)) {
+        if (params.type === 'raw') {
+            return { function: rawLineHandle, args: params.value, type: 'line' };
+        }
+        if(params.type==='chat'){
+            return { function: chatHandle, args: params, type: 'line' };
+        }
         return { function: wait, args: { time: 1000, raw: JSON.stringify(params) }, type: 'line' };
     }
     return { function: wait, args: { time: 1000, raw: JSON.stringify(params) }, type: 'error' };
