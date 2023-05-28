@@ -7,6 +7,7 @@ import useTextArea from './components/TextArea';
 import { ChapterState } from './GameState';
 interface IProps {
     state: ChapterState;
+    skip: boolean;
     nextHandle: NextHandle;//todo 包一下 不然最终会越界
 }
 export default function Stage(props: IProps) {
@@ -18,10 +19,10 @@ export default function Stage(props: IProps) {
             props.nextHandle();
         }
     }
-    const [TextArea, skipHandle] = useTextArea({ text: state.textAreaContent, speaker: state.textAreaSpeaker });
+    const [TextArea, skipHandle] = useTextArea({ text: state.textAreaContent, speaker: state.textAreaSpeaker, skip: props.skip });
     return <div onClick={stageClick}>
         {state.textAreaContent && TextArea}
-        <Charaters charaters={state.charaters} speaker={state.textAreaSpeaker}/>
+        <Charaters charaters={state.charaters} speaker={state.textAreaSpeaker} />
         {state.bgBase64Buff && state.bgName && <Background src={state.bgBase64Buff} name={state.bgName} />}
         {state.bgmBase64Buff && state.bgmName && <BGM src={state.bgmBase64Buff} bgmName={state.bgmName} vol={100} />}
     </div>

@@ -1,5 +1,7 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import useBoolean from "./useBoolean";
+import { message } from "antd";
+import { useLatest } from "react-use";
 
 export type QueueItem<T, U> = {
     function: ((getState: () => T, param: any) => Promise<T>) | ((getState: () => T, param: any) => T),
@@ -15,11 +17,19 @@ const useCommandQueue = <T,>(queue: QueueItem<T, any>[], initState: T, initIndex
     const _state = useRef<T>(initState);
     const [processing, setProcessing, stopProcessing] = useBoolean(false);
     const [auto, setAuto, disableAuto] = useBoolean(false);
+
+    const [skip, setSkip] = useState<boolean>(false);
+    const _skip = useLatest(skip);
     const _index = useRef<number>(initIndex ?? 0);
     function getState(): T {
         return _state.current;
     }
     async function nextHandle(ev?: Partial<nextHandleOption> | React.MouseEvent): Promise<void> {
+        if (_skip.current) {
+            setTimeout(() => {
+                nextHandle();
+            }, 100);
+        }
         if (ev && 'triggerByCommandAuto' in ev) {
             //
         }
@@ -36,10 +46,12 @@ const useCommandQueue = <T,>(queue: QueueItem<T, any>[], initState: T, initIndex
             const currentTask = queue[index];
             if (!currentTask) {
                 //outof boundary
+                setSkip(false)
+                message.warn('outof boundary')
+                return;
             }
             setProcessing()
             try {
-
                 const res = await currentTask.function(getState, currentTask.args);
                 _state.current = res;
             } catch (error) {
@@ -70,7 +82,7 @@ const useCommandQueue = <T,>(queue: QueueItem<T, any>[], initState: T, initIndex
         _index.current = 0;
         nextHandle({ triggerByAuto: true })
     }
-    return { current, nextHandle, setAuto, state, processing, auto, done, index, disableAuto, resetQueue, resetState }
+    return { current, nextHandle, setAuto, state, processing, auto, done, index, skip, disableAuto, resetQueue, resetState, setSkip }
 };
 
 export default useCommandQueue;

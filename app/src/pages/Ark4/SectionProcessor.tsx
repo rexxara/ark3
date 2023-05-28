@@ -5,13 +5,13 @@ import { LoadedChapterModel3 } from "../../utils/types";
 import { ChapterState } from "./GameState";
 import Stage from "./Stage";
 import { convertLineToQueueItem } from "./utils";
-
 interface IProps {
     state: ChapterState;
     currentSection: LoadedChapterModel3;
     nextHandle: (chapterState: ChapterState) => void;
 }
 export default function SectionProcessor(props: IProps) {
+
     const fnList = React.useMemo(() => {
         return props.currentSection.line.map(convertLineToQueueItem)
     }, [props.currentSection.name])
@@ -28,6 +28,7 @@ export default function SectionProcessor(props: IProps) {
     useEffect(() => {
         commandQueue.resetState()
     }, [props.currentSection.arkMark])
+
     return <div style={{ color: 'white' }}>
         <div style={{ position: 'absolute', left: '0', bottom: '0', zIndex: 20, width: '100vw', background: 'rgba(0,0,0,0.3)', overflow: 'hidden' }}>
             <div style={{ color: 'black' }}>
@@ -35,11 +36,15 @@ export default function SectionProcessor(props: IProps) {
                 {commandQueue.auto && <p>autoing...</p>}
             </div>
             <div style={{ display: 'flex' }}>
+                <Abutton onClick={() => {
+                    commandQueue.setSkip(pre => !pre)
+                    commandQueue.nextHandle();
+                }}>{commandQueue.skip ? 'skipping' : 'startSkip'}</Abutton>
                 <Abutton onClick={props.nextHandle}>nextChapter</Abutton>
                 {!commandQueue.done && <Abutton onClick={commandQueue.nextHandle}>next</Abutton>}
                 <Abutton onClick={commandQueue.auto ? commandQueue.disableAuto : commandQueue.setAuto}>auto</Abutton>
             </div>
         </div>
-        <Stage nextHandle={commandQueue.nextHandle} state={commandQueue.state} />
+        <Stage skip={commandQueue.skip} nextHandle={commandQueue.nextHandle} state={commandQueue.state} />
     </div>
 }
