@@ -5,6 +5,7 @@ import { LoadedChapterModel3 } from "../../utils/types";
 import { ChapterState } from "./GameState";
 import Stage from "./Stage";
 import { convertLineToQueueItem } from "./utils";
+import { Ark4Helper } from "../../utils/ArkHelper";
 interface IProps {
     state: ChapterState;
     currentSection: LoadedChapterModel3;
@@ -43,6 +44,7 @@ export default function SectionProcessor(props: IProps) {
                 <Abutton onClick={props.nextHandle}>nextChapter</Abutton>
                 {!commandQueue.done && <Abutton onClick={commandQueue.nextHandle}>next</Abutton>}
                 <Abutton onClick={commandQueue.auto ? commandQueue.disableAuto : commandQueue.setAuto}>auto</Abutton>
+                <Abutton onClick={Ark4Helper.showReturnToTitleModal}>back</Abutton>
             </div>
         </div>
         <Stage skip={commandQueue.skip} nextHandle={commandQueue.nextHandle} state={commandQueue.state} />

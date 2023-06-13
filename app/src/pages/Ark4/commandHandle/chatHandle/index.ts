@@ -1,5 +1,6 @@
-import { ChapterState } from "../GameState"
-import showCharacterHandle from "./showCharacterHandle";
+import { ChapterState } from "../../GameState"
+import showCharacterHandle from "../showCharacterHandle";
+import { textAreaParser } from "./textAreaParser";
 
 
 interface Param {
@@ -10,6 +11,9 @@ interface Param {
 export default function chatHandle(getState: () => ChapterState, param: Param): Promise<ChapterState> {
     return new Promise<ChapterState>(async res => {
         const loadedCh = await showCharacterHandle(getState, { name: param.name, emotion: param.emotion });
-        res({ ...loadedCh, textAreaContent: param.value, textAreaSpeaker: param.name })
+        const result = textAreaParser(param.value);
+        res({ ...loadedCh, textAreaContent: result.text, textAreaSpeaker: param.name })
     })
 }
+
+
