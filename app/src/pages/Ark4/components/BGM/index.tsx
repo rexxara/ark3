@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useRef } from 'react'
+import style from './style.module.css'
 interface IProps {
     vol: number;
     src: string;
@@ -17,13 +18,11 @@ export default function BGM(props: IProps) {
     if (src.length < 1) {
         return <div></div>
     }
-    return <div style={{ display: 'none' }}>
-        <p>{bgmName}</p>
-        <audio id="ARKBGM"
-            ref={arkBgm}
-            loop
-            src={src}
-            autoPlay
-            controls></audio>
-    </div>
+    return <audio id="ARKBGM"
+        className={style.arkBgm}
+        ref={arkBgm}
+        loop
+        src={src}
+        autoPlay
+        controls></audio>
 }

@@ -1,7 +1,7 @@
 import React from 'react';
 import { NextHandle } from '../../Hooks/useCommandQueue';
 import Background from './components/Background';
-import BGM from './components/BGM';
+import BGM from './components/BGM/index';
 import Charaters from './components/Charaters';
 import useTextArea from './components/TextArea';
 import { ChapterState } from './GameState';

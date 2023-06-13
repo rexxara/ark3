@@ -1,0 +1,10 @@
+.arkBgm {
+    z-index: 200;
+    display: block;
+    width: 200px;
+    height: 40px;
+    background-color: #66ccff;
+    position: fixed;
+    left: 0;
+    top: 0;
+}

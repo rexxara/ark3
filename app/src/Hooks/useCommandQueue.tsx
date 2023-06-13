@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import useBoolean from "./useBoolean";
-import { message } from "antd";
 import { useLatest } from "react-use";
+import { Ark4Helper } from "../utils/ArkHelper";
 
 export type QueueItem<T, U> = {
     function: ((getState: () => T, param: any) => Promise<T>) | ((getState: () => T, param: any) => T),
@@ -47,7 +47,8 @@ const useCommandQueue = <T,>(queue: QueueItem<T, any>[], initState: T, initIndex
             if (!currentTask) {
                 //outof boundary
                 setSkip(false)
-                message.warn('outof boundary')
+                Ark4Helper.showReturnToTitleModal();
+                //message.warn('outof boundary')
                 return;
             }
             setProcessing()

@@ -1,5 +1,3 @@
-import { ExclamationCircleOutlined } from '@ant-design/icons';
-import { Modal } from 'antd';
 import React, { useEffect, useState } from 'react';
 import useVisiableToggle from '../../Hooks/useAnimateModel/useVisiableToggle';
 import { LoadedChapterModel3 } from '../../utils/types';
@@ -8,6 +6,7 @@ import Title from './components/Title';
 import { DataContext } from './context/dataContext';
 import { ChapterState, GameState, initChapterState } from './GameState';
 import SectionProcessor from './SectionProcessor';
+import { Ark4Helper } from '../../utils/ArkHelper';
 
 interface IProps {
     gameState: GameState
@@ -35,23 +34,17 @@ export default function Ark4Game(props: IProps) {
         const chapterName: string | undefined = await getChapterName();
 
         if (chapterName === undefined) {
-            Modal.confirm({
-                title: '游戏结束，回到主菜单？',
-                icon: <ExclamationCircleOutlined />,
-                content: '游戏结束，回到主菜单？',
-                onOk() {
-                    // back();
-                },
-                onCancel() { },
-            });
-            return console.warn("gameOver")
+            Ark4Helper.showReturnToTitleModal()
+            return console.warn("gameOver");
         }
 
         const nextSection = chapters.find(v => v.name === chapterName);
         if (!nextSection) {
-            throw new Error("next section not found ,please ensure the script");
+            Ark4Helper.showReturnToTitleModal();
+            //throw new Error("next section not found ,please ensure the script");
+            return console.warn("gameOver");
         }
-        if (nextSection.arkMark !== currentChapterName) {
+        if (nextSection.arkMark !== currentChapterName && chapterName) {
             showTitle(chapterName);
             const res = await loadChapterHandle(chapterName);
         }
