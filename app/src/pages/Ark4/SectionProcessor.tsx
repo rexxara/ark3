@@ -6,6 +6,7 @@ import { ChapterState } from "./GameState";
 import Stage from "./Stage";
 import { convertLineToQueueItem } from "./utils";
 import { Ark4Helper } from "../../utils/ArkHelper";
+import HotKey from "./HotKey";
 interface IProps {
     state: ChapterState;
     currentSection: LoadedChapterModel3;
@@ -14,7 +15,7 @@ interface IProps {
 export default function SectionProcessor(props: IProps) {
 
     const fnList = React.useMemo(() => {
-        return props.currentSection.line.map(convertLineToQueueItem)
+        return props.currentSection.line.map((v, index) => { return convertLineToQueueItem(v, index, props.currentSection) })
     }, [props.currentSection.name])
     const commandQueue = useCommandQueue(fnList, props.state);
     useEffect(() => {
@@ -47,6 +48,7 @@ export default function SectionProcessor(props: IProps) {
                 <Abutton onClick={Ark4Helper.showReturnToTitleModal}>back</Abutton>
             </div>
         </div>
-        <Stage skip={commandQueue.skip} nextHandle={commandQueue.nextHandle} state={commandQueue.state} />
+        <Stage skip={commandQueue.skip} auto={commandQueue.auto} nextHandle={commandQueue.nextHandle} state={commandQueue.state} />
+        <HotKey commandQueue={commandQueue} />
     </div>
 }

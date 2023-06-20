@@ -13,7 +13,23 @@ interface nextHandleOption {
     triggerByCommandAuto: boolean;
 }
 export type NextHandle = (ev?: Partial<nextHandleOption> | React.MouseEvent) => Promise<void>;
-const useCommandQueue = <T,>(queue: QueueItem<T, any>[], initState: T, initIndex?: number) => {
+export interface CommandQueue<T> {
+    current: QueueItem<T, any>;
+    nextHandle: (ev?: Partial<nextHandleOption> | React.MouseEvent) => Promise<void>;
+    setAuto: () => void;
+    state: T;
+    processing: boolean;
+    auto: boolean;
+    done: boolean;
+    index: number;
+    skip: boolean;
+    disableAuto: () => void;
+    resetQueue: () => void;
+    resetState: () => void;
+    setSkip: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+function useCommandQueue<T>(queue: QueueItem<T, any>[], initState: T, initIndex?: number): CommandQueue<T> {
     const _state = useRef<T>(initState);
     const [processing, setProcessing, stopProcessing] = useBoolean(false);
     const [auto, setAuto, disableAuto] = useBoolean(false);
@@ -46,12 +62,12 @@ const useCommandQueue = <T,>(queue: QueueItem<T, any>[], initState: T, initIndex
             const currentTask = queue[index];
             if (!currentTask) {
                 //outof boundary
-                setSkip(false)
+                setSkip(false);
                 Ark4Helper.showReturnToTitleModal();
                 //message.warn('outof boundary')
                 return;
             }
-            setProcessing()
+            setProcessing();
             try {
                 const res = await currentTask.function(getState, currentTask.args);
                 _state.current = res;
@@ -61,7 +77,7 @@ const useCommandQueue = <T,>(queue: QueueItem<T, any>[], initState: T, initIndex
                 stopProcessing();
                 _index.current = index + 1;
                 if (currentTask.type === 'command') {
-                    nextHandle({ triggerByCommandAuto: true })
+                    nextHandle({ triggerByCommandAuto: true });
                 }
             }
         }
@@ -72,18 +88,18 @@ const useCommandQueue = <T,>(queue: QueueItem<T, any>[], initState: T, initIndex
     const done = index > queue.length;
     useEffect(() => {
         if (auto && !done) {
-            nextHandle({ triggerByAuto: true })
+            nextHandle({ triggerByAuto: true });
         }
-    }, [auto, index, done])
+    }, [auto, index, done]);
     function resetState() {
         _state.current = initState;
         disableAuto();
     }
     function resetQueue() {
         _index.current = 0;
-        nextHandle({ triggerByAuto: true })
+        nextHandle({ triggerByAuto: true });
     }
-    return { current, nextHandle, setAuto, state, processing, auto, done, index, skip, disableAuto, resetQueue, resetState, setSkip }
-};
+    return { current, nextHandle, setAuto, state, processing, auto, done, index, skip, disableAuto, resetQueue, resetState, setSkip };
+}
 
 export default useCommandQueue;

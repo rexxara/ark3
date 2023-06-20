@@ -10,6 +10,8 @@ export interface ChapterState {
     charaters: Charaters;
     textAreaContent?: string;
     textAreaSpeaker?: string;
+    textAreaSoundFilePath?: string;
+    commandId?: string;
 }
 export const initChapterState: ChapterState = {
     bgmName: undefined,
