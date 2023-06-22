@@ -1,8 +1,15 @@
 import React from 'react'
 import { CSSTransition } from 'react-transition-group'
 
+export interface WithAnimationProps {
+  cssAnimationEnd: boolean
+}
 export default function wrapAnimation(WrappedComponent: any): any {
+
   return class extends React.Component {
+    state = {
+      cssAnimationEnd: false
+    }
     render() {
       const { match } = this.props as any
       return (
@@ -17,8 +24,11 @@ export default function wrapAnimation(WrappedComponent: any): any {
           timeout={1000}
           mountOnEnter={true}
           unmountOnExit={true}
+          onEntered={() => {
+            this.setState({ cssAnimationEnd: true })
+          }}
         >
-          <WrappedComponent {...this.props} />
+          <WrappedComponent cssAnimationEnd={this.state.cssAnimationEnd} {...this.props} />
         </CSSTransition>
       )
     }

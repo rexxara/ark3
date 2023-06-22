@@ -44,10 +44,6 @@ export default {
                     const theme = playerFactory(require('../components/SoundPlayer/title.m4a'), state.bgmVol)
                     theme.play()
                     return { ...state, bgm: theme }
-                case 'theme2':
-                    const theme2 = playerFactory(require('../components/SoundPlayer/theme2.mp3'), state.bgmVol)
-                    theme2.play()
-                    return { ...state, bgm: theme2 }
                 default:
                     return state
             }

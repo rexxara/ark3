@@ -1,11 +1,11 @@
 import React, { PropsWithChildren, useCallback, useEffect, useRef, useState } from 'react';
 import './style.css'
-import { vw, vh } from '../../utils/getSize'
 import { CSSTransition } from 'react-transition-group';
 import { useAutoToggle } from '../../Hooks/autoToggle';
 import { connect } from 'dva';
 //@ts-ignore
 import { Howl, Howler } from 'howler'
+import classNames from 'classnames';
 interface IProps {
     text?: string,
     onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void
@@ -14,7 +14,8 @@ interface IProps {
     style?: React.CSSProperties
     type?: 'small' | 'big'
     [arg: string]: any
-    exitActive?:string;
+    exitActive?: string;
+    delay?: number;
 }
 
 const clickAudio = new Howl({
@@ -24,19 +25,19 @@ const hoverAudio = new Howl({
     src: [require('./hover.mp3')]
 })
 const Abutton = (props: IProps) => {
-    const { type, dispatch, routing, global, historyStore, audio, ...restProps } = props
+    const { type, dispatch, routing, global, historyStore, audio, className, delay, ...restProps } = props
     const { seVol } = audio
-    useEffect(()=>{
-        clickAudio.volume(seVol/100)
-        hoverAudio.volume(seVol/100)
-    },[seVol])
+    useEffect(() => {
+        clickAudio.volume(seVol / 100)
+        hoverAudio.volume(seVol / 100)
+    }, [seVol])
     const clickSound = () => {
         clickAudio.play()
     }
     const hoverSound = () => {
         hoverAudio.play()
     }
-    const [disable, toggle] = useAutoToggle(1000, { beforeCallBack: clickSound })
+    const [disable, toggle] = useAutoToggle(delay ?? 1000, { beforeCallBack: clickSound })
     const clickWraper = toggle((ev: any) => {
         if (props.onClick) {
             props.onClick && props.onClick(ev)
@@ -47,7 +48,7 @@ const Abutton = (props: IProps) => {
     const BtnStyle: React.CSSProperties = {
         color: 'white',
         width: type === 'small' ? '6vw' : '12vw',
-        height: type === 'small' ? '3vw' : '6vw',
+        height: type === 'small' ? '2vw' : '4vw',
         fontFamily: "Microsoft YaHei",
         border: 0,
         margin: '6px 12px',
@@ -62,7 +63,7 @@ const Abutton = (props: IProps) => {
         classNames={{
             enter: 'animate__animated',
             exit: 'animate__animated',
-            exitActive: props.exitActive||'animate__tada'
+            exitActive: props.exitActive || 'animate__tada'
         }}
         mountOnEnter={true}
         unmountOnExit={true}
@@ -70,9 +71,10 @@ const Abutton = (props: IProps) => {
         <button
             {...restProps}
             style={BtnStyle}
-            onMouseOver={hoverSound}
+            onMouseEnter={hoverSound}
+            onMouseLeave={hoverSound}
             onClick={clickWraper}
-            className="Abutton button-63">
+            className={classNames('Abutton', 'button-63', className)}>
             {props.text || props.children}
         </button>
     </CSSTransition>

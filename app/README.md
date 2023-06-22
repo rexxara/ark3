@@ -1,3 +1,15 @@
+# 2023Todo
+
+修复abutton props不起作用的问题
+
+去掉redux 用context
+
+换用pnpm
+
+换用vite
+
+动画效果再做封装
+
 ## 已知bug
 
 

@@ -1,0 +1,16 @@
+.progress {
+    width: 100%;
+    height: 2vw;
+}
+
+.progressWrap {
+    overflow: hidden;
+    position: relative;
+}
+
+.progressBar {
+    left: 0;
+    position: absolute;
+    top: 0;
+    transition: all 0.3s linear;
+}

@@ -14,7 +14,7 @@ import LoadPage from './loadPage'
 import detectOrient from '../utils/detectOrient'
 import { vh, vw } from '../utils/getSize'
 import PaintGame from './paintGame/index'
-import ConfigPage from './ConfigPage'
+import ConfigPage from './Config/ConfigPage'
 import Init from './Init'
 import { isAndroid } from '../utils/utils';
 import LoginPage from './LoginPage';
