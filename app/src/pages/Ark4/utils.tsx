@@ -23,7 +23,12 @@ export function convertLineToQueueItem(params: CommandLine | DisplayLine, index:
     }
     if (isDisplayLine(params)) {
         if (params.type === 'raw') {
-            return { function: rawLineHandle, args: params.value, type: 'line' };
+            return {
+                function: rawLineHandle, args: {
+                    value: params.value,
+                    chapterName: chapter.name,
+                }, type: 'line'
+            };
         }
         if (params.type === 'chat') {
             return {

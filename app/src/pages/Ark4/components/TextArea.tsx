@@ -3,6 +3,7 @@ import React, { useCallback, useEffect, useLayoutEffect, useRef, useState } from
 import { useLatest } from 'react-use';
 //@ts-ignore
 import { Howl, Howler } from 'howler'
+import classNames from 'classnames';
 
 interface IProps {
     text?: string;
@@ -10,6 +11,7 @@ interface IProps {
     skip?: boolean;
     sound?: string;
     id?: string;
+    centered?: boolean;
     onEnd?: (id?: string) => void;
 }
 export default function useTextArea(props: IProps) {
@@ -77,9 +79,9 @@ export default function useTextArea(props: IProps) {
             props.onEnd?.(props.id);
         }
     }, [linePlayed]);
-    return [<div className='textarea'>
+    return [<div className={classNames('textarea', props.centered && 'textConCenterd')}>
         <div className='nameCon'>{props.speaker}</div>
-        <div className='textCon'>
+        <div className={classNames('textCon')}>
             {displayText} {linePlayed && <StepForwardOutlined className='nextIcon' />}
         </div>
     </div>, skipHandle] as const;

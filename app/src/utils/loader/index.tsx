@@ -361,7 +361,7 @@ function lineTypeJudger(lineText: string[], currentSpaceLine: number[], currentS
     }
     const isCommand = rawLine.match(actionReg)
     if (isCommand) {
-        const { _value } = displayLineParser(rawLine);
+        const { _value = "" } = displayLineParser(rawLine);
         const newType = lineTypeJudger(_value.split(''), currentSpaceLine, currentSingleSpaceLine);
         if (_value && newType && newType.type === LINE_TYPE.raw) {
             return { type: LINE_TYPE.raw };

@@ -12,6 +12,8 @@ export interface ChapterState {
     textAreaSpeaker?: string;
     textAreaSoundFilePath?: string;
     commandId?: string;
+    textAreaCenterd?: boolean;
+    speakerCenterd?: boolean;
 }
 export const initChapterState: ChapterState = {
     bgmName: undefined,

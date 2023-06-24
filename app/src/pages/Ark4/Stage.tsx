@@ -28,6 +28,7 @@ export default function Stage(props: IProps) {
         sound: state.textAreaSoundFilePath,
         skip: props.skip,
         id: state.commandId,
+        centered: state.textAreaCenterd,
         onEnd: async (id) => {
             if (_props.current.auto) {
                 await sleep(1000);
@@ -35,9 +36,9 @@ export default function Stage(props: IProps) {
             }
         }
     });
-    return <div onClick={stageClick}>
+    return <div className='stageCon' onClick={stageClick}>
         {state.textAreaContent && TextArea}
-        <Charaters charaters={state.charaters} speaker={state.textAreaSpeaker} />
+        <Charaters charaters={state.charaters} speaker={state.textAreaSpeaker} speakerCenterd={state.speakerCenterd} />
         {state.bgBase64Buff && state.bgName && <Background src={state.bgBase64Buff} name={state.bgName} />}
         {state.bgmBase64Buff && state.bgmName && <BGM src={state.bgmBase64Buff} bgmName={state.bgmName} vol={100} />}
     </div>

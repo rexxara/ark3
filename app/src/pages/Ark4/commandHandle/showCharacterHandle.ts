@@ -2,7 +2,7 @@ import { ChapterState } from "../GameState";
 import { getBase64FromSrc } from "./playBGMHandle";
 interface IParam {
     name: string,
-    emotion: string
+    emotion: string,
 }
 export default function showCharacterHandle(getState: () => ChapterState, param: IParam): Promise<ChapterState> {
     const src = require(`../../../scripts/charatersImages/${param.name}/${param.emotion}`)

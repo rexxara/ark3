@@ -7,5 +7,6 @@ export function textAreaParser(value: string) {
     return {
         text: res._value,
         soundFilePath: res.soundSrc,
+        centerd: res.centerd
     };
 }

@@ -75,16 +75,16 @@ export const CenterCss: React.CSSProperties = {
 }
 export interface DisplayLineDetail {
     _value: string;
-    style: React.CSSProperties,
+    centerd: boolean,
     soundSrc: string;
 };
-export const displayLineParser = (value: string): DisplayLineDetail => {
+export const displayLineParser = (value: string): Partial<DisplayLineDetail> => {
     const res = displayLineParserInner(value);
-    const { style, soundSrc } = getDetailFromDisplayLineCommands(res.commands);
+    const { soundSrc, centerd } = getDetailFromDisplayLineCommands(res.commands);
     return {
         _value: res.value,
-        style: style,
-        soundSrc: soundSrc
+        soundSrc: soundSrc,
+        centerd: centerd
     }
 }
 const displayLineParserInner = (value: string, command?: string[]): { value: string, commands: string[] } => {
@@ -105,13 +105,13 @@ const DisplayLineCommand = {
     line: 'Line=',
 }
 const getDetailFromDisplayLineCommands = (commands: string[]) => {
-    let style = {}
     let soundSrc = '';
     const srcRegA = /(\'.*?\')/;
     const srcRegB = /(\".*?\")/;
+    let centerd = false;
     commands.forEach(v => {
         if (v === DisplayLineCommand.centerd) {
-            style = CenterCss;
+            centerd = true;
         } else if (v.indexOf(DisplayLineCommand.line) >= 0) {
             const matchResA = v.match(srcRegA);
             const matchResB = v.match(srcRegB);
@@ -119,8 +119,13 @@ const getDetailFromDisplayLineCommands = (commands: string[]) => {
             soundSrc = matchRes?.[0] || '';
         }
     })
-    return {
-        style: style,
-        soundSrc: soundSrc.replace(/\"/g, '').replace(/\'/g, '')
+    const res: Partial<{ centerd: boolean, soundSrc: string, }> = {
     }
+    if (centerd) {
+        res.centerd = centerd;
+    }
+    if (soundSrc) {
+        res.soundSrc = soundSrc.replace(/\"/g, '').replace(/\'/g, '')
+    }
+    return res;
 }

@@ -136,8 +136,8 @@ class MainGame extends React.Component<IProps, IState> {
             if ('value' in line) {
                 const { gameVariables } = this.state
                 const res = variableLoader(line.value, gameVariables) as string
-                const { _value, style, soundSrc } = displayLineParser(res);
-                this.setState({ displayText: _value, rawLine: _value, textAreaStop: true })
+                const { _value, soundSrc } = displayLineParser(res);
+                this.setState({ displayText: _value || '', rawLine: _value || '', textAreaStop: true })
             } else {
                 this.setState({ textAreaStop: true })
             }
@@ -177,9 +177,9 @@ class MainGame extends React.Component<IProps, IState> {
         const { name, emotion } = line
         let { value } = line
         value = variableLoader(value, gameVariables)
-        const { _value, style, soundSrc } = displayLineParser(value);
-        value = _value;
-        if (soundSrc.length) {
+        const { _value, soundSrc } = displayLineParser(value);
+        value = _value || '';
+        if (soundSrc?.length) {
             if (this.state.lineSound) {
                 const { lineSound } = this.state;
                 lineSound.unload();
@@ -202,13 +202,13 @@ class MainGame extends React.Component<IProps, IState> {
             for (const key in displaycharacters) {
                 if (displaycharacters.hasOwnProperty(key)) {
                     const element = displaycharacters[key]
-                    const newStyle = { ...element.style, ...style };
+                    const newStyle = element.style;
                     if (element.name === name) { needLoadNewCharater = false }
                     if (element.name === name && element.emotion === nextEmo) { needLoadNewEmotion = false }
                     nextDisplay[element.name] = element.name !== name ? element : { name, emotion: nextEmo, style: newStyle }
                 }
             }
-            if (needLoadNewCharater) { nextDisplay = { ...displaycharacters, [name]: { name, emotion: nextEmo, style: style } } }
+            if (needLoadNewCharater) { nextDisplay = { ...displaycharacters, [name]: { name, emotion: nextEmo } } }
             this.setState({ displaycharacters: nextDisplay })
         }
         if (isNarratorMode) {
