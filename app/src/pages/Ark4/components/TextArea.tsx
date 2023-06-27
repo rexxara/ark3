@@ -13,6 +13,7 @@ interface IProps {
     id?: string;
     centered?: boolean;
     onEnd?: (id?: string) => void;
+    charaterVol?: number;
 }
 export default function useTextArea(props: IProps) {
     const text = props.text || '';
@@ -63,6 +64,7 @@ export default function useTextArea(props: IProps) {
                 src: ['lines/' + props.sound],
                 html5: true
             });
+            audioPlayer.current.volume((props.charaterVol || 100) / 100);
             audioPlayer.current.play();
             audioPlayer.current.on('end', (ev: any) => {
                 setAudioState('played');
@@ -72,6 +74,13 @@ export default function useTextArea(props: IProps) {
             setAudioState('noaudio');
         }
     }, [props.sound])
+    useEffect(() => {
+        return () => {
+            if (audioPlayer.current) {
+                audioPlayer.current.unload();
+            }
+        }
+    }, [])
     const displayText = typeof index === 'number' ? text.slice(0, index) : props.text
     const linePlayed = props.text?.length === displayText?.length && ['noaudio', 'played'].includes(audioState);
     useEffect(() => {

@@ -1,6 +1,7 @@
 //@ts-ignore
 import { Howl, Howler } from 'howler'
 import { actions } from '../components/Game'
+import { AUDIO_AMOUNT_INIT_SETTING, AudioAmountSetting } from '../components/Game/actions'
 const playerFactory = (src: any, vol: number) => {
     return new Howl({
         loop: true,
@@ -8,15 +9,12 @@ const playerFactory = (src: any, vol: number) => {
         volume: vol / 100,
     })
 }
-export interface AudioState {
+export interface AudioState extends AudioAmountSetting {
     bgm: any
-    bgmVol: number
-    seVol: number
 }
 const initalState = {
     bgm: undefined,
-    bgmVol: 100,
-    seVol: 100,
+    ...AUDIO_AMOUNT_INIT_SETTING
 }
 export default {
     namespace: 'audio',
@@ -27,7 +25,7 @@ export default {
             if (state.bgm) {
                 state.bgm.volume(setting.bgmVol / 100)
             }
-            return { ...state, bgmVol: setting.bgmVol, seVol: setting.seVol }
+            return { ...state, bgmVol: setting.bgmVol, seVol: setting.seVol, chVol: setting.chVol }
         },
         'stopBgm'(state: AudioState, { payload }: any) {
             if (state.bgm) {

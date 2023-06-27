@@ -7,13 +7,15 @@ import useTextArea from './components/TextArea';
 import { ChapterState } from './GameState';
 import { useLatest } from 'react-use';
 import { sleep } from '../../utils/utils';
+import { connect } from 'dva';
 interface IProps {
+    audio: any;
     state: ChapterState;
     skip: boolean;
     nextHandle: NextHandle;//todo 包一下 不然最终会越界
     auto: boolean;
 }
-export default function Stage(props: IProps) {
+function Stage(props: IProps) {
     const { state } = props;
     const _props = useLatest(props);
     const stageClick = () => {
@@ -29,6 +31,7 @@ export default function Stage(props: IProps) {
         skip: props.skip,
         id: state.commandId,
         centered: state.textAreaCenterd,
+        charaterVol: props.audio.chVol,
         onEnd: async (id) => {
             if (_props.current.auto) {
                 await sleep(1000);
@@ -43,3 +46,4 @@ export default function Stage(props: IProps) {
         {state.bgmBase64Buff && state.bgmName && <BGM src={state.bgmBase64Buff} bgmName={state.bgmName} vol={100} />}
     </div>
 }
+export default connect((store: any) => store)(Stage)

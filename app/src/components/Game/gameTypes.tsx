@@ -1,5 +1,5 @@
 import { DisplayCharacters, selectedBGM, LoadedChapterModel3, Option, RawScript, GameModel3, Input } from '../../utils/types'
-import { SaveData, Setting } from './actions'
+import { SaveData, AudioAmountSetting } from './actions'
 import { AudioBlob } from './component/ImgCache'
 export type AudioCaches = {
     bgms: AudioBlob[],
@@ -14,7 +14,7 @@ export const TitleChapterNameIniValue = {
 }
 
 export const iniState = {
-    settingVis:false,
+    settingVis: false,
     saveDataConOpen: false,
     auto: false,
     displayText: '',
@@ -35,7 +35,7 @@ export const iniState = {
     effectKey: '',
     soundEffect: '',
     TitleChapterName: TitleChapterNameIniValue,
-    textAreaStop:true,
+    textAreaStop: true,
     input: {
         key: undefined,
         afterFix: () => "",
@@ -62,10 +62,10 @@ export interface IProps {
     RawScript: RawScript,
     isReview: boolean,
     LoadDataFromLoadPage: SaveData
-    setting:Setting;
+    setting: AudioAmountSetting;
 }
 export interface IState {
-    settingVis:boolean
+    settingVis: boolean
     saveDataConOpen: boolean,
     auto: boolean
     displayText: string
@@ -79,7 +79,7 @@ export interface IState {
     stop: boolean
     bgm: selectedBGM
     soundEffect: string
-    textAreaStop:boolean
+    textAreaStop: boolean
     cg: string
     narratorMode?: string[]
     clickDisable: boolean
@@ -96,7 +96,7 @@ export interface IState {
     effectKey: string
     TitleChapterName: TitleChapterName
     audioCaches: AudioCaches
-    lineSound?:any;
+    lineSound?: any;
 }
 export interface TitleChapterName {
     chapterName: string

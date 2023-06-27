@@ -187,13 +187,15 @@ INDEXDB.openDB(scenceData)
 INDEXDB.openDB(settingData).then(res => {
     if (res.isInit) actions.initSetting()
 })
-export const INIT_SETTING: Setting = {
+export const AUDIO_AMOUNT_INIT_SETTING: AudioAmountSetting = {
     bgmVol: 100,
-    seVol: 100
+    seVol: 100,
+    chVol: 100
 }
-export type Setting = {
+export type AudioAmountSetting = {
     bgmVol: number
     seVol: number
+    chVol: number
 }
 export const actions = {
     skipThisLine: () => message.info('skipThisLine'),
@@ -251,16 +253,16 @@ export const actions = {
             return []
         }
     },
-    getSetting: async (): Promise<Setting> => {
+    getSetting: async (): Promise<AudioAmountSetting> => {
         const openSuccess = await INDEXDB.openDB(settingData)
         if (openSuccess && settingData.db) {
-            const res = await INDEXDB.loadAll(settingData.db, settingData.objectStore.name) as Array<Setting> | undefined || []
-            return res[0] || INIT_SETTING
+            const res = await INDEXDB.loadAll(settingData.db, settingData.objectStore.name) as Array<AudioAmountSetting> | undefined || []
+            return res[0] || AUDIO_AMOUNT_INIT_SETTING
         } else {
-            return INIT_SETTING
+            return AUDIO_AMOUNT_INIT_SETTING
         }
     },
-    saveSetting: async (params:Setting) => {
+    saveSetting: async (params: AudioAmountSetting) => {
         const openSuccess = await INDEXDB.openDB(settingData)
         if (openSuccess && settingData.db) {
             const saveSuccess = await INDEXDB.putData(settingData.db, settingData.objectStore.name, { id: 'Ark', ...params })
@@ -272,7 +274,7 @@ export const actions = {
     initSetting: async () => {
         const openSuccess = await INDEXDB.openDB(settingData)
         if (openSuccess && settingData.db) {
-            const saveSuccess = await INDEXDB.putData(settingData.db, settingData.objectStore.name, { id: 'Ark', ...INIT_SETTING })
+            const saveSuccess = await INDEXDB.putData(settingData.db, settingData.objectStore.name, { id: 'Ark', ...AUDIO_AMOUNT_INIT_SETTING })
         } else {
             console.log('databaseNotFound')
         }

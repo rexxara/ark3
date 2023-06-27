@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { MinusOutlined, PlusOutlined } from '@ant-design/icons';
-import { Setting } from '../actions'
+import { AudioAmountSetting } from '../actions'
 
 import style from './style.module.css';
 import Abutton from '../../Abutton';
@@ -13,7 +13,7 @@ interface IProps {
     title: string,
     dispatch: Function,
     typeKey: string,
-    setting: Setting
+    setting: AudioAmountSetting
 }
 const VolControllor = (props: IProps) => {
     const { value, title, typeKey } = props

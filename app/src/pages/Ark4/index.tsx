@@ -1,6 +1,6 @@
 import { connect } from "dva";
 import React, { useEffect } from "react";
-import { INIT_SETTING, SaveData } from "../../components/Game/actions";
+import { AUDIO_AMOUNT_INIT_SETTING, SaveData } from "../../components/Game/actions";
 import { globalState } from "../../models/global";
 import loader from "../../utils/loader";
 import { RawScript } from "../../utils/types";
@@ -17,7 +17,7 @@ interface IProps {
     isReview: boolean,
     LoadDataFromLoadPage: SaveData
   } & globalState
-  audio: typeof INIT_SETTING & { bgm: any }
+  audio: typeof AUDIO_AMOUNT_INIT_SETTING & { bgm: any }
 }
 function Ark4(props: IProps) {
   const rs = props.global.RawScript

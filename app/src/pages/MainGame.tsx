@@ -1,18 +1,19 @@
 import React, { useEffect, useState } from 'react';
-import MainGame, { INIT_SETTING } from '../components/Game'
+import MainGame from '../components/Game'
 import loader from '../utils/loader/index'
 import './index.css'
 import { GameModel3, RawScript } from '../utils/types'
 import { SaveData } from '../components/Game/actions'
 import { connect } from 'dva'
 import { globalState } from '../models/global';
+import { AudioState } from '../models/audio';
 interface IProps {
   global: {
     RawScript: RawScript,
     isReview: boolean,
     LoadDataFromLoadPage: SaveData
   } & globalState
-  audio: typeof INIT_SETTING & { bgm: any }
+  audio: AudioState
 }
 export const modRs = async (rs: RawScript): Promise<RawScript> => {
   if (rs.loaded) { return rs }

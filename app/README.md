@@ -1,8 +1,10 @@
 # 2023Todo
 
+去掉redux 用context
+
 修复abutton props不起作用的问题
 
-去掉redux 用context
+去掉antd
 
 换用pnpm
 
