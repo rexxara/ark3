@@ -8,6 +8,7 @@ import { convertLineToQueueItem } from "./utils";
 import { Ark4Helper } from "../../utils/ArkHelper";
 import HotKey from "./HotKey";
 import { Modal } from "antd";
+import useBoolean from "../../Hooks/useBoolean";
 interface IProps {
     state: ChapterState;
     currentSection: LoadedChapterModel3;
@@ -31,11 +32,9 @@ export default function SectionProcessor(props: IProps) {
     useEffect(() => {
         commandQueue.resetState()
     }, [props.currentSection.arkMark])
-    const [logModalVisible, setLogModalVisible] = useState(false);
+    const [logModalVisible, showLog, hidLog] = useBoolean(false);
     return <div style={{ color: 'white' }}>
-        <Modal onCancel={() => {
-            setLogModalVisible(false)
-        }}
+        <Modal onCancel={hidLog}
             visible={logModalVisible}
             footer={[]}>
             <div className="logContainer">
@@ -50,9 +49,7 @@ export default function SectionProcessor(props: IProps) {
                 {commandQueue.auto && <p>autoing...</p>}
             </div>
             <div style={{ display: 'flex' }}>
-                <Abutton onClick={() => {
-                    setLogModalVisible(true)
-                }}>log</Abutton>
+                <Abutton onClick={showLog}>log</Abutton>
                 <Abutton onClick={() => {
                     commandQueue.setSkip(pre => !pre)
                     commandQueue.nextHandle();
