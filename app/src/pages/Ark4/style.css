@@ -90,3 +90,9 @@
   height: 100vh;
   display: flex;
 }
+
+.logContainer {
+  height: 60vh;
+  overflow-x: hidden;
+  overflow-y: auto;
+}

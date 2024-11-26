@@ -27,11 +27,13 @@ export interface CommandQueue<T> {
     resetQueue: () => void;
     resetState: () => void;
     setSkip: React.Dispatch<React.SetStateAction<boolean>>;
+    log: { key: string, value: string[] }[];
 }
 
 function useCommandQueue<T>(queue: QueueItem<T, any>[], initState: T, initIndex?: number): CommandQueue<T> {
-    const _state = useRef<T>(initState);
+    const _state = useRef<any>(initState);
     const [processing, setProcessing, stopProcessing] = useBoolean(false);
+    const [log, setLog] = useState<{ key: string, value: string[] }[]>([]);
     const [auto, setAuto, disableAuto] = useBoolean(false);
 
     const [skip, setSkip] = useState<boolean>(false);
@@ -70,6 +72,7 @@ function useCommandQueue<T>(queue: QueueItem<T, any>[], initState: T, initIndex?
             setProcessing();
             try {
                 const res = await currentTask.function(getState, currentTask.args);
+                console.log(res);
                 _state.current = res;
             } catch (error) {
                 console.warn(error);
@@ -78,6 +81,9 @@ function useCommandQueue<T>(queue: QueueItem<T, any>[], initState: T, initIndex?
                 _index.current = index + 1;
                 if (currentTask.type === 'command') {
                     nextHandle({ triggerByCommandAuto: true });
+                } else if (currentTask.type === 'line') {
+                    const value = [_state.current.textAreaSpeaker, _state.current.textAreaContent].filter(v => v);
+                    setLog([...log, { key: _index.current + '', value: value }])
                 }
             }
         }
@@ -99,7 +105,15 @@ function useCommandQueue<T>(queue: QueueItem<T, any>[], initState: T, initIndex?
         _index.current = 0;
         nextHandle({ triggerByAuto: true });
     }
-    return { current, nextHandle, setAuto, state, processing, auto, done, index, skip, disableAuto, resetQueue, resetState, setSkip };
+    return {
+        current,
+        nextHandle, setAuto,
+        state, processing,
+        auto, done,
+        index, skip,
+        disableAuto, resetQueue, resetState, setSkip,
+        log
+    };
 }
 
 export default useCommandQueue;

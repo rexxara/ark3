@@ -81,7 +81,7 @@ export default function useTextArea(props: IProps) {
             }
         }
     }, [])
-    const displayText = typeof index === 'number' ? text.slice(0, index) : props.text
+    const displayText = typeof index === 'number' ? text.slice(0, index) : props.text;
     const linePlayed = props.text?.length === displayText?.length && ['noaudio', 'played'].includes(audioState);
     useEffect(() => {
         if (linePlayed) {
@@ -93,5 +93,5 @@ export default function useTextArea(props: IProps) {
         <div className={classNames('textCon')}>
             {displayText} {linePlayed && <StepForwardOutlined className='nextIcon' />}
         </div>
-    </div>, skipHandle] as const;
+    </div>, skipHandle, setIndex] as const;
 }

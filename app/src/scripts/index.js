@@ -1,9 +1,5 @@
 
-import chapter1 from './texts/chapter1/index'
-import chapter2 from './texts/chapter2.mi'
-import chapter3 from './texts/chapter3/index'
-import bkChapter1 from './texts/BkTestChapter1/index';
-import bkChapter2 from './texts/BKTestChapter2/bkchapter2.mi';
+import pamyatnik from './texts/pamyatnik/index.js'
 const charaters = {
     凉子: {
         images: {
@@ -140,23 +136,22 @@ const soundEffects = {
     大无语: 'Ikkyu_san.ogg',
 }
 const scences = [
-    {
-        塔露拉的正义演讲: { script: [chapter1[1], chapter1[2]], cover: cgs.HE1 },
-    },//一页一个对象
-    {
-        白色相簿2: { script: chapter3, cover: cgs.set1.a }
-    }
+    // {
+    //     塔露拉的正义演讲: { script: [chapter1[1], chapter1[2]], cover: cgs.HE1 },
+    // },//一页一个对象
+    // {
+    //     白色相簿2: { script: chapter3, cover: cgs.set1.a }
+    // }
 ]
 
-const bkScript1 = {
-    chapter1: bkChapter1,
-    chapter2: [{ name: 'chapter2', script: bkChapter2 ,isEnd:true }],
+const chapters = {
+    pamyatnik: pamyatnik,
 }
-const apiTestChapters = {
-    chapter1: chapter1,
-    chapter2: [{ name: 'chapter2', script: chapter2, next: 'chapter3_section1' }],
-    chapter3: chapter3
-}
+// const apiTestChapters = {
+//     chapter1: chapter1,
+//     chapter2: [{ name: 'chapter2', script: chapter2, next: 'chapter3_section1' }],
+//     chapter3: chapter3
+// }
 export default {
     charaters,
     variables,
@@ -164,7 +159,7 @@ export default {
     BGMs,
     cgs,
     chooses,
-    chapters: bkScript1,
+    chapters: chapters,
     inputs,
     scences,
     soundEffects

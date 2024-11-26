@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Abutton from "../../components/Abutton";
 import useCommandQueue from "../../Hooks/useCommandQueue";
 import { LoadedChapterModel3 } from "../../utils/types";
@@ -7,6 +7,7 @@ import Stage from "./Stage";
 import { convertLineToQueueItem } from "./utils";
 import { Ark4Helper } from "../../utils/ArkHelper";
 import HotKey from "./HotKey";
+import { Modal } from "antd";
 interface IProps {
     state: ChapterState;
     currentSection: LoadedChapterModel3;
@@ -17,7 +18,7 @@ export default function SectionProcessor(props: IProps) {
     const fnList = React.useMemo(() => {
         return props.currentSection.line.map((v, index) => { return convertLineToQueueItem(v, index, props.currentSection) })
     }, [props.currentSection.name])
-    const commandQueue = useCommandQueue(fnList, props.state);
+    const commandQueue = useCommandQueue<any>(fnList, props.state);
     useEffect(() => {
         if (commandQueue.index === props.currentSection.line.length) {
             props.nextHandle(commandQueue.state)
@@ -30,14 +31,28 @@ export default function SectionProcessor(props: IProps) {
     useEffect(() => {
         commandQueue.resetState()
     }, [props.currentSection.arkMark])
-
+    const [logModalVisible, setLogModalVisible] = useState(false);
     return <div style={{ color: 'white' }}>
+        <Modal onCancel={() => {
+            setLogModalVisible(false)
+        }}
+            visible={logModalVisible}
+            footer={[]}>
+            <div className="logContainer">
+                {commandQueue.log.map(v => {
+                    return <div key={v.key}>{v.value.join(':')}</div>
+                })}
+            </div>
+        </Modal>
         <div style={{ position: 'absolute', left: '0', bottom: '0', zIndex: 20, width: '100vw', background: 'rgba(0,0,0,0.3)', overflow: 'hidden' }}>
             <div style={{ color: 'black' }}>
                 {commandQueue.processing && <p>loading...</p>}
                 {commandQueue.auto && <p>autoing...</p>}
             </div>
             <div style={{ display: 'flex' }}>
+                <Abutton onClick={() => {
+                    setLogModalVisible(true)
+                }}>log</Abutton>
                 <Abutton onClick={() => {
                     commandQueue.setSkip(pre => !pre)
                     commandQueue.nextHandle();

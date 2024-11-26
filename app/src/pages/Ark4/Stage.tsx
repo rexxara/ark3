@@ -21,10 +21,10 @@ function Stage(props: IProps) {
     const stageClick = () => {
         const skipSuccess = skipHandle();
         if (!skipSuccess) {//这行播放完毕
-            props.nextHandle();
+            nexHandleWrapper(false);
         }
     }
-    const [TextArea, skipHandle] = useTextArea({
+    const [TextArea, skipHandle, setIndex] = useTextArea({
         text: state.textAreaContent,
         speaker: state.textAreaSpeaker,
         sound: state.textAreaSoundFilePath,
@@ -35,7 +35,7 @@ function Stage(props: IProps) {
         onEnd: async (id) => {
             if (_props.current.auto) {
                 await sleep(1000);
-                props.nextHandle({ triggerByAuto: true })
+                nexHandleWrapper(true);
             }
         }
     });
@@ -45,5 +45,10 @@ function Stage(props: IProps) {
         {state.bgBase64Buff && state.bgName && <Background src={state.bgBase64Buff} name={state.bgName} />}
         {state.bgmBase64Buff && state.bgmName && <BGM src={state.bgmBase64Buff} bgmName={state.bgmName} vol={100} />}
     </div>
+
+    function nexHandleWrapper(triggerByAuto: boolean) {
+        props.nextHandle({ triggerByAuto: triggerByAuto });
+        setIndex(0);//不然会有画面闪烁//todo 优化
+    }
 }
 export default connect((store: any) => store)(Stage)

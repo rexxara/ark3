@@ -17,7 +17,7 @@ import PaintGame from './paintGame/index'
 import ConfigPage from './Config/ConfigPage'
 import Init from './Init'
 import { isAndroid } from '../utils/utils';
-import LoginPage from './LoginPage';
+import LoginPage from './loginPage';
 import Ark4 from './Ark4';
 if (!isAndroid()) {//ios only
   detectOrient()
