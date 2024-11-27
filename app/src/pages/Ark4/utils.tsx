@@ -5,6 +5,7 @@ import playBGMHandle from "./commandHandle/playBGMHandle";
 import showBackgroundHandle from "./commandHandle/showBackgroundHandle";
 import showCharacterHandle from "./commandHandle/showCharacterHandle";
 import rawLineHandle from './commandHandle/rawLineHandle'
+import showChooseHandle from './commandHandle/showChooseHandle'
 import { ChapterState } from "./GameState";
 import chatHandle from "./commandHandle/chatHandle/index";
 
@@ -19,6 +20,9 @@ export function convertLineToQueueItem(params: CommandLine | DisplayLine, index:
         }
         if (params.command === LINE_TYPE.COMMAND_ENTER_CHARATER) {
             return { function: showCharacterHandle, args: params.param, type: 'command' };
+        }
+        if (params.command === LINE_TYPE.COMMAND_SHOW_CHOOSE) {
+            return { function: showChooseHandle, args: params.param, type: 'blockCommand' };
         }
     }
     if (isDisplayLine(params)) {

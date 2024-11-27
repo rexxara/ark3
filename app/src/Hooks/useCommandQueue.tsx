@@ -1,21 +1,22 @@
 import React, { useEffect, useRef, useState } from "react";
 import useBoolean from "./useBoolean";
 import { useLatest } from "react-use";
-import { Ark4Helper } from "../utils/ArkHelper";
+import { ChapterState } from "../pages/Ark4/GameState";
 
 export type QueueItem<T, U> = {
     function: ((getState: () => T, param: any) => Promise<T>) | ((getState: () => T, param: any) => T),
     args?: U,
-    type: 'command' | 'line' | 'error'
+    type: 'command' | 'line' | 'error' | 'blockCommand'
 };
-interface nextHandleOption {
+export interface NextHandleOption {
     triggerByAuto: boolean;
     triggerByCommandAuto: boolean;
+    triggerByEndChooseCommand: boolean;
 }
-export type NextHandle = (ev?: Partial<nextHandleOption> | React.MouseEvent) => Promise<void>;
+export type NextHandle = (ev?: Partial<NextHandleOption> | React.MouseEvent) => Promise<void>;
 export interface CommandQueue<T> {
     current: QueueItem<T, any>;
-    nextHandle: (ev?: Partial<nextHandleOption> | React.MouseEvent) => Promise<void>;
+    nextHandle: (ev?: Partial<NextHandleOption> | React.MouseEvent) => Promise<void>;
     setAuto: () => void;
     state: T;
     processing: boolean;
@@ -30,7 +31,7 @@ export interface CommandQueue<T> {
     log: { key: string, value: string[] }[];
 }
 
-function useCommandQueue<T>(queue: QueueItem<T, any>[], initState: T, initIndex?: number): CommandQueue<T> {
+function useCommandQueue<T>(queue: QueueItem<T, any>[], initState: T, initIndex: number, nextChapter: (chapterState: ChapterState) => void): CommandQueue<T> {
     const _state = useRef<any>(initState);
     const [processing, setProcessing, stopProcessing] = useBoolean(false);
     const [log, setLog] = useState<{ key: string, value: string[] }[]>([]);
@@ -38,11 +39,19 @@ function useCommandQueue<T>(queue: QueueItem<T, any>[], initState: T, initIndex?
 
     const [skip, setSkip] = useState<boolean>(false);
     const _skip = useLatest(skip);
-    const _index = useRef<number>(initIndex ?? 0);
+    const _index = useRef<number>(initIndex);
     function getState(): T {
         return _state.current;
     }
-    async function nextHandle(ev?: Partial<nextHandleOption> | React.MouseEvent): Promise<void> {
+    async function nextHandle(ev?: Partial<NextHandleOption> | React.MouseEvent): Promise<void> {
+        if (ev && 'triggerByEndChooseCommand' in ev) {
+            if (ev.triggerByEndChooseCommand) {
+                _state.current.currentChoose = [];
+            }
+        }
+        if (_state.current.currentChoose.length) {
+            return;
+        }
         if (_skip.current) {
             setTimeout(() => {
                 nextHandle();
@@ -63,16 +72,13 @@ function useCommandQueue<T>(queue: QueueItem<T, any>[], initState: T, initIndex?
         } else {
             const currentTask = queue[index];
             if (!currentTask) {
-                //outof boundary
                 setSkip(false);
-                Ark4Helper.showReturnToTitleModal();
-                //message.warn('outof boundary')
+                nextChapter(_state.current);
                 return;
             }
             setProcessing();
             try {
                 const res = await currentTask.function(getState, currentTask.args);
-                console.log(res);
                 _state.current = res;
             } catch (error) {
                 console.warn(error);
@@ -84,6 +90,8 @@ function useCommandQueue<T>(queue: QueueItem<T, any>[], initState: T, initIndex?
                 } else if (currentTask.type === 'line') {
                     const value = [_state.current.textAreaSpeaker, _state.current.textAreaContent].filter(v => v);
                     setLog([...log, { key: _index.current + '', value: value }])
+                } else if (currentTask.type === 'blockCommand') {
+                    //
                 }
             }
         }

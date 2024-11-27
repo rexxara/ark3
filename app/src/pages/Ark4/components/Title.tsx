@@ -7,7 +7,9 @@ interface ImgMap {
     [key: string]: string
 }
 const imgMap: ImgMap = {
-    chapter1, chapter2, chapter3
+    c01_妮娜初遇: chapter1,
+    c02_玛尔法初见玛丽亚初见: chapter2,
+    c03_科米初见: chapter3,
 }
 
 interface IProps {

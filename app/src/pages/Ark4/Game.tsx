@@ -4,9 +4,10 @@ import { LoadedChapterModel3 } from '../../utils/types';
 import { loadChapterHandle } from './commandHandle/loadChapterHandle';
 import Title from './components/Title';
 import { DataContext } from './context/dataContext';
-import { ChapterState, GameState, initChapterState } from './GameState';
+import { ChapterState, GameState, getInitChapterState } from './GameState';
 import SectionProcessor from './SectionProcessor';
 import { Ark4Helper } from '../../utils/ArkHelper';
+import StateHelper from './components/StateHelper';
 
 interface IProps {
     gameState: GameState
@@ -16,7 +17,7 @@ export default function Ark4Game(props: IProps) {
     const { chapters } = context.data;
     const [currentChapterName, setCurrentChapterName] = useState<string>();
     const [currentSectionName, setCurrentSectionName] = useState<string>();
-    const [currentChapterState, setCurrentChapterState] = useState<ChapterState>(initChapterState);
+    const [currentChapterState, setCurrentChapterState] = useState<ChapterState>(getInitChapterState);
     const [
         animatedChapterName,
         titleclassName,
@@ -24,10 +25,10 @@ export default function Ark4Game(props: IProps) {
         hideTitle
     ] = useVisiableToggle<string>(undefined);
     useEffect(() => {
-        setCurrentChapterState(initChapterState);
-
+        setCurrentChapterState(getInitChapterState());
     }, [currentChapterName])
     useEffect(() => {
+        StateHelper.saveState(props.gameState)
         nextHandle();
     }, [])
     const nextHandle = async (chapterState?: ChapterState) => {
@@ -46,11 +47,14 @@ export default function Ark4Game(props: IProps) {
         }
         if (nextSection.arkMark !== currentChapterName && chapterName) {
             showTitle(chapterName);
-            const res = await loadChapterHandle(chapterName);
+            setCurrentSectionName(undefined);
+            setCurrentChapterName(undefined);
+            loadChapterHandle(chapterName).then(data => {
+                setCurrentSectionName(nextSection.name);
+                setCurrentChapterName(nextSection.arkMark);
+                hideTitle();
+            });
         }
-        setCurrentSectionName(nextSection.name);
-        setCurrentChapterName(nextSection.arkMark);
-        hideTitle();
 
         async function getChapterName() {
             let chapterName: string | undefined;
@@ -62,7 +66,6 @@ export default function Ark4Game(props: IProps) {
                 chapterName = startSection.name;
             } else {
                 const next = await getNextChapterName(currentSection, chapterState);
-                console.log('next', next);
                 chapterName = next;
             }
             return chapterName;
@@ -105,7 +108,7 @@ function getNextChapterName(currentSection?: LoadedChapterModel3, chapterState?:
         case 'function':
 
             return new Promise<string>(res => {
-                res(next(chapterState))
+                res(next(StateHelper.getLocalState()))
             })
         default:
         //理论上不存在

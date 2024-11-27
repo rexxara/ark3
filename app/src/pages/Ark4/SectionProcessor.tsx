@@ -19,11 +19,10 @@ export default function SectionProcessor(props: IProps) {
     const fnList = React.useMemo(() => {
         return props.currentSection.line.map((v, index) => { return convertLineToQueueItem(v, index, props.currentSection) })
     }, [props.currentSection.name])
-    const commandQueue = useCommandQueue<any>(fnList, props.state);
+    const commandQueue = useCommandQueue<any>(fnList, props.state, 0, props.nextHandle);
     useEffect(() => {
         if (commandQueue.index === props.currentSection.line.length) {
             props.nextHandle(commandQueue.state)
-            console.log('callNext')
         }
     }, [commandQueue.index])
     useEffect(() => {

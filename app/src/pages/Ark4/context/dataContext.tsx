@@ -17,7 +17,7 @@ export const DataContextDefaultValue: DataContextType = {
     data: {
         charaters: {},
         chapters: [],
-        caches: {}
+        caches: {},
     },
     loaded: false
 };
@@ -31,7 +31,7 @@ function reducer(state: DataContextType, action: { type: keyof DataContextType, 
         case 'data':
             return { ...state, data: action.payload, loaded: true };
         default:
-            return state;
+            return { ...state, [action.type]: action.payload };
     }
 }
 
